@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SECscheduling.iml" filepath="$PROJECT_DIR$/SECscheduling.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Fog-Computing.iml" filepath="$PROJECT_DIR$/Fog-Computing.iml" />
     </modules>
   </component>
 </project>

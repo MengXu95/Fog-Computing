@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Fog-Computing">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/plantuml.jar!/" />
+      <root url="jar://$PROJECT_DIR$/plantuml-jar-mit-1.2021.5.zip!/" />
+      <root url="jar://$PROJECT_DIR$/plantuml-jar-epl-1.2021.5.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
