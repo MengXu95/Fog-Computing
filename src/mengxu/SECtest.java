@@ -27,6 +27,7 @@ import java.util.List;
 public class SECtest {
 
 
+    //todo: need to modify the terminals.
     public static void HEFTcheck() {
         int numJobs = 1;
         int warmupJobs = 0;//todo: need to modify the use of warmupJobs
@@ -60,11 +61,14 @@ public class SECtest {
             AbstractRule routing_rule = routing_rule_list.get(i);
             AbstractRule sequencing_rule = sequencing_rule_list.get(i);
 
-            DynamicSimulation simulation = new DynamicSimulation(1,
-                    sequencing_rule, routing_rule, numJobs, warmupJobs,
-                    numMobileDevice, numEdgeServer, numCloudServer, numTasksSampler,
-                    procTimeSampler, interReleaseTimeSampler, jobWeightSampler,
-                    false);
+//            DynamicSimulation simulation = new DynamicSimulation(1,
+//                    sequencing_rule, routing_rule, numJobs, warmupJobs,
+//                    numMobileDevice, numEdgeServer, numCloudServer, numTasksSampler,
+//                    procTimeSampler, interReleaseTimeSampler, jobWeightSampler,
+//                    false);
+            DynamicSimulation simulation = new DynamicSimulation(1,sequencing_rule,routing_rule,
+                    numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
+                    2,10,false);
 
             simulation.run();
             double meanFlowtime = simulation.meanFlowtime();
@@ -91,8 +95,8 @@ public class SECtest {
 
 //        HEFTcheck();
 
-        int numJobs = 5000;
-        int warmupJobs = 1000;//todo: need to modify the use of warmupJobs
+        int numJobs = 10;
+        int warmupJobs = 0;//todo: need to modify the use of warmupJobs
         int numMobileDevice = 1;//todo: need to modify the use of more than one numMobileDevice
         int numEdgeServer = 5;
         int numCloudServer = 5;
@@ -108,14 +112,14 @@ public class SECtest {
         routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
 //        routing_rule_list.add(new HEFT(RuleType.ROUTING));
         routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(* (+ (Min PT DT) NIQ) (+ PT (Max (/ (* NIQ UT) W) (Max (* NIQ UT) (+ (* PT NIQ) W)))))"));
-        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(Max (- (* TIS NIQ) (Min PT NIQ)) (Max (* W PT) (+ (Max (+ PT NIQ) NIQ) (Min (Min PT WIQ) (- NIQ W)))))"));
+        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(- (+ (/ (- W (+ PT NIQ)) (- (+ NIQ NIQ) (* PT PT))) (Min NIQ (+ (Max TIS PT) (Max WIQ WIQ)))) (/ (/ WIQ TIS) (Min WIQ NIQ)))"));
 
         sequencing_rule_list.add(new RL(RuleType.SEQUENCING));
         sequencing_rule_list.add(new PT(RuleType.SEQUENCING));
         sequencing_rule_list.add(new PTPlusRL(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new HEFT(RuleType.SEQUENCING));
         sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(- (- (- TIS NIQ) (* (+ UT W) (- TIS NIQ))) (+ (* (* DT PT) (Max W PT)) (- (/ UT UT) (/ NIQ NIQ))))"));
-        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(- (+ (- (Max WIQ W) (Max PT W)) (- PT TIS)) (* (Min (+ PT W) (Max TIS WIQ)) (* (Max W PT) (Min W W))))"));
+        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(* (Max (Max NIQ PT) (* (Max W W) (/ NIQ TIS))) (Min (Min (- NIQ TIS) (Min TIS WIQ)) (Min (Min W PT) (* TIS W))))"));
 
 
         System.out.println("Job number: " + numJobs);
@@ -127,11 +131,14 @@ public class SECtest {
             AbstractRule routing_rule = routing_rule_list.get(i);
             AbstractRule sequencing_rule = sequencing_rule_list.get(i);
 
-            DynamicSimulation simulation = new DynamicSimulation(1,
-                    sequencing_rule, routing_rule, numJobs, warmupJobs,
-                    numMobileDevice, numEdgeServer, numCloudServer, numTasksSampler,
-                    procTimeSampler, interReleaseTimeSampler, jobWeightSampler,
-                    true);
+//            DynamicSimulation simulation = new DynamicSimulation(1,
+//                    sequencing_rule, routing_rule, numJobs, warmupJobs,
+//                    numMobileDevice, numEdgeServer, numCloudServer, numTasksSampler,
+//                    procTimeSampler, interReleaseTimeSampler, jobWeightSampler,
+//                    true);
+            DynamicSimulation simulation = new DynamicSimulation(1,sequencing_rule,routing_rule,
+                    numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
+                    2,9,true);
 
             simulation.run();
             double meanFlowtime = simulation.meanFlowtime();
@@ -142,9 +149,12 @@ public class SECtest {
             System.out.println("Sequencing rule: " + sequencing_rule.getName());
             System.out.println("Mean flowtime: " + meanFlowtime);
             System.out.println("Makespan: " + makespan);
-            System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(0).getJobNotDone());
-            System.out.println("Job completed: " + simulation.getSystemState().getMobileDevices().get(0).getThroughput());
-            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getJobList().size());
+            for(int mob=0; mob<numMobileDevice; mob++){
+                System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(mob).getJobNotDone());
+                System.out.println("Job completed: " + simulation.getSystemState().getMobileDevices().get(mob).getThroughput());
+                System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(mob).getJobList().size());
+            }
+
 //            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
 //            System.out.print("Complete Job ID: [");
 //            for(Job job:simulation.getSystemState().getJobsCompleted()){

@@ -12,13 +12,13 @@ public class ProcessStartEvent extends AbstractEvent{
 
     private Process process;
 
-    public ProcessStartEvent(double time, Process process) {
-        super(time);
+    public ProcessStartEvent(double time, Process process, MobileDevice mobileDevice) {
+        super(time,mobileDevice);
         this.process = process;
     }
 
-    public ProcessStartEvent(Process process) {
-        this(process.getStartTime(), process);
+    public ProcessStartEvent(Process process, MobileDevice mobileDevice) {
+        this(process.getStartTime(), process,mobileDevice);
     }
 
     public Process getProcess() {
@@ -30,7 +30,7 @@ public class ProcessStartEvent extends AbstractEvent{
         if(process.getServer() == null){//choose mobileDevice to process this task
             process.getTaskOption().getMobileDevice().setReadyTime(process.getFinishTime());
             mobileDevice.addEvent(
-                    new ProcessFinishEvent(process.getFinishTime(), process));
+                    new ProcessFinishEvent(process.getFinishTime(), process, mobileDevice));
         }
         else{
             Server server = process.getServer();
@@ -38,7 +38,7 @@ public class ProcessStartEvent extends AbstractEvent{
 //        server.incrementBusyTime(process.getDuration());
 
             mobileDevice.addEvent(
-                    new ProcessFinishEvent(process.getFinishTime(), process));
+                    new ProcessFinishEvent(process.getFinishTime(), process, mobileDevice));
         }
 
     }

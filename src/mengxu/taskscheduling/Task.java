@@ -9,9 +9,7 @@ import mengxu.simulation.RoutingDecisionSituation;
 import mengxu.simulation.state.SystemState;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class Task {
     private int id;
@@ -20,29 +18,51 @@ public class Task {
     private List<Task> parentTaskList;
     private List<Task> childTaskList;
 
+    private double workload; //used to calculate the processing time
+    private double data; //used to calculate the communicate time
+
     private List<Double> communicateTime;
+
+    private Map<Integer, Double> inputDateMap;
+    private Map<Integer, Double> outputDateMap;
+//    private List<Double> inputDateMap;
+    private double totalInputData;
+    private double totalOutputData;
 
     private boolean complete;
     private List<TaskOption> taskOptions;
-    public Task(int id, Digraph digraph){
+    public Task(int id, Digraph digraph, double workload, double data){
         this.id = id;
         this.digraph = digraph;
+        this.workload = workload;
+        this.data = data;
         this.parentTaskList = new ArrayList<>();
         this.childTaskList = new ArrayList<>();
 
+//        this.inputDate = new ArrayList<>();
+        this.inputDateMap = new HashMap<>();//id,data
+        this.outputDateMap = new HashMap<>();
+        this.totalInputData = 0;
+        this.totalOutputData = 0;
         this.communicateTime = new ArrayList<>();
 
         this.complete = false;
         this.taskOptions = new ArrayList<>();
     }
 
-    public Task(int id){
+    public Task(int id, double workload, double data){
         this.id = id;
         this.digraph = null;
         this.parentTaskList = new ArrayList<>();
         this.childTaskList = new ArrayList<>();
+        this.workload = workload;
+        this.data = data;
 
-        this.communicateTime = new ArrayList<>(); 
+        this.inputDateMap = new HashMap<>();//id,data
+        this.outputDateMap = new HashMap<>();
+        this.totalInputData = 0;
+        this.totalOutputData = 0;
+        this.communicateTime = new ArrayList<>();
 
         this.complete = false;
         this.taskOptions = new ArrayList<>();
@@ -54,6 +74,14 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public double getWorkload() {
+        return workload;
+    }
+
+    public double getData() {
+        return data;
     }
 
     public Task getNext() {
@@ -138,9 +166,30 @@ public class Task {
     public void addParent(Task task){
         this.parentTaskList.add(task);
     }
+    public void addParentInputData(int parentID, double inputData){
+        this.inputDateMap.put(parentID,inputData);
+        this.totalInputData = this.totalInputData + inputData;
+    }
+
+    public double getAllInputDataTotal(){
+        return this.totalInputData;
+    }
+
+    public double getChildOutputData(int childID){
+        return this.outputDateMap.get(childID);
+    }
 
     public void addChild(Task task){
         this.childTaskList.add(task);
+    }
+
+    public void addChildOutputData(int childID, double outputData){
+        this.outputDateMap.put(childID,outputData);
+        this.totalOutputData = this.totalOutputData + outputData;
+    }
+
+    public double getAllOutputDataTotal(){
+        return this.totalOutputData;
     }
 
     public void addCommunicateTime(double time){

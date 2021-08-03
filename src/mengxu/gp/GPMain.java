@@ -21,9 +21,9 @@ public class GPMain {
         gpRunArgs.add("-file");
 
         double utilLevel = 0.85;
-        String objective0 = "mean-flowtime";
+        String objective0 = "makespan";
 
-        gpRunArgs.add("D:/xumeng/ZheJiangLab/SECscheduling/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params");
+        gpRunArgs.add("D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\algorithm\\multipletreegp\\multipletreegp-dynamicBaseline.params");
 
         gpRunArgs.add("-p");
         gpRunArgs.add("eval.problem.eval-model.sim-models.0.util-level="+utilLevel);

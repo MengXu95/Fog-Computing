@@ -26,16 +26,27 @@ public class MobileDevice {
     public RandomDataGenerator randomDataGenerator;
 
     private final AbstractIntegerSampler numTasksSampler;
-    private final AbstractRealSampler procTimeSampler;
+//    private final AbstractRealSampler procTimeSampler;
     private final AbstractRealSampler interReleaseTimeSampler;
     private final AbstractRealSampler jobWeightSampler;
-    private final AbstractRealSampler upLoadDelaySampler;
-    private final AbstractRealSampler downLoadDelaySampler;
+    private final AbstractRealSampler workloadSampler;
+    private final AbstractRealSampler taskDataSampler;
+    private final AbstractRealSampler taskInputDataSampler;
+    private final AbstractRealSampler uploadBandwidthCloudSampler;
+    private final AbstractRealSampler downloadBandwidthCloudSampler;
+    private final AbstractRealSampler uploadBandwidthEdgeSampler;
+    private final AbstractRealSampler downloadBandwidthEdgeSampler;
+    private final AbstractRealSampler processingRateCloudSampler;
+    private final AbstractRealSampler processingRateEdgeSampler;
+//    private final AbstractRealSampler upLoadDelaySampler;
+//    private final AbstractRealSampler downLoadDelaySampler;
 
     protected int numJobsRecorded;
     protected int warmupJobs;
     protected int numJobsReleased;
     protected int numJobsCompleted;
+
+    private final double processingRate;
 
     private double readyTime;
     private LinkedList<TaskOption> queue;
@@ -57,27 +68,51 @@ public class MobileDevice {
     int count = 0;
 
 
-    public MobileDevice(int id, SystemState systemState, long seed,
+    public MobileDevice(int id, double processingRate,
+                        SystemState systemState, long seed,
+                        RandomDataGenerator randomDataGenerator,
                         AbstractIntegerSampler numTasksSampler,
-                        AbstractRealSampler procTimeSampler,
+//                        AbstractRealSampler procTimeSampler,
+                        AbstractRealSampler workloadSampler,
+                        AbstractRealSampler taskDataSampler,
+                        AbstractRealSampler taskInputDataSampler,
                         AbstractRealSampler interReleaseTimeSampler,
                         AbstractRealSampler jobWeightSampler,
+                        AbstractRealSampler uploadBandwidthCloudSampler,
+                        AbstractRealSampler downloadBandwidthCloudSampler,
+                        AbstractRealSampler uploadBandwidthEdgeSampler,
+                        AbstractRealSampler downloadBandwidthEdgeSampler,
+                        AbstractRealSampler processingRateCloudSampler,
+                        AbstractRealSampler processingRateEdgeSampler,
                         AbstractRule sequencingRule,
                         AbstractRule routingRule,
                         int numJobsRecorded,
                         int warmupJobs){
         this.id = id;
+        this.processingRate = processingRate;
         this.systemState = systemState;
         this.seed = seed;
 
-        this.randomDataGenerator = new RandomDataGenerator();
-        this.randomDataGenerator.reSeed(seed);
+        this.randomDataGenerator = randomDataGenerator;
+//        this.randomDataGenerator.reSeed(seed);
         this.numTasksSampler = numTasksSampler;
-        this.procTimeSampler = procTimeSampler;
+//        this.procTimeSampler = procTimeSampler;
+        this.workloadSampler = workloadSampler;
+        this.taskDataSampler = taskDataSampler;
+        this.taskInputDataSampler = taskInputDataSampler;
+
         this.interReleaseTimeSampler = interReleaseTimeSampler;
         this.jobWeightSampler = jobWeightSampler;
-        this.upLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
-        this.downLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
+//        this.upLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
+//        this.downLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
+
+        //modified 2021.08.02
+        this.uploadBandwidthCloudSampler = uploadBandwidthCloudSampler;
+        this.downloadBandwidthCloudSampler = downloadBandwidthCloudSampler;
+        this.uploadBandwidthEdgeSampler = uploadBandwidthEdgeSampler;
+        this.downloadBandwidthEdgeSampler = downloadBandwidthEdgeSampler;
+        this.processingRateCloudSampler = processingRateCloudSampler;
+        this.processingRateEdgeSampler = processingRateEdgeSampler;
 
         setInterReleaseTimeSamplerMean();
 
@@ -185,8 +220,15 @@ public class MobileDevice {
             //This is used to stop the bad run!!!
             //===================ignore busy machine here==============================
             //when nextEvent was done, check the numOpsInQueue
+            if(this.canProcessTask){
+                if(this.queue.size() > 150){
+                    systemState.setClockTime(Double.MAX_VALUE);
+                    eventQueue.clear();
+                    break;
+                }
+            }
             for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 100) {
+                if (s.numTaskInQueue() > 150) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
                     break;
@@ -197,17 +239,47 @@ public class MobileDevice {
     }
 
     public void multiMobileDeviceRun(){
-        while(!eventQueue.isEmpty() && systemState.getJobsCompleted().size() < numJobsRecorded){
+        while(!eventQueue.isEmpty() && throughput < numJobsRecorded){
             AbstractEvent nextEvent = eventQueue.poll();
-            systemState.setClockTime(nextEvent.getTime());
-            nextEvent.trigger(this);
+//            systemState.setClockTime(nextEvent.getTime());
+//            nextEvent.trigger(this);
 
+            //fzhang 3.6.2018  fix the stuck problem
+            beforeThroughput = throughput; //save the throughput value before updated (a job finished)
+
+            systemState.setClockTime(nextEvent.getTime());
+            nextEvent.trigger(this); //nextEvent includes many different types of events
+
+            afterThroughput = throughput; //save the throughput value after updated (a job finished)
+
+            if(throughput > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
+                count++;
+            }
+
+            //System.out.println("count "+count);
+            if(count > 100000) {
+                count = 0;
+                systemState.setClockTime(Double.MAX_VALUE);
+                eventQueue.clear();
+                break;
+            }
+
+
+            //This is used to stop the bad run!!!
             //===================ignore busy machine here==============================
             //when nextEvent was done, check the numOpsInQueue
-            for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 100) {
+            if(this.canProcessTask){
+                if(this.queue.size() > 150){
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
+                    break;
+                }
+            }
+            for (Server s: systemState.getServers()) {
+                if (s.numTaskInQueue() > 150) {
+                    systemState.setClockTime(Double.MAX_VALUE);
+                    eventQueue.clear();
+                    break;
                 }
             }
 
@@ -243,40 +315,56 @@ public class MobileDevice {
         //random generate task list and their digraph.
         List<Task> taskList = Arrays.asList(new Task[numTask]);
         for( int v = 0; v < digraph.V(); v++){
-            double procTimeCloud = procTimeSampler.next(randomDataGenerator);
-            double procTimeEdge = procTimeCloud + procTimeSampler.next(randomDataGenerator);
-            double procTimeOnMobileDevice = procTimeEdge + procTimeSampler.next(randomDataGenerator);
+//            double procTimeCloud = procTimeSampler.next(randomDataGenerator);
+//            double procTimeEdge = procTimeCloud + procTimeSampler.next(randomDataGenerator);
+//            double procTimeOnMobileDevice = procTimeEdge + procTimeSampler.next(randomDataGenerator);
 //            Task task = new Task(v,digraph);
-            Task task = new Task(v);
+            double workload = this.workloadSampler.next(randomDataGenerator);
+            double taskData = this.taskDataSampler.next(randomDataGenerator);
+            Task task = new Task(v,workload,taskData);
+
+            taskList.set(v,task);
+        }
+        for(Task task:taskList){
+            for(int childID :digraph.adj(task.getId())){ //add linked children
+                task.addChild(taskList.get(childID));
+                double taskOutputData = this.taskInputDataSampler.next(randomDataGenerator);
+                task.addChildOutputData(childID, taskOutputData);
+            }
+            for(int parentID : reverseDigraph.adj(task.getId())){
+                task.addParent(taskList.get(parentID)); //add linked parents
+//                double taskInputData = this.taskInputDataSampler.next(randomDataGenerator);
+                double taskInputData = taskList.get(parentID).getChildOutputData(task.getId());
+                task.addParentInputData(parentID,taskInputData);
+            }
+
             if(canProcessTask){
                 //the mobileDevice is also an option!!!
+                double procTimeOnMobileDevice = task.getWorkload()/this.processingRate;
                 task.addTaskOption(new TaskOption(task, this, procTimeOnMobileDevice, 0, 0));
             }
 
             int numOptions = systemState.getServers().size();
 
             //todo: need to set different processing time for different VMs (cloud and edge)
-            double uploadDelayEdge = upLoadDelaySampler.next(randomDataGenerator);
-            double downloadDelayEdge = downLoadDelaySampler.next(randomDataGenerator);
-            double uploadDelayCloud = uploadDelayEdge + upLoadDelaySampler.next(randomDataGenerator);
-            double downloadDelayCloud = downloadDelayEdge + downLoadDelaySampler.next(randomDataGenerator);
+//            double uploadDelayEdge = upLoadDelaySampler.next(randomDataGenerator);
+//            double downloadDelayEdge = downLoadDelaySampler.next(randomDataGenerator);
+//            double uploadDelayCloud = uploadDelayEdge + upLoadDelaySampler.next(randomDataGenerator);
+//            double downloadDelayCloud = downloadDelayEdge + downLoadDelaySampler.next(randomDataGenerator);
 
             for(int i=0;i<numOptions;i++){
                 if(systemState.getServers().get(i).getType()==ServerType.CLOUD){
+                    double procTimeCloud = task.getWorkload()/systemState.getServers().get(i).getProcessingRate();
+                    double uploadDelayCloud = (task.getData() + task.getAllInputDataTotal())/systemState.getServers().get(i).getUploadBandwidth();
+                    double downloadDelayCloud = (task.getData() + task.getAllOutputDataTotal())/systemState.getServers().get(i).getDownloadBandwidth();
                     task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), procTimeCloud, uploadDelayCloud, downloadDelayCloud));
                 }
                 else if(systemState.getServers().get(i).getType()==ServerType.EDGE){
+                    double procTimeEdge = task.getWorkload()/systemState.getServers().get(i).getProcessingRate();
+                    double uploadDelayEdge = (task.getData() + task.getAllInputDataTotal())/systemState.getServers().get(i).getUploadBandwidth();
+                    double downloadDelayEdge = (task.getData() + task.getAllOutputDataTotal())/systemState.getServers().get(i).getDownloadBandwidth();
                     task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), procTimeEdge, uploadDelayEdge, downloadDelayEdge));
                 }
-            }
-            taskList.set(v,task);
-        }
-        for(Task task:taskList){
-            for(int childID :digraph.adj(task.getId())){ //add linked children
-                task.addChild(taskList.get(childID));
-            }
-            for(int parentID : reverseDigraph.adj(task.getId())){
-                task.addParent(taskList.get(parentID)); //add linked parents
             }
         }
 
@@ -287,7 +375,7 @@ public class MobileDevice {
         jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
-        eventQueue.add(new JobArrivalEvent(job));
+        eventQueue.add(new JobArrivalEvent(job,this));
     }
 
     public void generateOneFixedJob(){
@@ -311,11 +399,14 @@ public class MobileDevice {
         //random generate task list and their digraph.
         List<Task> taskList = Arrays.asList(new Task[10]);
         for( int v = 0; v < digraph.V(); v++){
-            double procTimeOnMobileDevice = procTimeSampler.next(randomDataGenerator);
+//            double procTimeOnMobileDevice = procTimeSampler.next(randomDataGenerator);
 //            Task task = new Task(v,digraph);
-            Task task = new Task(v);
+            double workload = this.workloadSampler.next(randomDataGenerator);
+            double taskData = this.taskDataSampler.next(randomDataGenerator);
+            Task task = new Task(v,workload,taskData);
             if(canProcessTask){
                 //the mobileDevice is also an option!!!
+                double procTimeOnMobileDevice = task.getWorkload()/this.processingRate;
                 task.addTaskOption(new TaskOption(task, this, procTimeOnMobileDevice, 0, 0));
             }
 
@@ -430,7 +521,7 @@ public class MobileDevice {
         jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
-        eventQueue.add(new JobArrivalEvent(job));
+        eventQueue.add(new JobArrivalEvent(job,this));
     }
 
     public int getId() {
@@ -564,6 +655,9 @@ public class MobileDevice {
         return true;
     }
 
+    public boolean isCanProcessTask() {
+        return canProcessTask;
+    }
 
     public AbstractRule getRoutingRule() {
         return routingRule;

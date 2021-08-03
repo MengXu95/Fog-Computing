@@ -13,10 +13,21 @@ import java.util.PriorityQueue;
 public class DynamicSimulation {
 
     private long seed;
+    public RandomDataGenerator randomDataGenerator;
     private AbstractIntegerSampler numTasksSampler;
-    private AbstractRealSampler procTimeSampler;
+//    private AbstractRealSampler procTimeSampler;
     private AbstractRealSampler interReleaseTimeSampler;
     private AbstractRealSampler jobWeightSampler;
+    private AbstractRealSampler workloadSampler;
+    private AbstractRealSampler taskDataSampler;
+    private AbstractRealSampler taskInputDataSampler;
+    private AbstractRealSampler uploadBandwidthCloudSampler;
+    private AbstractRealSampler downloadBandwidthCloudSampler;
+    private AbstractRealSampler uploadBandwidthEdgeSampler;
+    private AbstractRealSampler downloadBandwidthEdgeSampler;
+    private AbstractRealSampler processingRateCloudSampler;
+    private AbstractRealSampler processingRateEdgeSampler;
+    private AbstractRealSampler processingRateDeviceSampler;
 
     protected AbstractRule sequencingRule;
     protected AbstractRule routingRule;
@@ -25,7 +36,16 @@ public class DynamicSimulation {
     private int numJobReleased;
     private int numJobsRecorded;
 
-//    protected PriorityQueue<AbstractEvent> eventQueue;
+
+    //for multi-device simulator
+    protected int warmupJobs;
+    private int throughput = 0;
+    //fzhang 3.6.2018  discard the individual(rule) can not complete the whole jobs well, take a long time (prefer to do part of each job)
+    int beforeThroughput; //save the throughput value before updated (a job finished)
+    int afterThroughput; //save the throughput value after updated (a job finished)
+    int count = 0;
+
+    protected PriorityQueue<AbstractEvent> eventQueue;
 
     public DynamicSimulation(long seed,
                               AbstractRule sequencingRule,
@@ -36,26 +56,57 @@ public class DynamicSimulation {
                               int numEdgeServer,
                               int numCloudServer,
                               AbstractIntegerSampler numTasksSampler,
-                              AbstractRealSampler procTimeSampler,
+//                              AbstractRealSampler procTimeSampler,
+                              AbstractRealSampler workloadSampler,
+                              AbstractRealSampler taskDataSampler,
+                              AbstractRealSampler taskInputDataSampler,
                               AbstractRealSampler interReleaseTimeSampler,
                               AbstractRealSampler jobWeightSampler,
+                              AbstractRealSampler uploadBandwidthCloudSampler,
+                              AbstractRealSampler downloadBandwidthCloudSampler,
+                              AbstractRealSampler uploadBandwidthEdgeSampler,
+                              AbstractRealSampler downloadBandwidthEdgeSampler,
+                              AbstractRealSampler processingRateCloudSampler,
+                              AbstractRealSampler processingRateEdgeSampler,
+                              AbstractRealSampler processingRateDeviceSampler,
                               boolean canMobileDeviceProcessTask) {
         this.seed = seed;
         this.sequencingRule = sequencingRule;
         this.routingRule = routingRule;
         this.numJobsRecorded = numJobsRecorded;
         this.systemState = new SystemState();
+        this.eventQueue = new PriorityQueue<>();
 
+        this.randomDataGenerator = new RandomDataGenerator();
+        this.randomDataGenerator.reSeed(seed);
         this.numTasksSampler = numTasksSampler;
-        this.procTimeSampler = procTimeSampler;
+//        this.procTimeSampler = procTimeSampler;
+        this.workloadSampler = workloadSampler;
+        this.taskDataSampler = taskDataSampler;
+        this.taskInputDataSampler = taskInputDataSampler;
         this.interReleaseTimeSampler = interReleaseTimeSampler;
         this.jobWeightSampler = jobWeightSampler;
 
+        //modified 2021.08.02
+        this.uploadBandwidthCloudSampler = uploadBandwidthCloudSampler;
+        this.downloadBandwidthCloudSampler = downloadBandwidthCloudSampler;
+        this.uploadBandwidthEdgeSampler = uploadBandwidthEdgeSampler;
+        this.downloadBandwidthEdgeSampler = downloadBandwidthEdgeSampler;
+        this.processingRateCloudSampler = processingRateCloudSampler;
+        this.processingRateEdgeSampler = processingRateEdgeSampler;
+        this.processingRateDeviceSampler = processingRateDeviceSampler;
 
         for (int i = 0; i < numMobileDevice; i++) {
-            MobileDevice mobileDevice = new MobileDevice(i,this.systemState,this.seed,
-                    this.numTasksSampler, this.procTimeSampler,
+            double processingRateDevice = this.processingRateDeviceSampler.next(this.randomDataGenerator);
+            MobileDevice mobileDevice = new MobileDevice(i,processingRateDevice,
+                    this.systemState,this.seed,
+                    this.randomDataGenerator,
+                    this.numTasksSampler, this.workloadSampler,
+                    this.taskDataSampler, this.taskInputDataSampler,
                     this.interReleaseTimeSampler, this.jobWeightSampler,
+                    this.uploadBandwidthCloudSampler, this.downloadBandwidthCloudSampler,
+                    this.uploadBandwidthEdgeSampler, this.downloadBandwidthEdgeSampler,
+                    this.processingRateCloudSampler, this.processingRateEdgeSampler,
                     this.sequencingRule,this.routingRule,
                     this.numJobsRecorded,warmupJobs);
             mobileDevice.setCanProcessTask(canMobileDeviceProcessTask);
@@ -63,11 +114,19 @@ public class DynamicSimulation {
         }
 
         for(int i = 0; i < numEdgeServer; i++){
-            systemState.addServer(new Server(i, ServerType.EDGE));
+            double uploadBandwidth = this.uploadBandwidthEdgeSampler.next(this.randomDataGenerator);
+            double downloadBandwidth = this.downloadBandwidthEdgeSampler.next(this.randomDataGenerator);
+            double processingRate = this.processingRateEdgeSampler.next(this.randomDataGenerator);
+            systemState.addServer(new Server(i, ServerType.EDGE,
+                    uploadBandwidth, downloadBandwidth, processingRate));
         }
 
         for(int i = numEdgeServer; i < numEdgeServer + numCloudServer; i++){
-            systemState.addServer(new Server(i, ServerType.CLOUD));
+            double uploadBandwidth = this.uploadBandwidthCloudSampler.next(this.randomDataGenerator);
+            double downloadBandwidth = this.downloadBandwidthCloudSampler.next(this.randomDataGenerator);
+            double processingRate = this.processingRateCloudSampler.next(this.randomDataGenerator);
+            systemState.addServer(new Server(i, ServerType.CLOUD,
+                    uploadBandwidth, downloadBandwidth, processingRate));
         }
 
         setup();
@@ -84,13 +143,33 @@ public class DynamicSimulation {
                              int numCloudServer,
                              int minNumTasks,
                              int maxNumTasks,
-                             double minProcTime,
-                             double maxProcTime,
+//                             double minProcTime,
+//                             double maxProcTime,
+                             double minWorkload,
+                             double maxWorkload,
+                             double minTaskData,
+                             double maxTaskData,
+                             double minTaskInputData,
+                             double maxTaskInputData,
+                             double minProcessingRateCloud,
+                             double maxProcessingRateCloud,
+                             double minProcessingRateEdge,
+                             double maxProcessingRateEdge,
+                             double minProcessingRateDevice,
+                             double maxProcessingRateDevice,
                              boolean canMobileDeviceProcessTask){
         this(seed,sequencingRule,routingRule,numJobsRecorded,warmupJobs,numMobileDevice,
                 numEdgeServer,numCloudServer,new UniformIntegerSampler(minNumTasks, maxNumTasks),
-                new UniformSampler(minProcTime, maxProcTime),new ExponentialSampler(),
-                new TwoSixTwoSampler(),canMobileDeviceProcessTask);
+                new UniformSampler(minWorkload, maxWorkload),
+                new UniformSampler(minTaskData, maxTaskData),
+                new UniformSampler(minTaskInputData, maxTaskInputData),
+                new ExponentialSampler(),
+                new TwoSixTwoSampler(), new BandwidthCloudSampler(), new BandwidthCloudSampler(),
+                new BandwidthEdgeSampler(), new BandwidthEdgeSampler(),
+                new UniformSampler(minProcessingRateCloud, maxProcessingRateCloud),
+                new UniformSampler(minProcessingRateEdge, maxProcessingRateEdge),
+                new UniformSampler(minProcessingRateDevice, maxProcessingRateDevice),
+                canMobileDeviceProcessTask);
     }
 
     public DynamicSimulation(long seed,
@@ -106,8 +185,16 @@ public class DynamicSimulation {
                              boolean canMobileDeviceProcessTask){
         this(seed,sequencingRule,routingRule,numJobsRecorded,warmupJobs,numMobileDevice,
                 numEdgeServer,numCloudServer,new UniformIntegerSampler(minNumTasks, maxNumTasks),
-                new UniformSampler(1, 99),new ExponentialSampler(),
-                new TwoSixTwoSampler(),canMobileDeviceProcessTask);
+                new UniformSampler(500, 150000),
+                new UniformSampler(1024, 1024*20),
+                new UniformSampler(100, 300),
+                new ExponentialSampler(),
+                new TwoSixTwoSampler(),new BandwidthCloudSampler(), new BandwidthCloudSampler(),
+                new BandwidthEdgeSampler(), new BandwidthEdgeSampler(),
+                new UniformSampler(500, 1500),
+                new UniformSampler(250, 500),
+                new UniformSampler(10, 250),
+                canMobileDeviceProcessTask);
     }
 
 
@@ -164,10 +251,75 @@ public class DynamicSimulation {
         return routingRule;
     }
 
-    public void run(){
+    public boolean mobiledeviceHaveEvent(){
+        boolean ref = false;
         for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
-            mobileDevice.run();
+            if(mobileDevice.eventQueue.size()>0){
+                ref = true;
+                AbstractEvent nextEvent = mobileDevice.eventQueue.poll();
+                this.eventQueue.add(nextEvent);
+            }
         }
+        return ref;
+    }
+
+    public void run(){
+        if(this.systemState.getMobileDevices().size()==1){
+            //single mobiledevice run!
+            for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+                mobileDevice.run();
+            }
+        }
+        else{
+            //multiple mobiledevice run!
+            while((mobiledeviceHaveEvent() || !eventQueue.isEmpty()) && throughput < numJobsRecorded){
+                AbstractEvent nextEvent = eventQueue.poll();
+//            systemState.setClockTime(nextEvent.getTime());
+//            nextEvent.trigger(this);
+
+                //fzhang 3.6.2018  fix the stuck problem
+                beforeThroughput = throughput; //save the throughput value before updated (a job finished)
+
+                systemState.setClockTime(nextEvent.getTime());
+                nextEvent.trigger(nextEvent.getMobileDevice()); //nextEvent includes many different types of events
+
+                afterThroughput = throughput; //save the throughput value after updated (a job finished)
+
+                if(throughput > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
+                    count++;
+                }
+
+                //System.out.println("count "+count);
+                if(count > 100000) {
+                    count = 0;
+                    systemState.setClockTime(Double.MAX_VALUE);
+                    eventQueue.clear();
+                    break;
+                }
+
+
+                //This is used to stop the bad run!!!
+                //===================ignore busy machine here==============================
+                //when nextEvent was done, check the numOpsInQueue
+                if(nextEvent.getMobileDevice().isCanProcessTask()){
+                    if(nextEvent.getMobileDevice().getQueue().size() > 150){
+                        systemState.setClockTime(Double.MAX_VALUE);
+                        eventQueue.clear();
+                        break;
+                    }
+                }
+                for (Server s: systemState.getServers()) {
+                    if (s.numTaskInQueue() > 150) {
+                        systemState.setClockTime(Double.MAX_VALUE);
+                        eventQueue.clear();
+                        break;
+                    }
+                }
+
+            }
+        }
+
+
 //        System.out.println("Schedule complete!");
     }
 
@@ -260,13 +412,21 @@ public class DynamicSimulation {
             int numCloudServer,
             int minNumTasks,
             int maxNumTasks,
-            double minProcTime,
-            double maxProcTime,
+            double minWorkload,
+            double maxWorkload,
             boolean canMobileDeviceProcessTask) {
         return new DynamicSimulation(seed,sequencingRule,routingRule,numJobsRecorded,warmupJobs,numMobileDevice,
                 numEdgeServer,numCloudServer,new UniformIntegerSampler(minNumTasks, maxNumTasks),
-                new UniformSampler(minProcTime, maxProcTime),new ExponentialSampler(),
-                new TwoSixTwoSampler(),canMobileDeviceProcessTask);
+                new UniformSampler(minWorkload, maxWorkload),
+                new UniformSampler(1024, 1024*5),
+                new UniformSampler(100, 300),
+                new ExponentialSampler(),
+                new TwoSixTwoSampler(), new BandwidthCloudSampler(), new BandwidthCloudSampler(),
+                new BandwidthEdgeSampler(), new BandwidthEdgeSampler(),
+                new UniformSampler(500, 1500),
+                new UniformSampler(250, 500),
+                new UniformSampler(10, 250),
+                canMobileDeviceProcessTask);
     }
 
 //    public static DynamicSimulation standardMissing(

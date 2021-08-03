@@ -7,6 +7,11 @@ public class Server {
     private final int id;
     private final ServerType type;
 
+    //modified 2021.08.02
+    private final double uploadBandwidth;
+    private final double downloadBandwidth;
+    private final double processingRate;
+
     private double totalProcTimeInQueue;
     private double totalProcTimeAndUpLoadAndDownLoadTimeInQueue;
 
@@ -14,17 +19,26 @@ public class Server {
     private double readyTime;
     private LinkedList<TaskOption> queue;
 
-    public Server(int id, ServerType type, double readyTime, LinkedList<TaskOption> queue) {
+    public Server(int id, ServerType type, double uploadBandwidth,
+                  double downloadBandwidth,
+                  double processingRate, double readyTime,
+                  LinkedList<TaskOption> queue) {
         this.id = id;
         this.type = type;
+        this.uploadBandwidth = uploadBandwidth;
+        this.downloadBandwidth = downloadBandwidth;
+        this.processingRate = processingRate;
         this.readyTime = readyTime;
         this.queue = queue;
         this.totalProcTimeInQueue = 0;
         this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue = 0;
     }
 
-    public Server(int id, ServerType type) {
-        this(id, type,0,new LinkedList<>());
+    public Server(int id, ServerType type,
+                  double uploadBandwidth,
+                  double downloadBandwidth,
+                  double processingRate) {
+        this(id, type, uploadBandwidth, downloadBandwidth, processingRate,0,new LinkedList<>());
     }
 
     public int getId() {
@@ -33,6 +47,18 @@ public class Server {
 
     public ServerType getType() {
         return type;
+    }
+
+    public double getProcessingRate() {
+        return processingRate;
+    }
+
+    public double getUploadBandwidth() {
+        return uploadBandwidth;
+    }
+
+    public double getDownloadBandwidth() {
+        return downloadBandwidth;
     }
 
     public double getReadyTime() {
@@ -73,7 +99,7 @@ public class Server {
 
     public Server clone(){
         LinkedList<TaskOption> cloneQ = new LinkedList<>(queue);
-        return new Server(id,type,readyTime,cloneQ);
+        return new Server(id,type,uploadBandwidth,downloadBandwidth,processingRate,readyTime,cloneQ);
     }
 
     public void reset(double readyTime) {

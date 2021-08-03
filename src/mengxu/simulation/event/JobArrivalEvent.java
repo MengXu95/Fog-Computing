@@ -11,13 +11,13 @@ public class JobArrivalEvent extends AbstractEvent{
 
     private Job job;
 
-    public JobArrivalEvent(double time, Job job) {
-        super(time);
+    public JobArrivalEvent(double time, Job job, MobileDevice mobileDevice) {
+        super(time, mobileDevice);
         this.job = job;
     }
 
-    public JobArrivalEvent(Job job) {
-        this(job.getReleaseTime(), job);
+    public JobArrivalEvent(Job job, MobileDevice mobileDevice) {
+        this(job.getReleaseTime(), job, mobileDevice);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class JobArrivalEvent extends AbstractEvent{
             //operationOption.setReadyTime(job.getReleaseTime());  //yimei 2019.7.30 move it to above   before routing, the ready time should be set to clocktime
 
             double taskVisitTime = job.getReleaseTime() + taskOption.getUploadDelay();
-            mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption));
+            mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption, mobileDevice));
             mobileDevice.generateJob();//todo: need modified
         }
         else if(job.getJobType() == JobType.DAG){
@@ -60,7 +60,7 @@ public class JobArrivalEvent extends AbstractEvent{
                 //operationOption.setReadyTime(job.getReleaseTime());  //yimei 2019.7.30 move it to above   before routing, the ready time should be set to clocktime
 
                 double taskVisitTime = job.getReleaseTime() + taskOption.getUploadDelay();
-                mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption));
+                mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption, mobileDevice));
             }
             mobileDevice.generateJob();//todo: need modified
         }

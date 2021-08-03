@@ -3,468 +3,57 @@ Generation: 0
 Best Individual:
 Subpopulation 0:
 Evaluated: true
-Fitness: [4376.715662833162]
+Fitness: [4348.3103934566025]
 Tree 0:
- (/ (Min (* WIQ PT) (/ W TIS)) (+ (/ PT TIS) (Min PT TIS)))
+ (* PT UT)
 Tree 1:
- (Min (+ (/ (/ TIS WIQ) (Max TIS W)) (+ (+ W TIS) (* NIQ PT))) (- (Max WIQ NIQ) (Max (+ W PT) (/ TIS PT))))
+ NIQ
 
 Generation: 1
 Best Individual:
 Subpopulation 0:
 Evaluated: true
-Fitness: [2704.538973174964]
+Fitness: [5730.313997283417]
 Tree 0:
- (Min (Min (- (/ TIS WIQ) (Min TIS PT)) (/ (/ NIQ PT) (Min WIQ NIQ))) (Min (/ (- W NIQ) (+ W PT)) (/ (/ W TIS) (Max NIQ PT))))
+ (/ (Min (- (Max (+ PT TIS) (* PT NIQ)) (+ (* NIQ WIQ) (+ UT TIS))) (* (Min (/ NIQ WIQ) (- NIQ UT)) (Min (/ NIQ (* PT UT)) (Max UT NIQ)))) (Max (* (/ (* DT UT) (* NIQ UT)) (/ (/ WIQ TIS) (+ DT NIQ))) (Min (+ (* WIQ DT) (/ TIS PT)) (* (/ PT TIS) (Min DT WIQ)))))
 Tree 1:
- (+ (+ (+ (* NIQ PT) (Min W TIS)) (- WIQ WIQ)) (- (* (/ W PT) (Max TIS W)) NIQ))
+ NIQ
 
 Generation: 2
 Best Individual:
 Subpopulation 0:
 Evaluated: true
-Fitness: [3376.703459537536]
+Fitness: [3775.973912217954]
 Tree 0:
- (Max (- (- PT WIQ) (+ PT WIQ)) (- (/ TIS PT) (Min W PT)))
+ (/ (Min (- (Max (+ PT TIS) (* PT NIQ)) (+ (* NIQ WIQ) (+ UT TIS))) (* (Min (/ NIQ WIQ) (- NIQ UT)) (Min (/ NIQ (* PT UT)) (Max UT NIQ)))) (Max (* (/ (* DT UT) (* NIQ UT)) (/ (/ WIQ TIS) (+ DT NIQ))) (Min (+ (* WIQ DT) (/ TIS PT)) (* (/ PT TIS) (Min DT WIQ)))))
 Tree 1:
- (+ (Max (+ PT NIQ) NIQ) (Min (Min PT WIQ) (- NIQ W)))
+ NIQ
 
 Generation: 3
 Best Individual:
 Subpopulation 0:
 Evaluated: true
-Fitness: [2718.498163694923]
+Fitness: [3475.2358045637716]
 Tree 0:
- (/ (- (/ NIQ PT) (* WIQ PT)) (/ (Min PT NIQ) (* PT NIQ)))
+ (/ (Min (- (Max (+ PT TIS) (* PT NIQ)) (+ (* NIQ WIQ) (+ UT TIS))) (* (Min (/ NIQ WIQ) (- NIQ UT)) (Min (/ NIQ (* PT UT)) (Max UT NIQ)))) (Max (* (/ (* DT UT) (* NIQ UT)) (/ (/ WIQ TIS) (+ DT NIQ))) (Min (+ (* WIQ DT) (/ TIS PT)) (* (/ PT TIS) (Min DT WIQ)))))
 Tree 1:
- (* (Max (/ (/ WIQ W) (+ PT TIS)) (Max (* NIQ WIQ) (- NIQ TIS))) (* (- (+ W PT) (- (/ TIS WIQ) (Max TIS WIQ))) (Max (Max TIS TIS) (* PT NIQ))))
+ (+ NIQ (Min (- NIQ TIS) (Max NIQ TIS)))
 
 Generation: 4
 Best Individual:
 Subpopulation 0:
 Evaluated: true
-Fitness: [3479.0131360187306]
+Fitness: [3764.460812290264]
 Tree 0:
- (* (Max PT TIS) (* (/ (- NIQ WIQ) (* TIS NIQ)) (Max NIQ PT)))
+ (/ NIQ TIS)
 Tree 1:
- (Min (+ (/ (/ TIS WIQ) (Max TIS W)) (+ (+ W TIS) (* NIQ PT))) (- (Max WIQ NIQ) (Max (+ W PT) (/ TIS PT))))
+ (/ (Min (* (/ (* PT NIQ) (/ UT TIS)) (- (* PT WIQ) (/ WIQ UT))) (Min (/ (* WIQ NIQ) (* TIS UT)) (Max (* NIQ DT) (Min TIS NIQ)))) (Min (Min (- WIQ TIS) (Max (/ TIS TIS) (Max PT NIQ))) (Max (Min PT PT) (Max UT WIQ))))
 
-Generation: 5
-Best Individual:
+Best Individual of Run:
 Subpopulation 0:
 Evaluated: true
-Fitness: [2849.3862404944016]
+Fitness: [3475.2358045637716]
 Tree 0:
- (Min NIQ (- TIS (* (Min (Min PT TIS) (Max W WIQ)) (+ NIQ TIS))))
+ (/ (Min (- (Max (+ PT TIS) (* PT NIQ)) (+ (* NIQ WIQ) (+ UT TIS))) (* (Min (/ NIQ WIQ) (- NIQ UT)) (Min (/ NIQ (* PT UT)) (Max UT NIQ)))) (Max (* (/ (* DT UT) (* NIQ UT)) (/ (/ WIQ TIS) (+ DT NIQ))) (Min (+ (* WIQ DT) (/ TIS PT)) (* (/ PT TIS) (Min DT WIQ)))))
 Tree 1:
- (* (+ (* (Min NIQ NIQ) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (- (+ NIQ PT) (Max W PT)))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))))
-
-Generation: 6
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2502.4250105648985]
-Tree 0:
- (Max (- (/ (Min TIS PT) (Min TIS WIQ)) (* (+ TIS NIQ) (Min PT PT))) (- (- (Max (* TIS TIS) (* (* (* WIQ TIS) (/ NIQ WIQ)) NIQ)) (* TIS PT)) (* WIQ W)))
-Tree 1:
- (* (+ (* (/ (+ NIQ TIS) NIQ) (Max (/ (Min (* TIS W) (Min PT W)) (Min (+ W WIQ) (Min TIS WIQ))) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))))
-
-Generation: 7
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2075.444412323736]
-Tree 0:
- (+ (Max (Max (+ TIS WIQ) (/ PT NIQ)) (- NIQ WIQ)) (- (Max (+ (Min TIS NIQ) NIQ) (Max (Max W WIQ) (- NIQ W))) (* (Max W PT) (+ NIQ TIS))))
-Tree 1:
- (* (+ (* (/ (+ NIQ TIS) NIQ) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))))
-
-Generation: 8
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [3740.9612055011894]
-Tree 0:
- (+ (* W TIS) (- (Min (Max PT WIQ) (* (Max (* TIS TIS) (+ (/ WIQ WIQ) W)) (Min (+ TIS NIQ) (Max PT TIS)))) (* (Max W PT) (+ NIQ TIS))))
-Tree 1:
- (+ W (* (* NIQ WIQ) (+ (Max (+ PT NIQ) NIQ) (Min (/ W NIQ) (- WIQ WIQ)))))
-
-Generation: 9
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2205.4187925554506]
-Tree 0:
- (- (* (Max (* TIS TIS) (* (* (* WIQ TIS) (/ NIQ WIQ)) NIQ)) (Min (- WIQ WIQ) (Max PT TIS))) (* (+ (/ WIQ WIQ) (Max W PT)) (* (* (+ WIQ WIQ) (Max (+ TIS WIQ) (Max TIS W))) (* TIS PT))))
-Tree 1:
- (* (+ (* (/ (+ NIQ TIS) (Max (+ (/ TIS NIQ) (- W NIQ)) W)) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (+ NIQ W) (+ WIQ NIQ)))))
-
-Generation: 10
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2365.710485759498]
-Tree 0:
- (+ PT (- (Min (Max PT WIQ) NIQ) (* (Max W PT) (+ NIQ TIS))))
-Tree 1:
- (* (+ (* (/ (+ NIQ TIS) (/ WIQ NIQ)) (Max (+ NIQ TIS) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (/ TIS WIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (Min W (+ (+ W PT) (+ WIQ NIQ)))))
-
-Generation: 11
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2714.320780033663]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max (Min NIQ TIS) (- PT W))) (Max (/ (/ WIQ WIQ) (/ PT NIQ)) (- (+ WIQ NIQ) (Min PT TIS))))
-Tree 1:
- (* (+ (+ WIQ NIQ) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (Min (Min PT W) (+ WIQ PT))))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (Min (Min (Min PT W) (+ WIQ PT)) (- WIQ W))))
-
-Generation: 12
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2442.1643067179866]
-Tree 0:
- (+ (* W TIS) (- (Max (* TIS TIS) (+ (+ WIQ WIQ) (Max W PT))) (* (Max (Max NIQ PT) PT) (+ NIQ TIS))))
-Tree 1:
- (* (+ (* (+ NIQ TIS) (Max (+ NIQ TIS) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))))
-
-Generation: 13
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2409.1838741006272]
-Tree 0:
- (- (* (Max (+ NIQ PT) (* (* (* WIQ TIS) (/ NIQ WIQ)) NIQ)) (Min (- WIQ WIQ) (Max PT TIS))) (* (+ (/ WIQ WIQ) (Max W PT)) (* (* (Max PT WIQ) (Max (+ TIS WIQ) (Max TIS W))) (* TIS PT))))
-Tree 1:
- (* (+ (* (Min NIQ NIQ) (Max (Max TIS NIQ) (Max (+ WIQ NIQ) TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (- (+ NIQ PT) (Max W PT)))) (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))))
-
-Generation: 14
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2035.349788142354]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (/ WIQ WIQ) (Max W PT)) (- (+ WIQ NIQ) (Min (- (- NIQ NIQ) (* PT TIS)) TIS))))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 15
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1864.704863567934]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max (Min NIQ TIS) (- PT W))) (* (Max (- (+ WIQ NIQ) (Min (- (- NIQ NIQ) (* PT TIS)) TIS)) (* PT NIQ)) (Min (* PT (+ NIQ TIS)) TIS)))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 16
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [3078.936604020068]
-Tree 0:
- (+ (+ (Max (Max (+ TIS WIQ) (/ PT NIQ)) (* NIQ (/ (Max TIS W) (Min TIS TIS)))) (- TIS (* (Max (Max (Min NIQ TIS) (- PT W)) (- PT W)) (+ NIQ TIS)))) (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ (/ PT TIS) TIS))))
-Tree 1:
- (* (+ (* (Min NIQ NIQ) (Max (+ NIQ TIS) (Max (+ WIQ NIQ) TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (- (+ NIQ PT) (Max W PT)))) (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (+ (/ (* PT PT) (/ PT NIQ)) (Max (+ NIQ TIS) (+ TIS W)))))))
-
-Generation: 17
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2567.400131140999]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max (Max W PT) (- PT W))) (* (Max (* TIS TIS) (* PT NIQ)) (Min (+ WIQ (- PT W)) TIS)))
-Tree 1:
- (* (+ (* (Min NIQ NIQ) (/ (Min (Max TIS PT) (Min W TIS)) (/ (/ W NIQ) (+ W NIQ)))) (+ (Max (* WIQ NIQ) (- W NIQ)) (+ (Max (* WIQ NIQ) (/ TIS WIQ)) (- (- WIQ W) (- W NIQ))))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (- (+ NIQ PT) (Max W PT)))) (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))))
-
-Generation: 18
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2106.854161530988]
-Tree 0:
- (+ (* (- TIS (* PT (+ NIQ TIS))) (Max (Min NIQ TIS) (- PT (Min NIQ TIS)))) (- TIS WIQ))
-Tree 1:
- (* (+ (* (/ (- (/ (+ WIQ NIQ) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 19
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2557.330971007385]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max (Max (Min NIQ TIS) (- PT W)) (- PT W))) (Max (Max (+ TIS (* (+ TIS NIQ) (Min PT PT))) (Max TIS W)) (* (- (+ WIQ NIQ) (Min PT TIS)) (- (- (Max NIQ PT) PT) (- (Min PT W) NIQ)))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 20
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2021.0992954351195]
-Tree 0:
- (+ (+ (* (- TIS (* PT (+ NIQ TIS))) (Max (Min NIQ TIS) (- PT (Min NIQ TIS)))) (- TIS WIQ)) (- (+ TIS NIQ) (* (Max (Max NIQ PT) PT) (+ NIQ TIS))))
-Tree 1:
- (* (+ (* (/ (- (/ (+ WIQ NIQ) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 21
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [3869.39453361734]
-Tree 0:
- (+ (* (* (- TIS W) (* (* (- TIS W) (- TIS WIQ)) (Max (Min NIQ TIS) (- PT W)))) (Max (/ (Max NIQ PT) (/ PT NIQ)) (- PT W))) (- (Min WIQ (Max PT TIS)) (* (Max (Max NIQ PT) PT) (+ NIQ TIS))))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (+ NIQ W)) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ (Max TIS TIS)) (Min PT TIS))))
-
-Generation: 22
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2130.1987386839833]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (* (* (- TIS W) (- TIS WIQ)) (+ NIQ TIS)) (Max W PT)) (- (+ WIQ NIQ) (Min (- (- NIQ NIQ) (* PT TIS)) TIS))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (+ NIQ W) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (* (Min (Max PT TIS) (+ NIQ W)) (Max (Min W W) (Min NIQ WIQ)))) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 23
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2767.4201109412197]
-Tree 0:
- (+ (/ (/ (Min NIQ WIQ) TIS) (+ (+ (Min PT PT) (Min TIS TIS)) (- TIS WIQ))) (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ NIQ TIS))))
-Tree 1:
- (* (+ (* (/ (- (/ (+ WIQ NIQ) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) TIS) (+ (/ TIS WIQ) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 24
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2199.233835036192]
-Tree 0:
- (+ (* (* (+ NIQ TIS) (- TIS WIQ)) (Max (Min NIQ TIS) (- PT W))) (+ (Max (Max (- WIQ WIQ) (/ PT NIQ)) (Max TIS (- PT W))) (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ (* W (/ W TIS)) TIS)))))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (- (Max (Min WIQ TIS) (/ W PT)) W))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 25
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2591.04975799546]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (* TIS NIQ))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (+ NIQ W)) (Max (/ TIS WIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 26
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [3043.031144538735]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (/ WIQ WIQ) (- TIS WIQ)) (- (+ WIQ NIQ) (Min (- (- NIQ NIQ) (* PT TIS)) TIS))))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (/ WIQ TIS))) (Max TIS PT)) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 27
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1877.2831890886762]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ PT)) (Max (* TIS (/ (Min WIQ (Max W WIQ)) (* WIQ W))) (Max PT TIS)))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (- (Max (Min WIQ TIS) (/ W PT)) W))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 28
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1669.251893571462]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (/ WIQ WIQ) (Max W PT)) (- (+ WIQ NIQ) (Min (- (- NIQ NIQ) (* PT TIS)) TIS))))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (/ (+ NIQ TIS) NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (/ (Max WIQ TIS) (* NIQ TIS))) (- (- WIQ W) (/ (Max (Max TIS NIQ) (Max TIS TIS)) WIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 29
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1811.784921702291]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max (Min NIQ TIS) (- (/ (* TIS PT) TIS) W))) (* (- TIS W) (- TIS WIQ)))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS TIS) (/ TIS TIS)) (Min PT W)) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max NIQ NIQ) (Max TIS (Min PT PT)))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 30
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2181.0085688750023]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (- (- (- PT W) W) W)) (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ PT)) W))
-Tree 1:
- (* (+ (* (/ (- (/ (+ WIQ NIQ) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (/ TIS WIQ) (+ WIQ NIQ)))) (Max (Max TIS NIQ) PT)) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 31
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1965.2291767836018]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ PT)) (Min NIQ TIS))
-Tree 1:
- (* (+ (* (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (- WIQ W))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (- WIQ W) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ (+ NIQ W)))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 32
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2183.9231456156335]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (/ WIQ WIQ) (Max W PT)) (- (* (* (* TIS (- PT W)) TIS) (* PT PT)) (Min (- (Max PT TIS) WIQ) TIS))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS TIS) (/ TIS TIS)) (Min PT W)) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 33
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2029.1979032791469]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (/ WIQ WIQ) (Max W PT)) (- (* (* (* TIS (- PT W)) TIS) (* PT PT)) (Min (- (Max PT TIS) WIQ) TIS))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS TIS) (/ TIS TIS)) (Min PT W)) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 34
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1973.28891493634]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (Max (Max (+ NIQ TIS) (/ PT NIQ)) (Min NIQ TIS)) (Max W PT)) (- (* (* (* TIS (- PT W)) TIS) (* PT PT)) (Min (- (Max PT TIS) WIQ) TIS))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (Max (* WIQ NIQ) (- W NIQ)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (Min PT TIS)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 35
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1579.598232591738]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max NIQ (- PT W))) (Max (+ (Max (Max (+ NIQ TIS) (/ PT NIQ)) (Min NIQ TIS)) (Max W PT)) (- (* (* (* TIS (- PT W)) TIS) (* PT PT)) (Min (- (Max PT TIS) WIQ) TIS))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (Min (Min PT W) (- WIQ W)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (/ (Max WIQ TIS) WIQ)) (- (- WIQ W) (Max TIS NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ))) (+ NIQ W))) (- (/ WIQ (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (- WIQ W)))) (Min PT TIS))))
-
-Generation: 36
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [3132.159671716395]
-Tree 0:
- (+ (+ (* (* TIS (- TIS WIQ)) (Max (Min NIQ TIS) (- PT W))) (/ PT NIQ)) (+ (Min PT PT) (- PT W)))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS TIS) (/ TIS TIS)) (Min PT W)) (Min (Min (+ NIQ W) TIS) (+ (+ WIQ NIQ) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Min (Min (* PT W) WIQ) (+ (* WIQ W) PT)) (+ (Max (* WIQ NIQ) (/ (Max WIQ TIS) (* NIQ TIS))) (- (- WIQ W) (/ TIS WIQ))))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 37
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2153.207929204298]
-Tree 0:
- (+ (* (* (- TIS W) (- TIS WIQ)) (Max (* (Max (Min NIQ TIS) (- PT W)) (+ NIQ TIS)) (- PT W))) (+ (* (* (- TIS (Min NIQ TIS)) (- TIS WIQ)) (Max NIQ (- PT W))) (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ NIQ TIS)))))
-Tree 1:
- (* (+ (* (Min (Min (+ NIQ TIS) (+ WIQ PT)) (Max TIS TIS)) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (- WIQ W) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ (+ NIQ W)))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 38
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1743.5037065031593]
-Tree 0:
- (+ (* (* (- TIS W) (- (Max PT TIS) WIQ)) (Max (Min NIQ TIS) (- PT W))) (Max (* (- TIS W) (- TIS WIQ)) (* (* (- TIS W) (- TIS WIQ)) WIQ)))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) W))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (- WIQ W)))) (Min PT TIS))))
-
-Generation: 39
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2449.0445980969625]
-Tree 0:
- (+ (* (* (- TIS W) (- (Max PT TIS) WIQ)) (Max (Min NIQ TIS) (- PT W))) (Max (- (+ WIQ NIQ) (Min PT TIS)) (* (* (* (Min WIQ PT) (Max (Min NIQ TIS) (- PT W))) TIS) (/ (* (- NIQ TIS) (- TIS TIS)) (Max (Max (Max NIQ PT) PT) WIQ)))))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (Min (Min PT W) (- WIQ W)) (- W NIQ))) (Max (Min (Min (+ NIQ TIS) (+ WIQ PT)) (Max TIS TIS)) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (* NIQ TIS) (- WIQ W)))) (Min PT TIS))))
-
-Generation: 40
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2328.0046185832]
-Tree 0:
- (+ (+ (Max (Max W PT) (- PT W)) (- TIS (* (Max (Max (Min NIQ TIS) (Min PT TIS)) (- PT W)) (+ (Min NIQ TIS) TIS)))) (- (- (* (Max (+ NIQ W) (/ NIQ PT)) (+ (/ WIQ WIQ) (/ W TIS))) NIQ) (* PT TIS)))
-Tree 1:
- (* (+ (* (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (- WIQ W) (+ WIQ PT)) W)) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (- WIQ W) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ (+ NIQ W)))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 41
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1971.8867201610626]
-Tree 0:
- (+ (+ (Max (Max (Min (+ (- W TIS) (- PT W)) (- (+ W W) (- NIQ NIQ))) (- TIS W)) (- TIS (* (Min (* W W) (/ TIS NIQ)) NIQ))) (- TIS (* (Min NIQ WIQ) (+ (Min NIQ (- TIS W)) TIS)))) (- (Min NIQ TIS) (* PT TIS)))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min WIQ PT))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT W) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) W))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (- WIQ W)))) (Min PT TIS))))
-
-Generation: 42
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1764.4536455501413]
-Tree 0:
- (+ (+ (- WIQ (Min (Max PT NIQ) (Min W W))) (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ TIS TIS)))) (- (- TIS (* (Max (Max (Min NIQ TIS) (Min PT TIS)) (- PT W)) (+ (Max NIQ (- PT W)) TIS))) (* PT TIS)))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS PT) (/ TIS TIS)) (- (- W PT) (Min PT W))) (Min (Min (Min PT W) (- WIQ W)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (* NIQ TIS) (+ WIQ PT)))) (Min PT TIS))))
-
-Generation: 43
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2531.7707146101484]
-Tree 0:
- (+ (+ (+ TIS WIQ) (- TIS (* (Max (Max (Min NIQ TIS) (Min PT TIS)) (- PT W)) (+ (Min NIQ TIS) TIS)))) (/ (- TIS WIQ) TIS))
-Tree 1:
- (* (+ (* (/ (Max (/ (Max TIS TIS) (/ TIS TIS)) (- (- W PT) (- W NIQ))) (Min (Min (Min PT W) (- WIQ W)) (+ (Min PT PT) (+ WIQ NIQ)))) (+ NIQ TIS)) (+ (Max (* WIQ NIQ) (- W (Min PT TIS))) (- (- WIQ W) (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS)))))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ W))) (- (/ WIQ (Min (Min (+ NIQ TIS) (+ WIQ PT)) (+ (Min PT PT) (- WIQ W)))) (Min PT TIS))))
-
-Generation: 44
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1972.2638099762485]
-Tree 0:
- (+ (+ (+ NIQ TIS) (- TIS (* (Max (Max (Min NIQ TIS) (Min PT TIS)) (- PT W)) (+ (Min NIQ TIS) TIS)))) (/ (- TIS WIQ) TIS))
-Tree 1:
- (* (+ (* (/ (- (/ (- W NIQ) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (- WIQ W) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ (+ NIQ W)))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 45
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [2681.1483268821316]
-Tree 0:
- (+ (+ (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ NIQ TIS))) (- TIS (* (Max (Max (Min NIQ TIS) (- PT W)) (Min NIQ TIS)) (- PT W)))) (- TIS (* (Max (Min NIQ TIS) (- PT W)) (+ NIQ (Max (Max (Min NIQ TIS) (- PT W)) (Min NIQ TIS))))))
-Tree 1:
- (* (+ (* (/ (- (Max (Max TIS NIQ) (Max TIS TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (Min (Min (Min PT W) (+ WIQ PT)) (+ (Min PT PT) (+ WIQ NIQ)))) (Max (Max TIS NIQ) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (- W NIQ)) (- (- WIQ W) (- W NIQ)))) (/ (- (/ (- WIQ W) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ (+ NIQ W)))) (- (/ WIQ TIS) (Min PT TIS))))
-
-Generation: 46
-Best Individual:
-Subpopulation 0:
-Evaluated: true
-Fitness: [1695.5970930610977]
-Tree 0:
- (+ (+ (+ TIS (Max NIQ PT)) (- TIS (* (Max (Max (Min NIQ TIS) (Min PT TIS)) (- PT W)) (+ (Min NIQ TIS) TIS)))) (/ (- TIS WIQ) TIS))
-Tree 1:
- (* (+ (* (/ (- (/ (Min PT PT) (* NIQ TIS)) (- (/ WIQ WIQ) (+ NIQ TIS))) (/ WIQ WIQ)) (Max (/ TIS (+ (* WIQ NIQ) W)) (Max TIS TIS))) (+ (Max (* WIQ NIQ) (Max TIS TIS)) (- (- WIQ W) (- (/ WIQ WIQ) (+ NIQ W))))) (/ (- (/ (Max WIQ TIS) (* NIQ TIS)) (- (- (/ WIQ WIQ) (+ NIQ W)) (+ NIQ W))) (- (/ WIQ TIS) (Min PT TIS))))
+ (+ NIQ (Min (- NIQ TIS) (Max NIQ TIS)))

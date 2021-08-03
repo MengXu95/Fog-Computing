@@ -12,13 +12,13 @@ import java.util.List;
 public class TaskVisitEvent extends AbstractEvent{
     private TaskOption taskOption;
 
-    public TaskVisitEvent(double time, TaskOption taskOption) {
-        super(time);
+    public TaskVisitEvent(double time, TaskOption taskOption, MobileDevice mobileDevice) {
+        super(time,mobileDevice);
         this.taskOption = taskOption;
     }
 
-    public TaskVisitEvent(TaskOption task) {
-        this(task.getReadyTime(), task);
+    public TaskVisitEvent(TaskOption task, MobileDevice mobileDevice) {
+        this(task.getReadyTime(), task, mobileDevice);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class TaskVisitEvent extends AbstractEvent{
                 mobileDevice.addToQueue(taskOption);
             }
             else {
-                mobileDevice.addEvent(new ProcessStartEvent(p));
+                mobileDevice.addEvent(new ProcessStartEvent(p,mobileDevice));
             }
         }
         else{
@@ -43,7 +43,7 @@ public class TaskVisitEvent extends AbstractEvent{
                 server.addToQueue(taskOption);
             }
             else {
-                mobileDevice.addEvent(new ProcessStartEvent(p));
+                mobileDevice.addEvent(new ProcessStartEvent(p,mobileDevice));
             }
         }
 

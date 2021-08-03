@@ -13,13 +13,13 @@ public class ProcessFinishEvent extends AbstractEvent{
     //fzhang 29.8.2018 in order to record the completion time of jobs
     protected long jobSeed;
 
-    public ProcessFinishEvent(double time, Process process) {
-        super(time);
+    public ProcessFinishEvent(double time, Process process, MobileDevice mobileDevice) {
+        super(time, mobileDevice);
         this.process = process;
     }
 
-    public ProcessFinishEvent(Process process) {
-        this(process.getFinishTime(), process);
+    public ProcessFinishEvent(Process process, MobileDevice mobileDevice) {
+        this(process.getFinishTime(), process, mobileDevice);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                 double processStartTime = Math.max(mobileDevice.getReadyTime(), time);
 
                 Process nextP = new Process(null, dispatchedTask, processStartTime);
-                mobileDevice.addEvent(new ProcessStartEvent(nextP));
+                mobileDevice.addEvent(new ProcessStartEvent(nextP, mobileDevice));
             }
 
             if(process.getTaskOption().getTask().getJob().getJobType() == JobType.DAG){
@@ -61,7 +61,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                             mobileDevice.getRoutingRule());
                     for(TaskOption nextTask:nextTaskList){
                         double taskVisitTime = time + nextTask.getUploadDelay();
-                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask));
+                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
                     }
                 }
             }
@@ -79,7 +79,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                 }
                 else {
                     double taskVisitTime = time + nextTask.getUploadDelay();
-                    mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask));
+                    mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
                 }
             }
             else{
@@ -108,7 +108,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                 double processStartTime = Math.max(server.getReadyTime(), time);
 
                 Process nextP = new Process(server, dispatchedTask, processStartTime);
-                mobileDevice.addEvent(new ProcessStartEvent(nextP));
+                mobileDevice.addEvent(new ProcessStartEvent(nextP, mobileDevice));
             }
 
             if(process.getTaskOption().getTask().getJob().getJobType() == JobType.DAG){
@@ -143,7 +143,7 @@ public class ProcessFinishEvent extends AbstractEvent{
 //                        }
 //                        mobileDevice.addEvent(new TaskVisitEvent(startTime, nextTask));
                         double taskVisitTime = time + nextTask.getUploadDelay();
-                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask));
+                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
                     }
                 }
             }
@@ -159,7 +159,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                 }
                 else {
                     double taskVisitTime = time + nextTask.getUploadDelay();
-                    mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask));
+                    mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
                 }
             }
             else{

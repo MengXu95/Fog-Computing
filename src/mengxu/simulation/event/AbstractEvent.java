@@ -9,10 +9,16 @@ import mengxu.taskscheduling.Server;
 import java.util.List;
 
 public abstract class AbstractEvent implements Comparable<AbstractEvent> {
+    private final MobileDevice mobileDevice;
     protected double time;
 
-    public AbstractEvent(double time) {
+    public AbstractEvent(double time, MobileDevice mobileDevice) {
         this.time = time;
+        this.mobileDevice = mobileDevice;
+    }
+
+    public MobileDevice getMobileDevice() {
+        return mobileDevice;
     }
 
     public double getTime() {

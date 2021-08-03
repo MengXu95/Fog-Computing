@@ -168,14 +168,17 @@ public enum JobShopAttribute {
     //be allocated in which machine:  baseline
     public static JobShopAttribute[] relativeAttributes() {
         return new JobShopAttribute[]{
+                //server related
                 JobShopAttribute.NUM_OPS_IN_QUEUE,
-                JobShopAttribute.PROC_TIME,
-                JobShopAttribute.WEIGHT,
-                JobShopAttribute.TIME_IN_SYSTEM,
                 JobShopAttribute.WORK_IN_QUEUE,
-//                JobShopAttribute.UPLOAD_TIME,
-//                JobShopAttribute.DOWNLOAD_TIME,
+                JobShopAttribute.UPLOAD_TIME,
+                JobShopAttribute.DOWNLOAD_TIME,
+                JobShopAttribute.PROC_TIME,
 //                JobShopAttribute.TOTAL_TIME_IN_QUEUE,
+
+                //job related
+                JobShopAttribute.TIME_IN_SYSTEM,
+//                JobShopAttribute.WEIGHT,
         };
     }
 }
