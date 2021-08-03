@@ -39,7 +39,7 @@ public class DynamicSimulation {
 
     //for multi-device simulator
     protected int warmupJobs;
-    private int throughput = 0;
+//    private int throughput = 0;
     //fzhang 3.6.2018  discard the individual(rule) can not complete the whole jobs well, take a long time (prefer to do part of each job)
     int beforeThroughput; //save the throughput value before updated (a job finished)
     int afterThroughput; //save the throughput value after updated (a job finished)
@@ -185,15 +185,15 @@ public class DynamicSimulation {
                              boolean canMobileDeviceProcessTask){
         this(seed,sequencingRule,routingRule,numJobsRecorded,warmupJobs,numMobileDevice,
                 numEdgeServer,numCloudServer,new UniformIntegerSampler(minNumTasks, maxNumTasks),
-                new UniformSampler(500, 150000),
-                new UniformSampler(1024, 1024*20),
-                new UniformSampler(100, 300),
+                new UniformSampler(5000, 15000),
+                new UniformSampler(1024*5, 1024*20),
+                new UniformSampler(100, 200),
                 new ExponentialSampler(),
                 new TwoSixTwoSampler(),new BandwidthCloudSampler(), new BandwidthCloudSampler(),
                 new BandwidthEdgeSampler(), new BandwidthEdgeSampler(),
-                new UniformSampler(500, 1500),
+                new UniformSampler(500, 1000),
                 new UniformSampler(250, 500),
-                new UniformSampler(10, 250),
+                new UniformSampler(125, 250),
                 canMobileDeviceProcessTask);
     }
 
@@ -256,8 +256,10 @@ public class DynamicSimulation {
         for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
             if(mobileDevice.eventQueue.size()>0){
                 ref = true;
-                AbstractEvent nextEvent = mobileDevice.eventQueue.poll();
-                this.eventQueue.add(nextEvent);
+                while(!eventQueue.isEmpty()){
+                    AbstractEvent nextEvent = mobileDevice.eventQueue.poll();
+                    this.eventQueue.add(nextEvent);
+                }
             }
         }
         return ref;
@@ -272,20 +274,20 @@ public class DynamicSimulation {
         }
         else{
             //multiple mobiledevice run!
-            while((mobiledeviceHaveEvent() || !eventQueue.isEmpty()) && throughput < numJobsRecorded){
+            while((mobiledeviceHaveEvent() || !eventQueue.isEmpty()) && getCurrentCompletedJobsNum() < numJobsRecorded){
                 AbstractEvent nextEvent = eventQueue.poll();
 //            systemState.setClockTime(nextEvent.getTime());
 //            nextEvent.trigger(this);
 
                 //fzhang 3.6.2018  fix the stuck problem
-                beforeThroughput = throughput; //save the throughput value before updated (a job finished)
+                beforeThroughput = getCurrentCompletedJobsNum(); //save the throughput value before updated (a job finished)
 
                 systemState.setClockTime(nextEvent.getTime());
                 nextEvent.trigger(nextEvent.getMobileDevice()); //nextEvent includes many different types of events
 
-                afterThroughput = throughput; //save the throughput value after updated (a job finished)
+                afterThroughput = getCurrentCompletedJobsNum(); //save the throughput value after updated (a job finished)
 
-                if(throughput > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
+                if(getCurrentCompletedJobsNum() > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
                     count++;
                 }
 
@@ -302,14 +304,14 @@ public class DynamicSimulation {
                 //===================ignore busy machine here==============================
                 //when nextEvent was done, check the numOpsInQueue
                 if(nextEvent.getMobileDevice().isCanProcessTask()){
-                    if(nextEvent.getMobileDevice().getQueue().size() > 150){
+                    if(nextEvent.getMobileDevice().getQueue().size() > 100){
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
                         break;
                     }
                 }
                 for (Server s: systemState.getServers()) {
-                    if (s.numTaskInQueue() > 150) {
+                    if (s.numTaskInQueue() > 100) {
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
                         break;
@@ -335,10 +337,11 @@ public class DynamicSimulation {
     }
 
     public void resetState() {
+        this.eventQueue.clear();
         systemState.reset();
-        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
-            mobileDevice.eventQueue.clear();
-        }
+//        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+//            mobileDevice.eventQueue.clear();
+//        }
 //        eventQueue.clear();
         setup();
     }
@@ -354,6 +357,14 @@ public class DynamicSimulation {
 
     public SystemState getSystemState() {
         return systemState;
+    }
+
+    public int getCurrentCompletedJobsNum(){
+        int sum = 0;
+        for(MobileDevice mobileDevice: this.systemState.getMobileDevices()){
+            sum += mobileDevice.getThroughput();
+        }
+        return sum;
     }
 
     public double meanFlowtime() {
@@ -417,15 +428,16 @@ public class DynamicSimulation {
             boolean canMobileDeviceProcessTask) {
         return new DynamicSimulation(seed,sequencingRule,routingRule,numJobsRecorded,warmupJobs,numMobileDevice,
                 numEdgeServer,numCloudServer,new UniformIntegerSampler(minNumTasks, maxNumTasks),
-                new UniformSampler(minWorkload, maxWorkload),
-                new UniformSampler(1024, 1024*5),
-                new UniformSampler(100, 300),
+//                new UniformSampler(minWorkload, maxWorkload),
+                new UniformSampler(5000, 15000),
+                new UniformSampler(1024*5, 1024*20),
+                new UniformSampler(100, 200),
                 new ExponentialSampler(),
-                new TwoSixTwoSampler(), new BandwidthCloudSampler(), new BandwidthCloudSampler(),
+                new TwoSixTwoSampler(),new BandwidthCloudSampler(), new BandwidthCloudSampler(),
                 new BandwidthEdgeSampler(), new BandwidthEdgeSampler(),
-                new UniformSampler(500, 1500),
+                new UniformSampler(500, 1000),
                 new UniformSampler(250, 500),
-                new UniformSampler(10, 250),
+                new UniformSampler(125, 250),
                 canMobileDeviceProcessTask);
     }
 

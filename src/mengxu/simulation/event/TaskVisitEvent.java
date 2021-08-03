@@ -15,6 +15,7 @@ public class TaskVisitEvent extends AbstractEvent{
     public TaskVisitEvent(double time, TaskOption taskOption, MobileDevice mobileDevice) {
         super(time,mobileDevice);
         this.taskOption = taskOption;
+        taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
     }
 
     public TaskVisitEvent(TaskOption task, MobileDevice mobileDevice) {

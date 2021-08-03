@@ -27,6 +27,7 @@ public class ProcessFinishEvent extends AbstractEvent{
         if(process.getServer() == null) {//choose mobileDevice to process this task
             process.getTaskOption().getTask().getJob().addProcessFinishEvent(this);
             process.getTaskOption().getTask().setComplete(true);
+            mobileDevice.addNumTasksCompleted();
 
             if (!mobileDevice.getQueue().isEmpty()) {
                 SequencingDecisionSituation sequencingDecisionSituation =
@@ -62,6 +63,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                     for(TaskOption nextTask:nextTaskList){
                         double taskVisitTime = time + nextTask.getUploadDelay();
                         mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
+//                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }
                 }
             }
@@ -80,6 +82,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                 else {
                     double taskVisitTime = time + nextTask.getUploadDelay();
                     mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
+//                    nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                 }
             }
             else{
@@ -90,6 +93,7 @@ public class ProcessFinishEvent extends AbstractEvent{
             Server server = process.getServer();
             process.getTaskOption().getTask().getJob().addProcessFinishEvent(this);
             process.getTaskOption().getTask().setComplete(true);
+            server.addNumTasksCompleted();
 
 //            System.out.println("task " + (process.getTaskOption().getTask().getId()+1) + " completed at processor " +  (server.getId()+1) + " at time " + process.getFinishTime());
 
@@ -144,6 +148,7 @@ public class ProcessFinishEvent extends AbstractEvent{
 //                        mobileDevice.addEvent(new TaskVisitEvent(startTime, nextTask));
                         double taskVisitTime = time + nextTask.getUploadDelay();
                         mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
+//                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }
                 }
             }
@@ -160,6 +165,7 @@ public class ProcessFinishEvent extends AbstractEvent{
                 else {
                     double taskVisitTime = time + nextTask.getUploadDelay();
                     mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
+//                    nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                 }
             }
             else{

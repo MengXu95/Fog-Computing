@@ -30,6 +30,7 @@ public class Task {
     private double totalOutputData;
 
     private boolean complete;
+    private boolean dispatch;
     private List<TaskOption> taskOptions;
     public Task(int id, Digraph digraph, double workload, double data){
         this.id = id;
@@ -47,6 +48,7 @@ public class Task {
         this.communicateTime = new ArrayList<>();
 
         this.complete = false;
+        this.dispatch = false;
         this.taskOptions = new ArrayList<>();
     }
 
@@ -65,6 +67,7 @@ public class Task {
         this.communicateTime = new ArrayList<>();
 
         this.complete = false;
+        this.dispatch = false;
         this.taskOptions = new ArrayList<>();
     }
 
@@ -103,7 +106,7 @@ public class Task {
         List<Task> taskList = new ArrayList<>();
         boolean jobDone = true;
         for(Task task: job.getTaskList()){
-            if(!task.isComplete()){
+            if(!task.isComplete() && !task.isDispatch()){
                 jobDone = false;
                 boolean allParentDone = true;
                 for(Task parent:task.getParentTaskList()){
@@ -116,7 +119,7 @@ public class Task {
                 }
             }
         }
-        if(jobDone){
+        if(jobDone || taskList.size() == 0){
             return null;
         }
         return taskList;
@@ -149,8 +152,16 @@ public class Task {
         return complete;
     }
 
+    public boolean isDispatch() {
+        return dispatch;
+    }
+
     public void setComplete(boolean complete) {
         this.complete = complete;
+    }
+
+    public void setDispatch(boolean dispatch) {
+        this.dispatch = dispatch;
     }
 
     public Job getJob() {

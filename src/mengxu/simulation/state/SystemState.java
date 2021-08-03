@@ -18,6 +18,7 @@ public class SystemState {
 
     private List<Server> servers;
     private List<MobileDevice> mobileDevices;
+    private int allNumJobsReleased;
 
     public SystemState(double clockTime, List<Server> servers, List<MobileDevice> mobileDevices,
                        List<Job> jobsInSystem, List<Job> jobsCompleted) {
@@ -26,6 +27,7 @@ public class SystemState {
         this.mobileDevices = mobileDevices;
         this.jobsInSystem = jobsInSystem;
         this.jobsCompleted = jobsCompleted;
+        this.allNumJobsReleased = 0;
     }
 
     public SystemState() {
@@ -34,6 +36,7 @@ public class SystemState {
         this.mobileDevices = new ArrayList<>();
         this.jobsInSystem = new ArrayList<>();
         this.jobsCompleted = new ArrayList<>();
+        this.allNumJobsReleased = 0;
     }
 
     public double getClockTime() {
@@ -72,6 +75,14 @@ public class SystemState {
         return servers;
     }
 
+    public void addAllNumJobsReleased() {
+        this.allNumJobsReleased++;
+    }
+
+    public int getAllNumJobsReleased() {
+        return allNumJobsReleased;
+    }
+
     public void addCompletedJob(Job job) {
 //        //check if the job has been finished
 //        boolean finish = true;
@@ -94,14 +105,15 @@ public class SystemState {
 
     public void reset() {
         clockTime = 0.0;
+        this.allNumJobsReleased = 0;
+        jobsInSystem.clear();
+        jobsCompleted.clear();//original
         for (Server server : servers) {
             server.reset();
         }
         for (MobileDevice mobiledevice: mobileDevices) {
             mobiledevice.reset();
         }
-        jobsInSystem.clear();
-        jobsCompleted.clear();//original
     }
 
     @Override

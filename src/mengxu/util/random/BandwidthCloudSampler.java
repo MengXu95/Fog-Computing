@@ -12,7 +12,7 @@ public class BandwidthCloudSampler extends AbstractRealSampler {
 
 	@Override
 	public double next(RandomDataGenerator rdg) {
-		double value = 100;
+		double value = 128;
 		double r = rdg.nextUniform(0, 1);
 		if (r < 0.2) {
 			value = 256;

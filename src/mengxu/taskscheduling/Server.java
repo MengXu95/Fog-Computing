@@ -19,6 +19,8 @@ public class Server {
     private double readyTime;
     private LinkedList<TaskOption> queue;
 
+    private int numTasksCompleted;
+
     public Server(int id, ServerType type, double uploadBandwidth,
                   double downloadBandwidth,
                   double processingRate, double readyTime,
@@ -32,6 +34,7 @@ public class Server {
         this.queue = queue;
         this.totalProcTimeInQueue = 0;
         this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue = 0;
+        this.numTasksCompleted = 0;
     }
 
     public Server(int id, ServerType type,
@@ -81,8 +84,17 @@ public class Server {
 
     public void removeFromQueue(TaskOption o) {
         queue.remove(o);
+//        numTasksCompleted++;
         this.totalProcTimeInQueue -= o.getProcTime();
         this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue -= (o.getProcTime() + o.getUploadDelay() + o.getDownloadDelay());
+    }
+
+    public int getNumTasksCompleted() {
+        return numTasksCompleted;
+    }
+
+    public void addNumTasksCompleted() {
+        this.numTasksCompleted++;
     }
 
     public int numTaskInQueue(){
@@ -103,6 +115,9 @@ public class Server {
     }
 
     public void reset(double readyTime) {
+        this.totalProcTimeInQueue = 0;
+        this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue = 0;
+        this.numTasksCompleted = 0;
         queue.clear();
         this.setReadyTime(readyTime);
     }

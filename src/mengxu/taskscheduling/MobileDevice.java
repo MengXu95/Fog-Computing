@@ -55,8 +55,8 @@ public class MobileDevice {
     protected AbstractRule sequencingRule;
     protected AbstractRule routingRule;
 
-    private int jobNotDone = 0;
-    private int throughput = 0;
+    private int jobNotDone;
+    private int throughput;
     private boolean canProcessTask;
 
     private double totalProcTimeInQueue;
@@ -66,6 +66,8 @@ public class MobileDevice {
     int beforeThroughput; //save the throughput value before updated (a job finished)
     int afterThroughput; //save the throughput value after updated (a job finished)
     int count = 0;
+
+    private int numTasksCompleted;
 
 
     public MobileDevice(int id, double processingRate,
@@ -131,6 +133,10 @@ public class MobileDevice {
         this.totalProcTimeInQueue = 0;
         this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue = 0;
 
+        this.numTasksCompleted = 0;
+        this.jobNotDone = 0;
+        this.throughput = 0;
+
     }
 
     public void setCanProcessTask(boolean canProcessTask) {
@@ -163,10 +169,18 @@ public class MobileDevice {
 
     public void resetState() {
 //        systemState.reset();
+        this.numJobsReleased = 0;
+        this.numJobsCompleted = 0;
+        this.totalProcTimeInQueue = 0;
+        this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue = 0;
+        this.numTasksCompleted = 0;
+        this.jobNotDone = 0;
+        this.throughput = 0;
+
         jobList.clear();
         queue.clear();
         eventQueue.clear();
-        setup();
+//        setup();
     }
 
     public void setup(){
@@ -221,14 +235,14 @@ public class MobileDevice {
             //===================ignore busy machine here==============================
             //when nextEvent was done, check the numOpsInQueue
             if(this.canProcessTask){
-                if(this.queue.size() > 150){
+                if(this.queue.size() > 100){
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
                     break;
                 }
             }
             for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 150) {
+                if (s.numTaskInQueue() > 100) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
                     break;
@@ -269,14 +283,14 @@ public class MobileDevice {
             //===================ignore busy machine here==============================
             //when nextEvent was done, check the numOpsInQueue
             if(this.canProcessTask){
-                if(this.queue.size() > 150){
+                if(this.queue.size() > 100){
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
                     break;
                 }
             }
             for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 150) {
+                if (s.numTaskInQueue() > 100) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
                     break;
@@ -375,6 +389,7 @@ public class MobileDevice {
         jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
+        this.systemState.addAllNumJobsReleased();
         eventQueue.add(new JobArrivalEvent(job,this));
     }
 
@@ -521,6 +536,7 @@ public class MobileDevice {
         jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
+        this.systemState.addAllNumJobsReleased();
         eventQueue.add(new JobArrivalEvent(job,this));
     }
 
@@ -548,8 +564,17 @@ public class MobileDevice {
 
     public void removeFromQueue(TaskOption o) {
         queue.remove(o);
+//        numTasksCompleted++;
         this.totalProcTimeInQueue -= o.getProcTime();
         this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue -= (o.getProcTime() + o.getUploadDelay() + o.getDownloadDelay());
+    }
+
+    public int getNumTasksCompleted() {
+        return numTasksCompleted;
+    }
+
+    public void addNumTasksCompleted() {
+        this.numTasksCompleted++;
     }
 
     public int numTaskInQueue(){
@@ -604,25 +629,45 @@ public class MobileDevice {
     }
 
     public void completeJob(Job job) {
-
-        if(checkJobDone(job)){
-            numJobsCompleted ++;  //before only have this line
-            if (numJobsReleased > warmupJobs && job.getId() >= 0
-                    && job.getId() < numJobsRecorded + warmupJobs) {
-                throughput++;  //before only have this line
-                count = 0;
-                systemState.addCompletedJob(job);
+        if(this.systemState.getMobileDevices().size() == 1){
+            //single mobile device
+            if(checkJobDone(job)){
+                numJobsCompleted ++;  //before only have this line
+                if (numJobsReleased > warmupJobs && job.getId() >= 0
+                        && job.getId() < numJobsRecorded + warmupJobs) {
+                    throughput++;  //before only have this line
+                    count = 0;
+                    systemState.addCompletedJob(job);
+                }
             }
-        }
-        else{
-            jobNotDone ++;
-            System.out.println("Error! Job not done.");
-        }
-
-
+            else{
+                jobNotDone ++;
+                System.out.println("Error! Job not done.");
+            }
 //            int a = systemState.getJobsCompleted().size();
 //        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
-        systemState.removeJobFromSystem(job);
+            systemState.removeJobFromSystem(job);
+        }
+        else{
+            //multiple mobile devices
+            if(checkJobDone(job)){
+                numJobsCompleted ++;  //before only have this line
+                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
+                        && job.getId() < numJobsRecorded + warmupJobs) {
+                    throughput++;  //before only have this line
+                    count = 0;
+                    systemState.addCompletedJob(job);
+                }
+            }
+            else{
+                jobNotDone ++;
+                System.out.println("Error! Job not done.");
+            }
+//            int a = systemState.getJobsCompleted().size();
+//        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
+            systemState.removeJobFromSystem(job);
+        }
+
 
     }
 
@@ -630,6 +675,13 @@ public class MobileDevice {
         return jobNotDone;
     }
 
+    public int getWarmupJobs() {
+        return warmupJobs;
+    }
+
+    public int getNumJobsRecorded() {
+        return numJobsRecorded;
+    }
 
     public boolean canAddToQueue(Process process) {//???
         Iterator<AbstractEvent> e = eventQueue.iterator();

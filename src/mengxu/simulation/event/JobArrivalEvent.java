@@ -36,10 +36,12 @@ public class JobArrivalEvent extends AbstractEvent{
             //use routing rule to decide which option we will use !!!!!
             TaskOption taskOption =
                     mobileDevice.getRoutingRule().nextTaskOption(decisionSituation);
+
             //operationOption.setReadyTime(job.getReleaseTime());  //yimei 2019.7.30 move it to above   before routing, the ready time should be set to clocktime
 
             double taskVisitTime = job.getReleaseTime() + taskOption.getUploadDelay();
             mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption, mobileDevice));
+//            taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
             mobileDevice.generateJob();//todo: need modified
         }
         else if(job.getJobType() == JobType.DAG){
@@ -57,11 +59,16 @@ public class JobArrivalEvent extends AbstractEvent{
                 //use routing rule to decide which option we will use !!!!!
                 TaskOption taskOption =
                         mobileDevice.getRoutingRule().nextTaskOption(decisionSituation);
+
                 //operationOption.setReadyTime(job.getReleaseTime());  //yimei 2019.7.30 move it to above   before routing, the ready time should be set to clocktime
 
                 double taskVisitTime = job.getReleaseTime() + taskOption.getUploadDelay();
                 mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption, mobileDevice));
+//                taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
             }
+//            if(mobileDevice.getSystemState().getAllNumJobsReleased()< mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
+//                mobileDevice.generateJob();//todo: need modified
+//            }
             mobileDevice.generateJob();//todo: need modified
         }
 
