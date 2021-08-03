@@ -13,6 +13,7 @@ import java.util.PriorityQueue;
 public class DynamicSimulation {
 
     private long seed;
+    public final static int SEED_ROTATION = 10000;
     public RandomDataGenerator randomDataGenerator;
     private AbstractIntegerSampler numTasksSampler;
 //    private AbstractRealSampler procTimeSampler;
@@ -100,7 +101,7 @@ public class DynamicSimulation {
             double processingRateDevice = this.processingRateDeviceSampler.next(this.randomDataGenerator);
             MobileDevice mobileDevice = new MobileDevice(i,processingRateDevice,
                     this.systemState,this.seed,
-                    this.randomDataGenerator,
+                    new RandomDataGenerator(),
                     this.numTasksSampler, this.workloadSampler,
                     this.taskDataSampler, this.taskInputDataSampler,
                     this.interReleaseTimeSampler, this.jobWeightSampler,
@@ -204,10 +205,10 @@ public class DynamicSimulation {
 //        setup();
 //    }
 
-    public void reset() {
-        systemState.reset();
-//        resetState();
-    }
+//    public void reset() {
+//        systemState.reset();
+////        resetState();
+//    }
 
     public void setup(){
         this.numJobReleased = 0;
@@ -256,7 +257,7 @@ public class DynamicSimulation {
         for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
             if(mobileDevice.eventQueue.size()>0){
                 ref = true;
-                while(!eventQueue.isEmpty()){
+                while(!mobileDevice.eventQueue.isEmpty()){
                     AbstractEvent nextEvent = mobileDevice.eventQueue.poll();
                     this.eventQueue.add(nextEvent);
                 }
@@ -329,11 +330,26 @@ public class DynamicSimulation {
         //original
         //fzhang 2018.11.5 this is used for generate different instances in a generation.
         //if the replications is 1, does not have influence
+        reseed(seed);
         resetState();
 
         //reset(): reset seed value, will get the same instance
         //reset();
         run();
+    }
+
+    public void reset() {
+        reset(seed);
+    }
+
+    public void reset(long seed) {
+        reseed(seed);
+        resetState();
+    }
+
+    public void reseed(long seed) {
+        this.seed = seed;
+        randomDataGenerator.reSeed(seed);
     }
 
     public void resetState() {
@@ -348,10 +364,16 @@ public class DynamicSimulation {
 
 
     public void rotateSeed() {//this is use for changing seed value in next generation
-        //this only relates to generation
+        seed += SEED_ROTATION;
+        reseed(seed);
         for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
             mobileDevice.rotateSeed();
         }
+        resetState();
+        //this only relates to generation
+//        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+//            mobileDevice.rotateSeed();
+//        }
         //System.out.println(seed);//when seed=0, after Gen0, the value is 10000, after Gen1, the value is 20000....
     }
 

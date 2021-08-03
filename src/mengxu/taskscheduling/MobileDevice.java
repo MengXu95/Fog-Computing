@@ -48,6 +48,8 @@ public class MobileDevice {
 
     private final double processingRate;
 
+    private DigraphGeneratorMX digraphGeneratorMX;
+
     private double readyTime;
     private LinkedList<TaskOption> queue;
     public PriorityQueue<AbstractEvent> eventQueue;
@@ -96,7 +98,7 @@ public class MobileDevice {
         this.seed = seed;
 
         this.randomDataGenerator = randomDataGenerator;
-//        this.randomDataGenerator.reSeed(seed);
+        this.randomDataGenerator.reSeed(seed);
         this.numTasksSampler = numTasksSampler;
 //        this.procTimeSampler = procTimeSampler;
         this.workloadSampler = workloadSampler;
@@ -136,6 +138,7 @@ public class MobileDevice {
         this.numTasksCompleted = 0;
         this.jobNotDone = 0;
         this.throughput = 0;
+        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
 
     }
 
@@ -163,7 +166,7 @@ public class MobileDevice {
     public void rotateSeed() {//this is use for changing seed value in next generation
         //this only relates to generation
         seed += SEED_ROTATION;
-        reset();
+//        reset();
         //System.out.println(seed);//when seed=0, after Gen0, the value is 10000, after Gen1, the value is 20000....
     }
 
@@ -176,6 +179,8 @@ public class MobileDevice {
         this.numTasksCompleted = 0;
         this.jobNotDone = 0;
         this.throughput = 0;
+        this.readyTime = 0;
+        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
 
         jobList.clear();
         queue.clear();
@@ -323,7 +328,7 @@ public class MobileDevice {
 //            E = numEdge;
 //        }
 //        System.out.println(V + ", " + E);
-        Digraph digraph = DigraphGeneratorMX.rootedOutDAG(V,E);
+        Digraph digraph = this.digraphGeneratorMX.rootedOutDAG(V,E);
 //        Digraph digraph = DigraphGeneratorMX.link(numTask);//like the structure: 0->1->2->3
         Digraph reverseDigraph = digraph.reverse();
         //random generate task list and their digraph.

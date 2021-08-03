@@ -25,8 +25,12 @@ public class DigraphGeneratorMX {
         }
     }
 
+    private StdRandom stdRandom;
+
     // this class cannot be instantiated
-    private DigraphGeneratorMX() { }
+    public DigraphGeneratorMX(long seed) {
+        stdRandom.setSeed(0);
+    }
 
     /**
      * Returns a random simple digraph containing {@code V} vertices and {@code E} edges.
@@ -36,7 +40,7 @@ public class DigraphGeneratorMX {
      *     of {@code E} edges
      * @throws IllegalArgumentException if no such simple digraph exists
      */
-    public static Digraph link(int V) {
+    public Digraph link(int V) {
         Digraph G = new Digraph(V);
         int[] vertices = new int[V];
         for (int i = 0; i < V; i++)
@@ -47,7 +51,7 @@ public class DigraphGeneratorMX {
         return G;
     }
 
-    public static Digraph rootedOutDAG(int V, int E) {
+    public Digraph rootedOutDAG(int V, int E) {
         if (E > (long) V*(V-1) / 2) throw new IllegalArgumentException("Too many edges");
         if (E < V-1)                throw new IllegalArgumentException("Too few edges");
         Digraph G = new Digraph(V);
@@ -59,18 +63,21 @@ public class DigraphGeneratorMX {
             vertices[i] = i;
 //        StdRandom.shuffle(vertices);
 
-        StdRandom.setSeed(0);
+//        StdRandom.setSeed(0);
         // one edge pointing from each vertex, other than the root = vertices[V-1]
         for (int v = 0; v < V-1; v++) {
-            int w = StdRandom.uniform(v+1, V);
+//            int w = StdRandom.uniform(v+1, V);
+            int w = stdRandom.uniform(v+1, V);
             Edge e = new Edge(v, w);
             set.add(e);
             G.addEdge(vertices[v], vertices[w]);
         }
 
         while (G.E() < E) {
-            int v = StdRandom.uniform(V);
-            int w = StdRandom.uniform(V);
+//            int v = StdRandom.uniform(V);
+//            int w = StdRandom.uniform(V);
+            int v = stdRandom.uniform(V);
+            int w = stdRandom.uniform(V);
             Edge e = new Edge(v, w);
             if ((v < w) && !set.contains(e)) {
                 set.add(e);

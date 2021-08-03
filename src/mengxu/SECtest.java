@@ -96,11 +96,11 @@ public class SECtest {
 
 //        HEFTcheck();
 
-        int numJobs = 10;
+        int numJobs = 50;
         int warmupJobs = 0;//todo: need to modify the use of warmupJobs
         int numMobileDevice = 1;//todo: need to modify the use of more than one numMobileDevice
-        int numEdgeServer = 5;
-        int numCloudServer = 5;
+        int numEdgeServer = 15;
+        int numCloudServer = 25;
         AbstractIntegerSampler numTasksSampler = new UniformIntegerSampler(2, 9);
         AbstractRealSampler procTimeSampler = new UniformSampler(1, 99);
         AbstractRealSampler interReleaseTimeSampler = new ExponentialSampler();
@@ -113,18 +113,19 @@ public class SECtest {
         routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
 //        routing_rule_list.add(new HEFT(RuleType.ROUTING));
         routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(* (+ (Min PT DT) NIQ) (+ PT (Max (/ (* NIQ UT) W) (Max (* NIQ UT) (+ (* PT NIQ) W)))))"));
-        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (Max (+ TIS PT) (/ NIQ (/ (Min (Min TIS DT) (Max WIQ DT)) (Max (* NIQ TIS) (Max PT PT))))) (+ (Min (+ NIQ PT) WIQ) (+ PT WIQ)))"));
+        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (Max (/ (- WIQ TIS) (- (+ WIQ NIQ) (Max NIQ DT))) (+ (+ NIQ PT) (Max (- (Min UT PT) (* UT PT)) TIS))) (+ (Min (* (Min UT DT) (+ UT NIQ)) (/ (- NIQ WIQ) (/ UT WIQ))) (* DT (Max (- UT PT) (* WIQ NIQ)))))"));
 
         sequencing_rule_list.add(new RL(RuleType.SEQUENCING));
         sequencing_rule_list.add(new PT(RuleType.SEQUENCING));
         sequencing_rule_list.add(new PTPlusRL(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new HEFT(RuleType.SEQUENCING));
         sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(- (- (- TIS NIQ) (* (+ UT W) (- TIS NIQ))) (+ (* (* DT PT) (Max W PT)) (- (/ UT UT) (/ NIQ NIQ))))"));
-        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(- (Max DT (/ TIS NIQ)) (Max (- DT NIQ) (Max TIS UT)))"));
+        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(/ NIQ TIS)"));
 
-//        DynamicSimulation simulation = new DynamicSimulation(1,null,null,
-//                numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
-//                10,10,true);
+        DynamicSimulation simulation = new DynamicSimulation(1,null,null,
+                numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
+                20,100,true);
+        simulation.rotateSeed();
 
         System.out.println("Job number: " + numJobs);
         for(int i=0; i<routing_rule_list.size(); i++){
@@ -132,9 +133,10 @@ public class SECtest {
             AbstractRule routing_rule = routing_rule_list.get(i);
             AbstractRule sequencing_rule = sequencing_rule_list.get(i);
 
-            DynamicSimulation simulation = new DynamicSimulation(1,null,null,
-                    numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
-                    10,10,true);
+//            DynamicSimulation simulation = new DynamicSimulation(1,null,null,
+//                    numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
+//                    10,10,true);
+            simulation.reset();
 
             simulation.setSequencingRule(sequencing_rule);
             simulation.setRoutingRule(routing_rule);
@@ -146,7 +148,7 @@ public class SECtest {
 //                    true);
 
 
-            simulation.run();
+            simulation.rerun();
             double meanFlowtime = simulation.meanFlowtime();
             double makespan = simulation.makespan();
 
