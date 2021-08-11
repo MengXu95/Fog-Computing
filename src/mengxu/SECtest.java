@@ -92,10 +92,7 @@ public class SECtest {
         }
     }
 
-    public static void main(String[] args){
-
-//        HEFTcheck();
-
+    public static void dynamicCheck(){
         int numJobs = 50;
         int warmupJobs = 0;//todo: need to modify the use of warmupJobs
         int numMobileDevice = 1;//todo: need to modify the use of more than one numMobileDevice
@@ -124,7 +121,7 @@ public class SECtest {
 
         DynamicSimulation simulation = new DynamicSimulation(1,null,null,
                 numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
-                20,100,true);
+                30,30,true);
         simulation.rotateSeed();
 
         System.out.println("Job number: " + numJobs);
@@ -203,55 +200,13 @@ public class SECtest {
 //            System.out.println();
 
         }
+    }
 
-//        System.out.println("--------------------------------------------");
-//        numJobs = 1000;
-//        System.out.println("Job number: " + numJobs);
-//
-//        for(int i=0; i<routing_rule_list.size(); i++){
-//            System.out.println("Test " + i + ": ");
-//            AbstractRule routing_rule = routing_rule_list.get(i);
-//            AbstractRule sequencing_rule = sequencing_rule_list.get(i);
-//
-//            DynamicSimulation simulation = new DynamicSimulation(1,
-//                    sequencing_rule, routing_rule, numJobs, warmupJobs,
-//                    numMobileDevice, numEdgeServer, numCloudServer, numTasksSampler,
-//                    procTimeSampler, interReleaseTimeSampler, jobWeightSampler,
-//                    true);
-//
-//            simulation.run();
-//            double meanFlowtime = simulation.meanFlowtime();
-//            double makespan = simulation.makespan();
-//
-//            System.out.println("MobileDevice can process!");
-//            System.out.println("Routing rule: " + routing_rule.getName());
-//            System.out.println("Sequencing rule: " + sequencing_rule.getName());
-//            System.out.println("Mean flowtime: " + meanFlowtime);
-//            System.out.println("Makespan: " + makespan);
-//            System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(0).getJobNotDone());
-//            System.out.println("Job completed: " + simulation.getSystemState().getJobsCompleted().size());
-//            System.out.println();
-//
-//            simulation = new DynamicSimulation(1,
-//                    sequencing_rule, routing_rule, numJobs, warmupJobs,
-//                    numMobileDevice, numEdgeServer, numCloudServer, numTasksSampler,
-//                    procTimeSampler, interReleaseTimeSampler, jobWeightSampler,
-//                    false);
-//
-//            simulation.run();
-//            meanFlowtime = simulation.meanFlowtime();
-//            makespan = simulation.makespan();
-//
-//            System.out.println("MobileDevice can not process!");
-//            System.out.println("Routing rule: " + routing_rule.getName());
-//            System.out.println("Sequencing rule: " + sequencing_rule.getName());
-//            System.out.println("Mean flowtime: " + meanFlowtime);
-//            System.out.println("Makespan: " + makespan);
-//            System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(0).getJobNotDone());
-//            System.out.println("Job completed: " + simulation.getSystemState().getJobsCompleted().size());
-//            System.out.println();
-//
-//        }
+    public static void main(String[] args){
+
+//        HEFTcheck();
+
+        dynamicCheck();
 
     }
 }

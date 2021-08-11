@@ -1,0 +1,9 @@
+out/
+.idea/
+.settings/
+resources/
+test/
+*.csv
+*.stat
+*.pdf
+*.zip

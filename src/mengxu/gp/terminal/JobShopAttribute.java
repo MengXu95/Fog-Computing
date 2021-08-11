@@ -31,7 +31,12 @@ public enum JobShopAttribute {
     WORK_IN_QUEUE("WIQ"),
     UPLOAD_TIME("UT"),
     DOWNLOAD_TIME("DT"),
-    TOTAL_TIME_IN_QUEUE("TTIQ");
+    TOTAL_TIME_IN_QUEUE("TTIQ"),
+    NUM_TASK_OF_JOB("NTJ"),
+    TASK_WAITING_TIME("TWT"),
+    WORK_REMAINING("WR"),
+    NUM_TASK_REMAINING("NTR");
+
 
     private final String name;
 
@@ -114,6 +119,18 @@ public enum JobShopAttribute {
             case DOWNLOAD_TIME:
                 value = taskOption.getDownloadDelay();
                 break;
+            case NUM_TASK_OF_JOB:
+                value = taskOption.getTask().getJob().getTaskList().size();
+                break;
+            case TASK_WAITING_TIME:
+                value = systemState.getClockTime() - taskOption.getReadyTime();
+                break;
+//            case WORK_REMAINING:
+//                value = taskOption.getWorkRemaining();
+//                break;
+            case NUM_TASK_REMAINING:
+                value = taskOption.getTask().getJob().getTaskList().size()-taskOption.getTask().getJob().getCompletedTaskNumber();
+                break;
            default:
                 System.err.println("Undefined attribute " + name);
                 System.exit(1);
@@ -171,13 +188,18 @@ public enum JobShopAttribute {
                 //server related
                 JobShopAttribute.NUM_OPS_IN_QUEUE,
                 JobShopAttribute.WORK_IN_QUEUE,
+                JobShopAttribute.MACHINE_READY_TIME,
                 JobShopAttribute.UPLOAD_TIME,
                 JobShopAttribute.DOWNLOAD_TIME,
                 JobShopAttribute.PROC_TIME,
-//                JobShopAttribute.TOTAL_TIME_IN_QUEUE,
+                JobShopAttribute.TOTAL_TIME_IN_QUEUE,
 
                 //job related
                 JobShopAttribute.TIME_IN_SYSTEM,
+//                JobShopAttribute.NUM_TASK_OF_JOB,
+                JobShopAttribute.TASK_WAITING_TIME,
+//                JobShopAttribute.WORK_REMAINING,
+                JobShopAttribute.NUM_TASK_REMAINING,
 //                JobShopAttribute.WEIGHT,
         };
     }
