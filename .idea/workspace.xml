@@ -24,23 +24,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f3eb666b-d359-4c7c-b2c3-44855438372c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/FogComputing_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job.1.aveGenRulesize.csv" beforeDir="false" afterPath="$PROJECT_DIR$/job.1.aveGenRulesize.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/job.1.time.csv" beforeDir="false" afterPath="$PROJECT_DIR$/job.1.time.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/SECtest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/SECtest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/job.1.out.stat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/job.1.out.stat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/gp/terminal/JobShopAttribute$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/gp/terminal/JobShopAttribute$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/gp/terminal/JobShopAttribute.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/gp/terminal/JobShopAttribute.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Job.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Job.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/SECtest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/SECtest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/job.1.out.stat" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/job.1.out.stat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/gp/terminal/JobShopAttribute.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/gp/terminal/JobShopAttribute.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/Job.java" afterDir="false" />
-    </list>
+    <list default="true" id="f3eb666b-d359-4c7c-b2c3-44855438372c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -64,7 +48,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/train" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -73,6 +57,9 @@
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="mengxu.util.random" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\xumeng\ZheJiangLab\Fog-Computing" />
     </key>
   </component>
   <component name="RunManager" selected="Application.GPMain">
