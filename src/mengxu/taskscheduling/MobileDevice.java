@@ -181,6 +181,7 @@ public class MobileDevice {
         this.throughput = 0;
         this.readyTime = 0;
         this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
+        this.count = 0; //modified by mengxu 2021.08.27
 
         jobList.clear();
         queue.clear();
@@ -228,12 +229,12 @@ public class MobileDevice {
             }
 
             //System.out.println("count "+count);//modified by mengxu. 2021.08.27
-//            if(count > 100000) {
-//                count = 0;
-//                systemState.setClockTime(Double.MAX_VALUE);
-//                eventQueue.clear();
-//                break;
-//            }
+            if(count > 100000) {
+                count = 0;
+                systemState.setClockTime(Double.MAX_VALUE);
+                eventQueue.clear();
+                break;
+            }
 
 
             //This is used to stop the bad run!!!

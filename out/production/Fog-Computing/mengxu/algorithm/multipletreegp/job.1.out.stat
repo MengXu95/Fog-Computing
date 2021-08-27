@@ -8,3 +8,13 @@ Tree 0:
  (Max (- DT TIS) (- WIQ TIS))
 Tree 1:
  (Min (- (+ PT WIQ) (+ TWT TIS)) (+ (+ TWT TTIQ) (* NIQ NIQ)))
+
+Generation: 1
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [19703.716622013926]
+Tree 0:
+ (- DT DT)
+Tree 1:
+ (Max (/ (Max TTIQ MRT) (Max TWT UT)) (Min (* PT TTIQ) (+ MRT PT)))

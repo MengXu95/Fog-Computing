@@ -267,6 +267,7 @@ public class DynamicSimulation {
     }
 
     public void run(){
+        count = 0; //modified by mengxu 2021.08.27 really important!!!
         if(this.systemState.getMobileDevices().size()==1){
             //single mobiledevice run!
             for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
@@ -293,7 +294,7 @@ public class DynamicSimulation {
                 }
 
                 //System.out.println("count "+count);
-                if(count > 30000000) {
+                if(count > 10000) {
                     count = 0;
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
@@ -305,14 +306,14 @@ public class DynamicSimulation {
                 //===================ignore busy machine here==============================
                 //when nextEvent was done, check the numOpsInQueue
                 if(nextEvent.getMobileDevice().isCanProcessTask()){
-                    if(nextEvent.getMobileDevice().getQueue().size() > 300){
+                    if(nextEvent.getMobileDevice().getQueue().size() > 100){
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
                         break;
                     }
                 }
                 for (Server s: systemState.getServers()) {
-                    if (s.numTaskInQueue() > 300) {
+                    if (s.numTaskInQueue() > 100) {
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
                         break;

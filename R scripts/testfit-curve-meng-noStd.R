@@ -1,6 +1,6 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/submit to raapoi/"
+working_dir <- "D:/xumeng/ZheJiangLab/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
