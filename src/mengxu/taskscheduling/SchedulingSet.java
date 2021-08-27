@@ -141,8 +141,6 @@ public class SchedulingSet {
 //    }
 //
     public static SchedulingSet dynamicFullSet(long simSeed,
-                                               double utilLevel,
-                                               double dueDateFactor,
                                                List<Objective> objectives,
                                                int reps) {
         List<DynamicSimulation> simulations = new ArrayList<>();
@@ -154,9 +152,9 @@ public class SchedulingSet {
 
       //fzhang 2019.2.12 test should be also with 5000 jobs
         simulations.add(
-                DynamicSimulation.standardFull(simSeed, null, null, 100,
-        0, 1, 5, 5, 1, 10,
-        10, 50, false));
+                DynamicSimulation.standardFull(simSeed, null, null, 20,
+        0, 3, 10, 15, 20, 30,
+        true));
         List<Integer> replications = new ArrayList<>();
         replications.add(reps);
 
@@ -185,28 +183,9 @@ public class SchedulingSet {
 //    }
 
     public static SchedulingSet generateSet(long simSeed,
-                                            String scenario,
-                                            String setName,
                                             List<Objective> objectives,
                                             int replications) {
-        if (scenario.equals(Scenario.DYNAMIC_JOB_SHOP.getName())) {
-            String[] parameters = setName.split("-");  //for example: missing-0.95-4.0      utilLevel = parameters[1] = 0.85
-            double utilLevel = Double.valueOf(parameters[1]);
-            double dueDateFactor = Double.valueOf(parameters[2]); //dueDateFactor = parameters[2] = 4
-
-//            if (parameters[0].equals("missing")) {
-//                return SchedulingSet.dynamicMissingSet(simSeed, utilLevel, dueDateFactor, objectives, replications);
-//            }
-            if (parameters[0].equals("full")) {
-                return SchedulingSet.dynamicFullSet(simSeed, utilLevel, dueDateFactor, objectives, replications);
-            }
-            else {
-                return null;
-            }
-        }
-        else {
-            return null;
-        }
+        return SchedulingSet.dynamicFullSet(simSeed, objectives, replications);
     }
 
     @Override

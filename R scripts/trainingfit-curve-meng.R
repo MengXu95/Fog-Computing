@@ -1,18 +1,12 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/PhdMainCode/Paper 4 - LexicaseSelection - new 20210527/"
+working_dir <- "D:/xumeng/ZheJiangLab/submit to raapoi/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c( "baseline", "EpsilonLS50", "RTourLS50", "RTourLS5000", "RTourEpsilonLS50")
-algo.names <- c("baseline", "EpsilonLS50", "RTourLS50", "RTourLS5000", "RTourEpsilonLS50")
-
-objectives <- rep(c("max-flowtime", "mean-flowtime", "mean-weighted-flowtime"))
-utils <- c(rep(0.85, 3))
-ddfactors <- rep(1.5, 3)
-
-scenarios.name <- c("<Fmax, 0.85>", "<Fmean, 0.85>",
-                    "<WFmean, 0.85>")
+algos <- c("small2MTGP")
+algo.names <- c("MTGP")
+scenarios.name <- c("makespan")
 #working_dir <- "D:/xumeng/PhdMainCode/documents for CEC paper/archive_based_idea/"
 #setwd(working_dir)
 #
@@ -53,12 +47,12 @@ result.df <- data.frame(Scenario = character(),
 
 for (s in 1:length(scenarios.name)) {
   scenario.name <- scenarios.name[s]
-  scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
-  testfile <- paste0("missing-", utils[s], "-", ddfactors[s], ".csv")
+  #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
+  testfile <- paste0("result.csv")
   
   for (a in 1:length(algos)) {
     algo <- algos[a]
-    df <- read.csv(paste0(algo, "/trainResults/", scenario, "/test/", testfile), header = TRUE)
+    df <- read.csv(paste0(algo, "/results/test/", testfile), header = TRUE)
     result.df <- rbind(result.df, 
                        cbind(Scenario = rep(scenario.name, nrow(df)),
                              Algo = rep(algo.names[a], nrow(df)), 

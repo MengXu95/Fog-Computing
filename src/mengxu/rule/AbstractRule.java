@@ -90,7 +90,9 @@ public abstract class AbstractRule {
         double[] fitnesses = new double[objectives.size()];
 
         List<DynamicSimulation> simulations = schedulingSet.getSimulations();
-        int col = 0;
+//        int col = 0;
+        //modified by mengxu 2021.08.27
+        int[] col = new int[objectives.size()];
 
         //System.out.println("The simulation size is "+simulations.size()); //1
         for (int j = 0; j < simulations.size(); j++) {
@@ -111,6 +113,13 @@ public abstract class AbstractRule {
 //						/ schedulingSet.getObjectiveLowerBound(i, col);
 
                 double ObjValue = simulation.objectiveValue(objectives.get(i));
+                //modified by mengxu 2021.08.27
+                if(ObjValue >= Double.POSITIVE_INFINITY || ObjValue >= Double.MAX_VALUE){
+                    System.out.println("bad 0 fitness: " + ObjValue);
+                }else{
+                    fitnesses[i] += ObjValue;
+                    col[i]++;
+                }
                 //in essence, here is useless. because if w.numOpsInQueue() > 100, the simulation has been canceled in run(). here is a double check
 //                for (Server s: simulation.getSystemState().getServers()) {
 //                    if (s.numTaskInQueue() > 100) {
@@ -124,13 +133,14 @@ public abstract class AbstractRule {
                 //fzhang 2018.10.23  cancel normalizing objective
 //				fitnesses[i] += normObjValue;
 
-                fitnesses[i] += ObjValue;
+//                fitnesses[i] += ObjValue; //modified by mengxu 2021.08.27
             }
 
-            col++;
+//            col++;
 
             //System.out.println("The value of replication is "+schedulingSet.getReplications()); //50
             for (int k = 1; k < schedulingSet.getReplications().get(j); k++) {
+//                simulation.rotateSeed();//modified by mengxu, add on 2021.08.26
                 simulation.rerun();
 
                 for (int i = 0; i < objectives.size(); i++) {
@@ -140,6 +150,15 @@ public abstract class AbstractRule {
 
                     //fzhang 2018.10.23  cancel normalizing objective
                     double ObjValue = simulation.objectiveValue(objectives.get(i));
+
+                    //modified by mengxu 2021.08.27
+                    if(ObjValue >= Double.POSITIVE_INFINITY || ObjValue >= Double.MAX_VALUE){
+                        System.out.println("bad " + k +" fitness: " + ObjValue);
+                    }
+                    else{
+                        fitnesses[i] += ObjValue;
+                        col[i]++;
+                    }
 
 //                    for (WorkCenter w: simulation.getSystemState().getWorkCenters()) {
 //                        if (w.numOpsInQueue() > 100) {
@@ -155,17 +174,27 @@ public abstract class AbstractRule {
 //                        }
 //                    }
 
-                    fitnesses[i] += ObjValue;
+//                    fitnesses[i] += ObjValue; //modified by mengxu 2021.08.27
                 }
 
-                col++;
+//                col++;
             }
 
             simulation.reset();
         }
 
+//        for (int i = 0; i < fitnesses.length; i++) {
+//            fitnesses[i] /= col;
+//        }
+        //modified by mengxu 2021.07.27
         for (int i = 0; i < fitnesses.length; i++) {
-            fitnesses[i] /= col;
+            if(col[i] == 0){
+                fitnesses[i] = -1;//all test are bad run!!!
+                System.out.println("All test are bad run!!! set fitnesses to -1.");
+            }
+            else{
+                fitnesses[i] /= col[i];
+            }
         }
         MultiObjectiveFitness f = (MultiObjectiveFitness) fitness;
         f.setObjectives(state, fitnesses);

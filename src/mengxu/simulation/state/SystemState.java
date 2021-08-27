@@ -116,6 +116,19 @@ public class SystemState {
         }
     }
 
+    public void resetforRerun() {
+        clockTime = 0.0;
+        this.allNumJobsReleased = 0;
+        jobsInSystem.clear();
+        jobsCompleted.clear();//original
+        for (Server server : servers) {
+            server.reset();
+        }
+        for (MobileDevice mobiledevice: mobileDevices) {
+            mobiledevice.resetState();
+        }
+    }
+
     @Override
     public SystemState clone() {
         List<Server> clonedServers = new ArrayList<>();

@@ -293,7 +293,7 @@ public class DynamicSimulation {
                 }
 
                 //System.out.println("count "+count);
-                if(count > 100000) {
+                if(count > 30000000) {
                     count = 0;
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
@@ -305,14 +305,14 @@ public class DynamicSimulation {
                 //===================ignore busy machine here==============================
                 //when nextEvent was done, check the numOpsInQueue
                 if(nextEvent.getMobileDevice().isCanProcessTask()){
-                    if(nextEvent.getMobileDevice().getQueue().size() > 100){
+                    if(nextEvent.getMobileDevice().getQueue().size() > 300){
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
                         break;
                     }
                 }
                 for (Server s: systemState.getServers()) {
-                    if (s.numTaskInQueue() > 100) {
+                    if (s.numTaskInQueue() > 300) {
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
                         break;
@@ -330,8 +330,9 @@ public class DynamicSimulation {
         //original
         //fzhang 2018.11.5 this is used for generate different instances in a generation.
         //if the replications is 1, does not have influence
-        reseed(seed);
-        resetState();
+//        reseed(seed);
+//        resetState(); //original modified by mengxu 2021.08.27
+        resetStateforRerun();
 
         //reset(): reset seed value, will get the same instance
         //reset();
@@ -350,6 +351,16 @@ public class DynamicSimulation {
     public void reseed(long seed) {
         this.seed = seed;
         randomDataGenerator.reSeed(seed);
+    }
+
+    public void resetStateforRerun() {
+        this.eventQueue.clear();
+        systemState.resetforRerun();
+//        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+//            mobileDevice.eventQueue.clear();
+//        }
+//        eventQueue.clear();
+        setup();
     }
 
     public void resetState() {
@@ -407,9 +418,9 @@ public class DynamicSimulation {
     public double makespan(){
         if(systemState.getJobsCompleted().size() < numJobsRecorded){
 //            System.out.println("This is a bad run!");
-            return Double.MAX_VALUE;
+            return Double.POSITIVE_INFINITY;
         }
-        double firstJobReleaseTime = Double.MAX_VALUE;
+        double firstJobReleaseTime = Double.POSITIVE_INFINITY;
         double allJobComplete = 0;
         for (Job job : systemState.getJobsCompleted()) {
             if(job.getReleaseTime()<firstJobReleaseTime){
@@ -445,8 +456,6 @@ public class DynamicSimulation {
             int numCloudServer,
             int minNumTasks,
             int maxNumTasks,
-            double minWorkload,
-            double maxWorkload,
             boolean canMobileDeviceProcessTask) {
         return new DynamicSimulation(seed,sequencingRule,routingRule,numJobsRecorded,warmupJobs,numMobileDevice,
                 numEdgeServer,numCloudServer,new UniformIntegerSampler(minNumTasks, maxNumTasks),

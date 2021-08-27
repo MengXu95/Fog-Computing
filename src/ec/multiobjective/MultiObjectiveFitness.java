@@ -182,6 +182,7 @@ public class MultiObjectiveFitness extends Fitness
             {
             state.output.fatal("Null objective array provided to MultiObjectiveFitness.");
             }
+            objectives = newObjectives;
  
         //fzhang 2018.12.6 cancel for weighted sum test
      /*   if (newObjectives.length != objectives.length)
@@ -191,27 +192,27 @@ public class MultiObjectiveFitness extends Fitness
         
         //System.out.println(newObjectives.length); //1 repeat
         //System.out.println(maximize[0]);
-        for (int i = 0; i < newObjectives.length; i++)
-            {
-            double _f = newObjectives[i];
-            //System.out.println(_f);  //NaN
-            if (_f >= Double.POSITIVE_INFINITY || _f <= Double.NEGATIVE_INFINITY || Double.isNaN(_f))
-                {
-                state.output.warning("Bad objective #" + i + ": " + _f + ", setting to worst value for that objective.");
-                //modified by mengxu 2021.05.27
-                if (maximize[i]) //false repeat   //are higher values considered "better"?   so, here the smaller, the better
-                    newObjectives[i] = Double.NEGATIVE_INFINITY;  // here
-                else
-                    newObjectives[i] = Double.POSITIVE_INFINITY;
-                }
-                //original
+//        for (int i = 0; i < newObjectives.length; i++)
+//            {
+//            double _f = newObjectives[i];
+//            //System.out.println(_f);  //NaN
+//            if (_f >= Double.POSITIVE_INFINITY || _f <= Double.NEGATIVE_INFINITY || Double.isNaN(_f))
+//                {
+////                state.output.warning("Bad objective #" + i + ": " + _f + ", setting to worst value for that objective.");
+//                //modified by mengxu 2021.05.27
 //                if (maximize[i]) //false repeat   //are higher values considered "better"?   so, here the smaller, the better
-//                    newObjectives[i] = minObjective[i];  // here
+//                    newObjectives[i] = Double.NEGATIVE_INFINITY;  // here
 //                else
-//                    newObjectives[i] = maxObjective[i];
+//                    newObjectives[i] = Double.POSITIVE_INFINITY;
 //                }
-            }
-        objectives = newObjectives;
+//                //original
+////                if (maximize[i]) //false repeat   //are higher values considered "better"?   so, here the smaller, the better
+////                    newObjectives[i] = minObjective[i];  // here
+////                else
+////                    newObjectives[i] = maxObjective[i];
+////                }
+//            }
+//        objectives = newObjectives;
        /* for(int obj = 0; obj < objectives.length;obj++) {
         	System.out.println(objectives[obj]);
         }*/

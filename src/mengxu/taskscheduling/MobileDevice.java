@@ -227,13 +227,13 @@ public class MobileDevice {
                 count++;
             }
 
-            //System.out.println("count "+count);
-            if(count > 100000) {
-                count = 0;
-                systemState.setClockTime(Double.MAX_VALUE);
-                eventQueue.clear();
-                break;
-            }
+            //System.out.println("count "+count);//modified by mengxu. 2021.08.27
+//            if(count > 100000) {
+//                count = 0;
+//                systemState.setClockTime(Double.MAX_VALUE);
+//                eventQueue.clear();
+//                break;
+//            }
 
 
             //This is used to stop the bad run!!!

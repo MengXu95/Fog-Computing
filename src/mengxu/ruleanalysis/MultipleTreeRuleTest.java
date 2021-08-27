@@ -18,7 +18,7 @@ import java.util.List;
 
 public class MultipleTreeRuleTest {
 
-	 public static final long simSeed = 968356;
+	 	public static final long simSeed = 968356;
 
 		protected String trainPath; //the directory of training things
 	    protected RuleTypeV2 ruleType;
@@ -81,8 +81,7 @@ public class MultipleTreeRuleTest {
 
 		//generate testset using simseed, replications
 		public SchedulingSet generateTestSet() {
-	        return SchedulingSet.generateSet(simSeed, testScenario,
-	                testSetName, objectives, 50);
+	        return SchedulingSet.generateSet(simSeed, objectives, 30);
 	    }
 
 		public void writeToCSV() {
@@ -99,6 +98,7 @@ public class MultipleTreeRuleTest {
 	        //for test: which machines are choosen by routing rule, CCGP. Scenario: run1, rule in generaiton 51 numRuns
 	        for (int i = 0; i < numRuns; i++) {
 	        	System.out.println("Run "+ i);
+
 	        //for (int i = 0; i < 1; i++) {
 	            File sourceFile = new File(trainPath + "job." + i + ".out.stat");  //this file keeps the rule
 	            TestResult result = MultipleTreeTestResult.readFromFile(sourceFile, ruleType, numTrees);
@@ -258,8 +258,8 @@ public class MultipleTreeRuleTest {
 	     * /Users/dyska/Desktop/Uni/COMP489/GPJSS/grid_results/dynamic/raw/coevolution-fixed/0.85-max-flowtime/
 	     * simple-rule
 	     * 30
-	     * dynamic-job-shop
-	     * missing-0.85-4.0
+	     * null
+	     * result
 	     * 2
 	     * 1
 	     * max-flowtime
