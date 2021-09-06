@@ -294,7 +294,7 @@ public class DynamicSimulation {
                 }
 
                 //System.out.println("count "+count);
-                if(count > 10000) {
+                if(count > 200000) {
                     count = 0;
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();

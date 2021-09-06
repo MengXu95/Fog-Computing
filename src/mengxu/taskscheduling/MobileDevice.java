@@ -211,6 +211,7 @@ public class MobileDevice {
     }
 
     public void run(){
+        count = 0;
         while(!eventQueue.isEmpty() && throughput < numJobsRecorded){
             AbstractEvent nextEvent = eventQueue.poll();
 //            systemState.setClockTime(nextEvent.getTime());
@@ -277,7 +278,7 @@ public class MobileDevice {
             }
 
             //System.out.println("count "+count);
-            if(count > 100000) {
+            if(count > 200000) {
                 count = 0;
                 systemState.setClockTime(Double.MAX_VALUE);
                 eventQueue.clear();

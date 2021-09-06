@@ -145,8 +145,8 @@ public class SECtest {
 //                    true);
 
 
-            System.out.println("Schedule 3 times!");
-            for(int time=0; time<3; time++){
+            System.out.println("Schedule 1 times!");
+            for(int time=0; time<1; time++){
                 System.out.println("time: " + time);
                 simulation.rerun();
                 double meanFlowtime = simulation.meanFlowtime();
