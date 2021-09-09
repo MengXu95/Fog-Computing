@@ -6,23 +6,29 @@ import mengxu.simulation.state.SystemState;
 import mengxu.taskscheduling.Server;
 import mengxu.taskscheduling.TaskOption;
 
-public class HEFT extends AbstractRule {
+/**
+ * FCFS, namely First Come First Scheduling, allocates the first ready task to the first idle VM.
+ */
+public class FCFS extends AbstractRule {
 
-    public HEFT(RuleType type) {
-        name = "\"HEFT\"";
+    public FCFS(RuleType type) {
+        name = "\"FCFS\"";
         this.type = type;
     }
 
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-            return -(taskOption.getTask().getUpwardRank());
+            return taskOption.getReadyTime();
         }
         else if(this.type == RuleType.ROUTING){
-            return taskOption.getEarliestExecutionFinishTime();
+            if(server==null){
+                return taskOption.getMobileDevice().getReadyTime();
+            }
+            return server.getReadyTime();
         }
         else{
-            System.out.println("Error! HEFT");
+            System.out.println("Error! FCFS");
             return -1;
         }
     }

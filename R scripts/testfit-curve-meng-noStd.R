@@ -4,9 +4,9 @@ working_dir <- "D:/xumeng/ZheJiangLab/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small2MTGP")
-algo.names <- c("MTGP")
-scenarios.name <- c("makespan")
+algos <- c("small2MTGP", "middle2MTGP")
+algo.names <- c("small2", "middle2")
+scenarios.name <- c("small2","middle2")
 
 #objectives <- rep(c("mean-flowtime"), 1)
 #utils <- c(rep(0.85, 1))
@@ -137,12 +137,13 @@ for (s in 1:length(scenarios.name)) {
   }
 }
 
-testfit.df$Scenario <- factor(testfit.df$Scenario, levels = scenarios.name) #2020.10.20 order the appearrence of subplots
+testfit.df$Algo <- factor(testfit.df$Algo, levels = scenarios.name) #2020.10.20 order the appearrence of subplots
 g <- ggplot(testfit.df, aes(Generation, Mean, colour = factor(Algo), shape = factor(Algo))) +
   geom_ribbon(aes(ymin = Mean, ymax = Mean, fill = factor(Algo)), alpha = 0.3) +
   geom_line() + geom_point(size = 1)
 #g <- g + facet_wrap(~ Scenario, nrow = 2, scales = "free")
-g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
+#g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
+g <- g + facet_wrap(~ Algo, ncol = 3, scales = "free")
 
 g <- g + theme(legend.title = element_blank())
 g <- g + theme(legend.position = "bottom")

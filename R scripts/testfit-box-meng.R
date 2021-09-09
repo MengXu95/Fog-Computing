@@ -1,19 +1,12 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/PhdMainCode/Paper 4 - LexicaseSelection/oneInstanceMultiCase/new grid 2/"
+working_dir <- "D:/xumeng/ZheJiangLab/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c( "pBaselineMTGPD", "pLSv1MTGPmc", "pLSv2MTGPmcoldold", "pLSv3MTGPmc", "pLSv4MTGPmc", "pLSv5MTGPmc")
-algo.names <- c("MTGP", "LS", "EpsilonLS", "RandomLS", "MADCAPLS", "TruncatedLS")
-
-
-objectives <- rep(c("max-flowtime", "mean-flowtime", "mean-weighted-flowtime"), 2)
-utils <- c(rep(0.85, 3), rep(0.95, 3))
-ddfactors <- rep(1.5, 6)
-
-scenarios.name <- c("<Fmax, 0.85, 1.5>", "<Fmean, 0.85, 1.5>", "<WFmean, 0.85, 1.5>",
-                    "<Fmax, 0.95, 1.5>", "<Fmean, 0.95, 1.5>", "<WFmean, 0.95, 1.5>")
+algos <- c("small2MTGP", "middle2MTGP")
+algo.names <- c("small2", "middle2")
+scenarios.name <- c("small2","middle2")
 #working_dir <- "D:/xumeng/PhdMainCode/Paper 3 - MCTS - new/new grid/"
 #setwd(working_dir)
 #
@@ -51,12 +44,12 @@ result.df <- data.frame(Scenario = character(),
 
 for (s in 1:length(scenarios.name)) {
   scenario.name <- scenarios.name[s]
-  scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
-  testfile <- paste0("missing-", utils[s], "-", ddfactors[s], ".csv")
+  #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
+  testfile <- paste0("result.csv")
 
   for (a in 1:length(algos)) {
     algo <- algos[a]
-    df <- read.csv(paste0(algo, "/trainResults/", scenario, "/test/", testfile), header = TRUE)
+    df <- read.csv(paste0(algo, "/results/test/", testfile), header = TRUE)
     result.df <- rbind(result.df,
                        cbind(Scenario = rep(scenario.name, nrow(df)),
                              Algo = rep(algo.names[a], nrow(df)),
@@ -104,11 +97,11 @@ for (s in 1:length(scenarios.name)) {
   }
 }
 
-testfit.df$Scenario <- factor(testfit.df$Scenario, levels = scenarios.name) #2020.10.20 order the appearrence of subplots
+testfit.df$Algo <- factor(testfit.df$Algo, levels = scenarios.name) #2020.10.20 order the appearrence of subplots
 g <- ggplot(testfit.df, aes(Generation, Mean, colour = factor(Algo), shape = factor(Algo))) +
   geom_boxplot()
 #g <- g + facet_wrap(~ Scenario, nrow = 2, scales = "free")
-g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
+g <- g + facet_wrap(~ Algo, ncol = 3, scales = "free")
 
 g <- g + theme(legend.title = element_blank())
 g <- g + theme(legend.position = "bottom")

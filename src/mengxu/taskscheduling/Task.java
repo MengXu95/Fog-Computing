@@ -21,7 +21,7 @@ public class Task {
     private double workload; //used to calculate the processing time
     private double data; //used to calculate the communicate time
 
-    private List<Double> communicateTime;
+//    private List<Double> communicateTime;
 
     private Map<Integer, Double> inputDateMap;
     private Map<Integer, Double> outputDateMap;
@@ -45,7 +45,7 @@ public class Task {
         this.outputDateMap = new HashMap<>();
         this.totalInputData = 0;
         this.totalOutputData = 0;
-        this.communicateTime = new ArrayList<>();
+//        this.communicateTime = new ArrayList<>();
 
         this.complete = false;
         this.dispatch = false;
@@ -64,7 +64,7 @@ public class Task {
         this.outputDateMap = new HashMap<>();
         this.totalInputData = 0;
         this.totalOutputData = 0;
-        this.communicateTime = new ArrayList<>();
+//        this.communicateTime = new ArrayList<>();
 
         this.complete = false;
         this.dispatch = false;
@@ -203,27 +203,27 @@ public class Task {
         return this.totalOutputData;
     }
 
-    public void addCommunicateTime(double time){
-        this.communicateTime.add(time);
-    }
-
-    public double getCommunicateTime(int succTaskID){
-        return this.communicateTime.get(succTaskID);
-    }
-
-    public double getMaxCommunicateTime(){
-        double mean = 0;
-        if(communicateTime.size()==0){
-            return 0;
-        }
-        for(double time:communicateTime){
-            if(mean < time){
-                mean = time;
-            }
-
-        }
-        return mean;
-    }
+//    public void addCommunicateTime(double time){
+//        this.communicateTime.add(time);
+//    }
+//
+//    public double getCommunicateTime(int succTaskID){
+//        return this.communicateTime.get(succTaskID);
+//    }
+//
+//    public double getMaxCommunicateTime(){
+//        double mean = 0;
+//        if(communicateTime.size()==0){
+//            return 0;
+//        }
+//        for(double time:communicateTime){
+//            if(mean < time){
+//                mean = time;
+//            }
+//
+//        }
+//        return mean;
+//    }
 
     public double getMeanProcessTime(){
         double sumProcessTime = 0;
@@ -233,26 +233,68 @@ public class Task {
         return sumProcessTime/ taskOptions.size();
     }
 
-    public double getMeanCommunicationTime(){
+    public double getMeanDownloadTime(){
+        double meanDownloadTime = 0;
+        for(TaskOption taskOption:taskOptions){
+            meanDownloadTime += taskOption.getDownloadDelay();
+        }
+        meanDownloadTime = meanDownloadTime/ taskOptions.size();
+        return meanDownloadTime;
+    }
+
+    public double getMeanUploadTime(){
+        double meanUploadTime = 0;
+        for(TaskOption taskOption:taskOptions){
+            meanUploadTime += taskOption.getUploadDelay();
+        }
+        meanUploadTime = meanUploadTime/ taskOptions.size();
+        return meanUploadTime;
+    }
+
+    public double getMeanCommunicationTimeFromParent(int parentIndex){
         //todo: need to modify, different with the  (wrong I think )
         //the communication time for taskOption is defined as the (uploadDelay + downloadDelay)/2
         double sumCommunicateTime = 0;
-        for(TaskOption taskOption:taskOptions){
-            sumCommunicateTime += taskOption.getCommunicateTime();
+
+        double meanDownloadTimeParentIndex = 0;
+        for(TaskOption taskOption:parentTaskList.get(parentIndex).getTaskOptions()){
+            meanDownloadTimeParentIndex += taskOption.getDownloadDelay();
         }
-        return sumCommunicateTime/taskOptions.size();
+        meanDownloadTimeParentIndex = meanDownloadTimeParentIndex/parentTaskList.get(parentIndex).getTaskOptions().size();
+
+        double meanUploadTime = getMeanUploadTime();
+
+        sumCommunicateTime = meanDownloadTimeParentIndex + meanUploadTime;
+        return sumCommunicateTime;
+    }
+
+    public double getMeanCommunicationTimeToChild(int childIndex){
+        //todo: need to modify, different with the  (wrong I think )
+        //the communication time for taskOption is defined as the (uploadDelay + downloadDelay)/2
+        double sumCommunicateTime = 0;
+
+        double meanDownloadTime = getMeanDownloadTime();
+
+        double meanUpDownloadTimeChildIndex = 0;
+        for(TaskOption taskOption:childTaskList.get(childIndex).getTaskOptions()){
+            meanUpDownloadTimeChildIndex += taskOption.getUploadDelay();
+        }
+        meanUpDownloadTimeChildIndex = meanUpDownloadTimeChildIndex/childTaskList.get(childIndex).getTaskOptions().size();
+
+        sumCommunicateTime = meanDownloadTime + meanUpDownloadTimeChildIndex;
+        return sumCommunicateTime;
     }
 
     public double getUpwardRank(){
         if(childTaskList.size() == 0){
-            return getMeanProcessTime();
+            return getMeanProcessTime() + getMeanDownloadTime();
         }
         double upwardRank = getMeanProcessTime();
         double max = 0;
 //        for(Task task:childTaskList){
 //            double ref = task.getMeanCommunicationTime() + task.getUpwardRank();
         for(int i=0; i< childTaskList.size(); i++){
-            double ref = this.getCommunicateTime(i) + childTaskList.get(i).getUpwardRank();
+            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getUpwardRank();
             if(max < ref){
                 max = ref;
             }
@@ -264,7 +306,7 @@ public class Task {
 
     public double getDownwardRank(){
         if(parentTaskList.size() == 0){
-            return 0;
+            return getMeanUploadTime();
         }
         double downwardRank = 0;
         for(Task task:parentTaskList){
@@ -276,7 +318,7 @@ public class Task {
                    break;
                 }
             }
-            double ref = task.getMeanProcessTime() + task.getCommunicateTime(index) + task.getDownwardRank();
+            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTimeFromParent(index) + task.getDownwardRank();
             if(downwardRank < ref){
                 downwardRank = ref;
             }

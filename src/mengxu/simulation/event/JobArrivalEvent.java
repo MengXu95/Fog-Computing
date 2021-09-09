@@ -66,7 +66,7 @@ public class JobArrivalEvent extends AbstractEvent{
                 mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption, mobileDevice));
 //                taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
             }
-//            if(mobileDevice.getSystemState().getAllNumJobsReleased()< mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
+//            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
 //                mobileDevice.generateJob();//todo: need modified
 //            }
             mobileDevice.generateJob();//todo: need modified

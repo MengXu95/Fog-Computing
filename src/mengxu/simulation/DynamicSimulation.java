@@ -268,60 +268,108 @@ public class DynamicSimulation {
 
     public void run(){
         count = 0; //modified by mengxu 2021.08.27 really important!!!
-        if(this.systemState.getMobileDevices().size()==1){
-            //single mobiledevice run!
-            for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
-                mobileDevice.run();
-            }
-        }
-        else{
-            //multiple mobiledevice run!
-            while((mobiledeviceHaveEvent() || !eventQueue.isEmpty()) && getCurrentCompletedJobsNum() < numJobsRecorded){
-                AbstractEvent nextEvent = eventQueue.poll();
+        //multiple mobiledevice run!
+        while((mobiledeviceHaveEvent() || !eventQueue.isEmpty()) && getCurrentCompletedJobsNum() < numJobsRecorded){
+            AbstractEvent nextEvent = eventQueue.poll();
 //            systemState.setClockTime(nextEvent.getTime());
 //            nextEvent.trigger(this);
 
-                //fzhang 3.6.2018  fix the stuck problem
-                beforeThroughput = getCurrentCompletedJobsNum(); //save the throughput value before updated (a job finished)
+            //fzhang 3.6.2018  fix the stuck problem
+            beforeThroughput = getCurrentCompletedJobsNum(); //save the throughput value before updated (a job finished)
 
-                systemState.setClockTime(nextEvent.getTime());
-                nextEvent.trigger(nextEvent.getMobileDevice()); //nextEvent includes many different types of events
+            systemState.setClockTime(nextEvent.getTime());
+            nextEvent.trigger(nextEvent.getMobileDevice()); //nextEvent includes many different types of events
 
-                afterThroughput = getCurrentCompletedJobsNum(); //save the throughput value after updated (a job finished)
+            afterThroughput = getCurrentCompletedJobsNum(); //save the throughput value after updated (a job finished)
 
-                if(getCurrentCompletedJobsNum() > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
-                    count++;
-                }
+            if(getCurrentCompletedJobsNum() > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
+                count++;
+            }
 
-                //System.out.println("count "+count);
-                if(count > 200000) {
-                    count = 0;
+            //System.out.println("count "+count);
+            if(count > 200000) {
+                count = 0;
+                systemState.setClockTime(Double.MAX_VALUE);
+                eventQueue.clear();
+                break;
+            }
+
+
+            //This is used to stop the bad run!!!
+            //===================ignore busy machine here==============================
+            //when nextEvent was done, check the numOpsInQueue
+            if(nextEvent.getMobileDevice().isCanProcessTask()){
+                if(nextEvent.getMobileDevice().getQueue().size() > 100){
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
                     break;
                 }
-
-
-                //This is used to stop the bad run!!!
-                //===================ignore busy machine here==============================
-                //when nextEvent was done, check the numOpsInQueue
-                if(nextEvent.getMobileDevice().isCanProcessTask()){
-                    if(nextEvent.getMobileDevice().getQueue().size() > 100){
-                        systemState.setClockTime(Double.MAX_VALUE);
-                        eventQueue.clear();
-                        break;
-                    }
+            }
+            for (Server s: systemState.getServers()) {
+                if (s.numTaskInQueue() > 100) {
+                    systemState.setClockTime(Double.MAX_VALUE);
+                    eventQueue.clear();
+                    break;
                 }
-                for (Server s: systemState.getServers()) {
-                    if (s.numTaskInQueue() > 100) {
-                        systemState.setClockTime(Double.MAX_VALUE);
-                        eventQueue.clear();
-                        break;
-                    }
-                }
-
             }
         }
+//        System.out.println("Simulation completed!");
+
+        //original
+//        if(this.systemState.getMobileDevices().size()==1){
+//            //single mobiledevice run!
+//            for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+//                mobileDevice.run();
+//            }
+//        }
+//        else{
+//            //multiple mobiledevice run!
+//            while((mobiledeviceHaveEvent() || !eventQueue.isEmpty()) && getCurrentCompletedJobsNum() < numJobsRecorded){
+//                AbstractEvent nextEvent = eventQueue.poll();
+////            systemState.setClockTime(nextEvent.getTime());
+////            nextEvent.trigger(this);
+//
+//                //fzhang 3.6.2018  fix the stuck problem
+//                beforeThroughput = getCurrentCompletedJobsNum(); //save the throughput value before updated (a job finished)
+//
+//                systemState.setClockTime(nextEvent.getTime());
+//                nextEvent.trigger(nextEvent.getMobileDevice()); //nextEvent includes many different types of events
+//
+//                afterThroughput = getCurrentCompletedJobsNum(); //save the throughput value after updated (a job finished)
+//
+//                if(getCurrentCompletedJobsNum() > warmupJobs & afterThroughput - beforeThroughput == 0) { //if the value was not updated
+//                    count++;
+//                }
+//
+//                //System.out.println("count "+count);
+//                if(count > 200000) {
+//                    count = 0;
+//                    systemState.setClockTime(Double.MAX_VALUE);
+//                    eventQueue.clear();
+//                    break;
+//                }
+//
+//
+//                //This is used to stop the bad run!!!
+//                //===================ignore busy machine here==============================
+//                //when nextEvent was done, check the numOpsInQueue
+//                if(nextEvent.getMobileDevice().isCanProcessTask()){
+//                    if(nextEvent.getMobileDevice().getQueue().size() > 100){
+//                        systemState.setClockTime(Double.MAX_VALUE);
+//                        eventQueue.clear();
+//                        break;
+//                    }
+//                }
+//                for (Server s: systemState.getServers()) {
+//                    if (s.numTaskInQueue() > 100) {
+//                        systemState.setClockTime(Double.MAX_VALUE);
+//                        eventQueue.clear();
+//                        break;
+//                    }
+//                }
+//
+//            }
+//        }
 
 
 //        System.out.println("Schedule complete!");

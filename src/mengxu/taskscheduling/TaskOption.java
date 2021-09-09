@@ -118,18 +118,18 @@ public class TaskOption implements Comparable<TaskOption>{
         return mobileDevice;
     }
 
-    //modified by mengxu 2021.06.03
-    public double getCommunicateTime(){
-        return task.getMaxCommunicateTime();
-        //original
-//        return (uploadDelay + downloadDelay)/2;
-    }
+//    //modified by mengxu 2021.06.03
+//    public double getCommunicateTime(){
+//        return task.getMaxCommunicateTime();
+//        //original
+////        return (uploadDelay + downloadDelay)/2;
+//    }
 
     //For HEFT algorithm
     public double getEarliestExecutionStartTime(){
         if(task.getParentTaskList().size() == 0){
             //original
-            return 0;
+            return this.task.getJob().getReleaseTime();
 //            if(server == null){
 //                return Math.max(readyTime + getCommunicateTime(), mobileDevice.getReadyTime());
 //            }
@@ -145,7 +145,13 @@ public class TaskOption implements Comparable<TaskOption>{
 //            return Math.max(readyTime + getCommunicateTime(), server.getReadyTime());
 //        }
 //        return readyTime;
-        return Math.max(readyTime, server.getReadyTime());
+        if(server == null){
+            return Math.max(readyTime, mobileDevice.getReadyTime());
+        }
+        else{
+            return Math.max(readyTime, server.getReadyTime());
+        }
+//        return Math.max(readyTime, server.getReadyTime());
     }
 
     public double getEarliestExecutionFinishTime(){

@@ -344,7 +344,7 @@ public class MobileDevice {
             double taskData = this.taskDataSampler.next(randomDataGenerator);
             Task task = new Task(v,workload,taskData);
 
-            taskList.set(v,task);
+            taskList.set(v,task);//original
         }
         for(Task task:taskList){
             for(int childID :digraph.adj(task.getId())){ //add linked children
@@ -400,152 +400,152 @@ public class MobileDevice {
         eventQueue.add(new JobArrivalEvent(job,this));
     }
 
-    public void generateOneFixedJob(){
-        double releaseTime = 0;
-//        double releaseTime = systemState.getClockTime();
-
-        Digraph digraph = DigraphGeneratorMX.FixedDAG();
-        int[][] arr = {{14,16,9},
-                {13,19,18},
-                {11,13,19},
-                {13,8,17},
-                {12,13,10},
-                {13,16,9},
-                {7,15,11},
-                {5,11,14},
-                {18,12,20},
-                {21,7,16}};
-
-
-        Digraph reverseDigraph = digraph.reverse();
-        //random generate task list and their digraph.
-        List<Task> taskList = Arrays.asList(new Task[10]);
-        for( int v = 0; v < digraph.V(); v++){
-//            double procTimeOnMobileDevice = procTimeSampler.next(randomDataGenerator);
-//            Task task = new Task(v,digraph);
-            double workload = this.workloadSampler.next(randomDataGenerator);
-            double taskData = this.taskDataSampler.next(randomDataGenerator);
-            Task task = new Task(v,workload,taskData);
-            if(canProcessTask){
-                //the mobileDevice is also an option!!!
-                double procTimeOnMobileDevice = task.getWorkload()/this.processingRate;
-                task.addTaskOption(new TaskOption(task, this, procTimeOnMobileDevice, 0, 0));
-            }
-
-            int numOptions = systemState.getServers().size();
-            double uploadDelay = 0;
-            double downloadDelay = 0;
-            for(int i=0;i<numOptions;i++){
-                task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), arr[task.getId()][i], uploadDelay, downloadDelay));
-            }
-            taskList.set(v,task);
-        }
-        for(Task task:taskList){
-            for(int childID :digraph.adj(task.getId())){ //add linked children
-                task.addChild(taskList.get(childID));
-                if(task.getId() == 0 && childID ==1){
-                    task.addCommunicateTime(18);
-                }
-                if(task.getId() == 0 && childID ==2){
-                    task.addCommunicateTime(12);
-                }
-                if(task.getId() == 0 && childID ==3){
-                    task.addCommunicateTime(9);
-                }
-                if(task.getId() == 0 && childID ==4){
-                    task.addCommunicateTime(11);
-                }
-                if(task.getId() == 0 && childID ==5){
-                    task.addCommunicateTime(14);
-                }
-                if(task.getId() == 1 && childID ==7){
-                    task.addCommunicateTime(19);
-                }
-                if(task.getId() == 1 && childID ==8){
-                    task.addCommunicateTime(16);
-                }
-                if(task.getId() == 2 && childID ==6){
-                    task.addCommunicateTime(23);
-                }
-                if(task.getId() == 3 && childID ==7){
-                    task.addCommunicateTime(27);
-                }
-                if(task.getId() == 3 && childID ==8){
-                    task.addCommunicateTime(23);
-                }
-                if(task.getId() == 4 && childID ==8){
-                    task.addCommunicateTime(13);
-                }
-                if(task.getId() == 5 && childID ==7){
-                    task.addCommunicateTime(15);
-                }
-                if(task.getId() == 6 && childID ==9){
-                    task.addCommunicateTime(17);
-                }
-                if(task.getId() == 7 && childID ==9){
-                    task.addCommunicateTime(11);
-                }
-                if(task.getId() == 8 && childID ==9){
-                    task.addCommunicateTime(13);
-                }
-            }
-            for(int parentID : reverseDigraph.adj(task.getId())){
-                task.addParent(taskList.get(parentID)); //add linked parents
-//                if(parentID == 0 && task.getId() ==1){
+//    public void generateOneFixedJob(){
+//        double releaseTime = 0;
+////        double releaseTime = systemState.getClockTime();
+//
+//        Digraph digraph = DigraphGeneratorMX.FixedDAG();
+//        int[][] arr = {{14,16,9},
+//                {13,19,18},
+//                {11,13,19},
+//                {13,8,17},
+//                {12,13,10},
+//                {13,16,9},
+//                {7,15,11},
+//                {5,11,14},
+//                {18,12,20},
+//                {21,7,16}};
+//
+//
+//        Digraph reverseDigraph = digraph.reverse();
+//        //random generate task list and their digraph.
+//        List<Task> taskList = Arrays.asList(new Task[10]);
+//        for( int v = 0; v < digraph.V(); v++){
+////            double procTimeOnMobileDevice = procTimeSampler.next(randomDataGenerator);
+////            Task task = new Task(v,digraph);
+//            double workload = this.workloadSampler.next(randomDataGenerator);
+//            double taskData = this.taskDataSampler.next(randomDataGenerator);
+//            Task task = new Task(v,workload,taskData);
+//            if(canProcessTask){
+//                //the mobileDevice is also an option!!!
+//                double procTimeOnMobileDevice = task.getWorkload()/this.processingRate;
+//                task.addTaskOption(new TaskOption(task, this, procTimeOnMobileDevice, 0, 0));
+//            }
+//
+//            int numOptions = systemState.getServers().size();
+//            double uploadDelay = 0;
+//            double downloadDelay = 0;
+//            for(int i=0;i<numOptions;i++){
+//                task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), arr[task.getId()][i], uploadDelay, downloadDelay));
+//            }
+//            taskList.set(v,task);
+//        }
+//        for(Task task:taskList){
+//            for(int childID :digraph.adj(task.getId())){ //add linked children
+//                task.addChild(taskList.get(childID));
+//                if(task.getId() == 0 && childID ==1){
 //                    task.addCommunicateTime(18);
 //                }
-//                if(parentID == 0 && task.getId() ==2){
+//                if(task.getId() == 0 && childID ==2){
 //                    task.addCommunicateTime(12);
 //                }
-//                if(parentID == 0 && task.getId() ==3){
+//                if(task.getId() == 0 && childID ==3){
 //                    task.addCommunicateTime(9);
 //                }
-//                if(parentID == 0 && task.getId() ==4){
+//                if(task.getId() == 0 && childID ==4){
 //                    task.addCommunicateTime(11);
 //                }
-//                if(parentID == 0 && task.getId() ==5){
+//                if(task.getId() == 0 && childID ==5){
 //                    task.addCommunicateTime(14);
 //                }
-//                if(parentID == 1 && task.getId() ==7){
+//                if(task.getId() == 1 && childID ==7){
 //                    task.addCommunicateTime(19);
 //                }
-//                if(parentID == 1 && task.getId() ==8){
+//                if(task.getId() == 1 && childID ==8){
 //                    task.addCommunicateTime(16);
 //                }
-//                if(parentID == 2 && task.getId() ==6){
+//                if(task.getId() == 2 && childID ==6){
 //                    task.addCommunicateTime(23);
 //                }
-//                if(parentID == 3 && task.getId() ==7){
+//                if(task.getId() == 3 && childID ==7){
 //                    task.addCommunicateTime(27);
 //                }
-//                if(parentID == 3 && task.getId() ==8){
+//                if(task.getId() == 3 && childID ==8){
 //                    task.addCommunicateTime(23);
 //                }
-//                if(parentID == 4 && task.getId() ==8){
+//                if(task.getId() == 4 && childID ==8){
 //                    task.addCommunicateTime(13);
 //                }
-//                if(parentID == 6 && task.getId() ==9){
+//                if(task.getId() == 5 && childID ==7){
+//                    task.addCommunicateTime(15);
+//                }
+//                if(task.getId() == 6 && childID ==9){
 //                    task.addCommunicateTime(17);
 //                }
-//                if(parentID == 7 && task.getId() ==9){
+//                if(task.getId() == 7 && childID ==9){
 //                    task.addCommunicateTime(11);
 //                }
-//                if(parentID == 8 && task.getId() ==9){
+//                if(task.getId() == 8 && childID ==9){
 //                    task.addCommunicateTime(13);
 //                }
-            }
-        }
-
-        Job job = new Job(numJobsReleased, releaseTime, 1, digraph,this,taskList, JobType.DAG);
-        for(Task task:taskList){
-            task.setJob(job);
-        }
-        jobList.add(job);
-        systemState.addJobToSystem(job);
-        numJobsReleased++;
-        this.systemState.addAllNumJobsReleased();
-        eventQueue.add(new JobArrivalEvent(job,this));
-    }
+//            }
+//            for(int parentID : reverseDigraph.adj(task.getId())){
+//                task.addParent(taskList.get(parentID)); //add linked parents
+////                if(parentID == 0 && task.getId() ==1){
+////                    task.addCommunicateTime(18);
+////                }
+////                if(parentID == 0 && task.getId() ==2){
+////                    task.addCommunicateTime(12);
+////                }
+////                if(parentID == 0 && task.getId() ==3){
+////                    task.addCommunicateTime(9);
+////                }
+////                if(parentID == 0 && task.getId() ==4){
+////                    task.addCommunicateTime(11);
+////                }
+////                if(parentID == 0 && task.getId() ==5){
+////                    task.addCommunicateTime(14);
+////                }
+////                if(parentID == 1 && task.getId() ==7){
+////                    task.addCommunicateTime(19);
+////                }
+////                if(parentID == 1 && task.getId() ==8){
+////                    task.addCommunicateTime(16);
+////                }
+////                if(parentID == 2 && task.getId() ==6){
+////                    task.addCommunicateTime(23);
+////                }
+////                if(parentID == 3 && task.getId() ==7){
+////                    task.addCommunicateTime(27);
+////                }
+////                if(parentID == 3 && task.getId() ==8){
+////                    task.addCommunicateTime(23);
+////                }
+////                if(parentID == 4 && task.getId() ==8){
+////                    task.addCommunicateTime(13);
+////                }
+////                if(parentID == 6 && task.getId() ==9){
+////                    task.addCommunicateTime(17);
+////                }
+////                if(parentID == 7 && task.getId() ==9){
+////                    task.addCommunicateTime(11);
+////                }
+////                if(parentID == 8 && task.getId() ==9){
+////                    task.addCommunicateTime(13);
+////                }
+//            }
+//        }
+//
+//        Job job = new Job(numJobsReleased, releaseTime, 1, digraph,this,taskList, JobType.DAG);
+//        for(Task task:taskList){
+//            task.setJob(job);
+//        }
+////        jobList.add(job);
+//        systemState.addJobToSystem(job);
+//        numJobsReleased++;
+//        this.systemState.addAllNumJobsReleased();
+//        eventQueue.add(new JobArrivalEvent(job,this));
+//    }
 
     public int getId() {
         return id;
@@ -645,6 +645,7 @@ public class MobileDevice {
                     throughput++;  //before only have this line
                     count = 0;
                     systemState.addCompletedJob(job);
+//                    jobList.remove(job);//add 2021.09.09
                 }
             }
             else{
