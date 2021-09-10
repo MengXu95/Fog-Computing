@@ -301,6 +301,9 @@ public class Task {
         }
 //        DecimalFormat df = new DecimalFormat("#.000");
 //        return Double.parseDouble((df.format(upwardRank + max)));
+        if(parentTaskList.size()==0){//modified by mengxu 2021.09.09
+            return upwardRank + max + getMeanUploadTime();
+        }
         return upwardRank + max;
     }
 

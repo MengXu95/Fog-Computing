@@ -111,7 +111,13 @@ public class TaskOption implements Comparable<TaskOption>{
         if (Double.compare(priority, other.priority) > 0)
             return false;
 
-        return task.getJob().getId() < other.task.getJob().getId();
+        if(task.getJob().getId() < other.task.getJob().getId())
+            return true;
+
+        if(task.getJob().getId() > other.task.getJob().getId())
+            return false;
+
+        return task.getJob().getMobileDevice().getId() < other.task.getJob().getMobileDevice().getId();
     }
 
     public MobileDevice getMobileDevice() {
@@ -127,16 +133,26 @@ public class TaskOption implements Comparable<TaskOption>{
 
     //For HEFT algorithm
     public double getEarliestExecutionStartTime(){
-        if(task.getParentTaskList().size() == 0){
-            //original
-            return this.task.getJob().getReleaseTime();
-//            if(server == null){
-//                return Math.max(readyTime + getCommunicateTime(), mobileDevice.getReadyTime());
-//            }
-//            else{
-//                return Math.max(readyTime + getCommunicateTime(), server.getReadyTime());
-//            } //modified by mengxu 2021.07.23
+        if(server == null){
+//            return mobileDevice.getReadyTime();
+            return Math.max(readyTime, mobileDevice.getReadyTime());
         }
+        else{
+//            return server.getReadyTime();
+            return Math.max(readyTime, server.getReadyTime());
+        }
+
+//        return readyTime;
+//        if(task.getParentTaskList().size() == 0){
+//            //original
+//            return this.task.getJob().getReleaseTime();
+////            if(server == null){
+////                return Math.max(readyTime + getCommunicateTime(), mobileDevice.getReadyTime());
+////            }
+////            else{
+////                return Math.max(readyTime + getCommunicateTime(), server.getReadyTime());
+////            } //modified by mengxu 2021.07.23
+//        }
         //todo: need to check for HEFT. I think it is the ready time. Can ask Xiangtian and Beibei
 //        if(server == null){
 //            return Math.max(readyTime + getCommunicateTime(), mobileDevice.getReadyTime());
@@ -145,12 +161,14 @@ public class TaskOption implements Comparable<TaskOption>{
 //            return Math.max(readyTime + getCommunicateTime(), server.getReadyTime());
 //        }
 //        return readyTime;
-        if(server == null){
-            return Math.max(readyTime, mobileDevice.getReadyTime());
-        }
-        else{
-            return Math.max(readyTime, server.getReadyTime());
-        }
+//        if(server == null){
+//            return mobileDevice.getReadyTime();
+////            return Math.max(readyTime, mobileDevice.getReadyTime());
+//        }
+//        else{
+//            return server.getReadyTime();
+////            return Math.max(readyTime, server.getReadyTime());
+//        }
 //        return Math.max(readyTime, server.getReadyTime());
     }
 

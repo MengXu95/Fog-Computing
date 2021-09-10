@@ -101,7 +101,7 @@ public class DynamicSimulation {
             double processingRateDevice = this.processingRateDeviceSampler.next(this.randomDataGenerator);
             MobileDevice mobileDevice = new MobileDevice(i,processingRateDevice,
                     this.systemState,this.seed,
-                    new RandomDataGenerator(),
+                    this.randomDataGenerator,//modified 2021.09.09
                     this.numTasksSampler, this.workloadSampler,
                     this.taskDataSampler, this.taskInputDataSampler,
                     this.interReleaseTimeSampler, this.jobWeightSampler,
@@ -212,7 +212,12 @@ public class DynamicSimulation {
 
     public void setup(){
         this.numJobReleased = 0;
-        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+        //modified by mengxu 2021.09.10
+//        this.systemState.getMobileDevices().get(0).generateJob();
+
+        //original
+        for(int i=0; i<this.systemState.getMobileDevices().size(); i++){
+            MobileDevice mobileDevice = this.systemState.getMobileDevices().get(i);
 //            int num = 0;
 //            while(num<5){
                 mobileDevice.generateJob();
@@ -291,6 +296,7 @@ public class DynamicSimulation {
                 count = 0;
                 systemState.setClockTime(Double.MAX_VALUE);
                 eventQueue.clear();
+                System.out.println("reason: count > 200000");
                 break;
             }
 
@@ -299,16 +305,19 @@ public class DynamicSimulation {
             //===================ignore busy machine here==============================
             //when nextEvent was done, check the numOpsInQueue
             if(nextEvent.getMobileDevice().isCanProcessTask()){
-                if(nextEvent.getMobileDevice().getQueue().size() > 100){
+                if(nextEvent.getMobileDevice().getQueue().size() > 200){
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
+                    System.out.println("reason: MobileDevice().getQueue().size() > 200");
                     break;
                 }
             }
             for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 100) {
+                if (s.numTaskInQueue() > 200) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
+                    System.out.println("reason: Server.getQueue().size() > 200");
+
                     break;
                 }
             }
@@ -414,7 +423,7 @@ public class DynamicSimulation {
 
     public void resetState() {
         this.eventQueue.clear();
-        systemState.reset();
+        systemState.reset(this.seed, this.randomDataGenerator);
 //        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
 //            mobileDevice.eventQueue.clear();
 //        }
@@ -426,9 +435,10 @@ public class DynamicSimulation {
     public void rotateSeed() {//this is use for changing seed value in next generation
         seed += SEED_ROTATION;
         reseed(seed);
-        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
-            mobileDevice.rotateSeed();
-        }
+        //modified 2021.09.10
+//        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){
+//            mobileDevice.rotateSeed();
+//        }
         resetState();
         //this only relates to generation
 //        for(MobileDevice mobileDevice :this.systemState.getMobileDevices()){

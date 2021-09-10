@@ -31,9 +31,9 @@ public class SECtest {
     //todo: need to modify the terminals. 2021.08.02
     //todo: need to modify the rerun(). high priority!!! 2021.08.03
     public static void HEFTcheck() {
-        int numJobs = 1;
+        int numJobs = 4;
         int warmupJobs = 0;//todo: need to modify the use of warmupJobs
-        int numMobileDevice = 1;//todo: need to modify the use of more than one numMobileDevice
+        int numMobileDevice = 2;//todo: need to modify the use of more than one numMobileDevice
         int numEdgeServer = 3;
         int numCloudServer = 0;
         AbstractIntegerSampler numTasksSampler = new UniformIntegerSampler(2, 9);
@@ -96,7 +96,7 @@ public class SECtest {
     public static void dynamicCheck(){
         int numJobs = 20;
         int warmupJobs = 0;//todo: need to modify the use of warmupJobs
-        int numMobileDevice = 1;//todo: need to modify the use of more than one numMobileDevice
+        int numMobileDevice = 3;//todo: need to modify the use of more than one numMobileDevice
         int numEdgeServer = 10;
         int numCloudServer = 15;
         AbstractIntegerSampler numTasksSampler = new UniformIntegerSampler(2, 9);
@@ -106,23 +106,23 @@ public class SECtest {
 
         List<AbstractRule> routing_rule_list = new ArrayList<>();
         List<AbstractRule> sequencing_rule_list = new ArrayList<>();
-        routing_rule_list.add(new WIQ(RuleType.ROUTING));
-        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
-        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
+//        routing_rule_list.add(new WIQ(RuleType.ROUTING));
+//        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
+//        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
         routing_rule_list.add(new HEFT(RuleType.ROUTING));
-        routing_rule_list.add(new FCFS(RuleType.ROUTING));
-        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(* (+ (Min PT DT) NIQ) (+ PT (Max (/ (* NIQ UT) W) (Max (* NIQ UT) (+ (* PT NIQ) W)))))"));
-        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (Max (/ (- WIQ TIS) (- (+ WIQ NIQ) (Max NIQ DT))) (+ (+ NIQ PT) (Max (- (Min UT PT) (* UT PT)) TIS))) (+ (Min (* (Min UT DT) (+ UT NIQ)) (/ (- NIQ WIQ) (/ UT WIQ))) (* DT (Max (- UT PT) (* WIQ NIQ)))))"));
+//        routing_rule_list.add(new FCFS(RuleType.ROUTING));
+//        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(* (+ (Min PT DT) NIQ) (+ PT (Max (/ (* NIQ UT) W) (Max (* NIQ UT) (+ (* PT NIQ) W)))))"));
+//        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (Max (/ (- WIQ TIS) (- (+ WIQ NIQ) (Max NIQ DT))) (+ (+ NIQ PT) (Max (- (Min UT PT) (* UT PT)) TIS))) (+ (Min (* (Min UT DT) (+ UT NIQ)) (/ (- NIQ WIQ) (/ UT WIQ))) (* DT (Max (- UT PT) (* WIQ NIQ)))))"));
 
-        sequencing_rule_list.add(new RL(RuleType.SEQUENCING));
-        sequencing_rule_list.add(new PT(RuleType.SEQUENCING));
-        sequencing_rule_list.add(new PTPlusRL(RuleType.SEQUENCING));
+//        sequencing_rule_list.add(new RL(RuleType.SEQUENCING));
+//        sequencing_rule_list.add(new PT(RuleType.SEQUENCING));
+//        sequencing_rule_list.add(new PTPlusRL(RuleType.SEQUENCING));
         sequencing_rule_list.add(new HEFT(RuleType.SEQUENCING));
-        sequencing_rule_list.add(new FCFS(RuleType.SEQUENCING));
-        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(- (- (- TIS NIQ) (* (+ UT W) (- TIS NIQ))) (+ (* (* DT PT) (Max W PT)) (- (/ UT UT) (/ NIQ NIQ))))"));
-        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(/ NIQ TIS)"));
+//        sequencing_rule_list.add(new FCFS(RuleType.SEQUENCING));
+//        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(- (- (- TIS NIQ) (* (+ UT W) (- TIS NIQ))) (+ (* (* DT PT) (Max W PT)) (- (/ UT UT) (/ NIQ NIQ))))"));
+//        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(/ NIQ TIS)"));
 
-        DynamicSimulation simulation = new DynamicSimulation(0,null,null,
+        DynamicSimulation simulation = new DynamicSimulation(968356,null,null,
                 numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
                 20,30,true);
 //        simulation.rotateSeed();
@@ -151,6 +151,7 @@ public class SECtest {
             System.out.println("Schedule 1 times!");
             for(int time=0; time<1; time++){
                 System.out.println("time: " + time);
+                simulation.reset();
                 simulation.rerun();
                 double meanFlowtime = simulation.meanFlowtime();
                 double makespan = simulation.makespan();
@@ -179,11 +180,11 @@ public class SECtest {
 
                 System.out.println("Task completed number: " + numTaskCompleted);
 
-//            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
-//            System.out.print("Complete Job ID: [");
-//            for(Job job:simulation.getSystemState().getJobsCompleted()){
-//                System.out.print(job.getId() + ",");
-//            }
+            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
+            System.out.print("Complete Job ID: [");
+            for(Job job:simulation.getSystemState().getJobsCompleted()){
+                System.out.print(job.getMobileDevice().getId() + ":" + job.getId() + ",");
+            }
                 System.out.println();
             }
 

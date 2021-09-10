@@ -98,7 +98,7 @@ public class MobileDevice {
         this.seed = seed;
 
         this.randomDataGenerator = randomDataGenerator;
-        this.randomDataGenerator.reSeed(seed);
+//        this.randomDataGenerator.reSeed(seed);
         this.numTasksSampler = numTasksSampler;
 //        this.procTimeSampler = procTimeSampler;
         this.workloadSampler = workloadSampler;
@@ -138,6 +138,7 @@ public class MobileDevice {
         this.numTasksCompleted = 0;
         this.jobNotDone = 0;
         this.throughput = 0;
+//        this.digraphGeneratorMX = new DigraphGeneratorMX();
         this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
 
     }
@@ -163,12 +164,12 @@ public class MobileDevice {
         return numJobsReleased;
     }
 
-    public void rotateSeed() {//this is use for changing seed value in next generation
-        //this only relates to generation
-        seed += SEED_ROTATION;
-//        reset();
-        //System.out.println(seed);//when seed=0, after Gen0, the value is 10000, after Gen1, the value is 20000....
-    }
+//    public void rotateSeed() {//this is use for changing seed value in next generation
+//        //this only relates to generation
+//        seed += SEED_ROTATION;
+////        reset();
+//        //System.out.println(seed);//when seed=0, after Gen0, the value is 10000, after Gen1, the value is 20000....
+//    }
 
     public void resetState() {
 //        systemState.reset();
@@ -196,18 +197,32 @@ public class MobileDevice {
         generateJob();
     }
 
-    public void reset() {
-        reset(seed);
-    }
+//    public void reset(RandomDataGenerator randomDataGenerator) {
+//        reset(seed, randomDataGenerator);
+//    }
 
-    public void reset(long seed) {
-        reseed(seed);
+    public void reset(long seed, RandomDataGenerator randomDataGenerator) {
+        reseed(seed, randomDataGenerator);
         resetState();
     }
 
-    public void reseed(long seed) {
+//    public void reset() {
+//        reset(seed);
+//    }
+//
+//    public void reset(long seed) {
+//        reseed(seed);
+//        resetState();
+//    }
+//
+//    public void reseed(long seed) {
+//        this.seed = seed;
+//        randomDataGenerator.reSeed(seed);
+//    }
+
+    public void reseed(long seed, RandomDataGenerator randomDataGenerator) {
         this.seed = seed;
-        randomDataGenerator.reSeed(seed);
+        this.randomDataGenerator = randomDataGenerator;
     }
 
     public void run(){

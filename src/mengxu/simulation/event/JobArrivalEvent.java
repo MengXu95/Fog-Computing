@@ -69,6 +69,8 @@ public class JobArrivalEvent extends AbstractEvent{
 //            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
 //                mobileDevice.generateJob();//todo: need modified
 //            }
+
+            //original
             mobileDevice.generateJob();//todo: need modified
         }
 

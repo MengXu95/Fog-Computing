@@ -4,6 +4,7 @@ import mengxu.taskscheduling.Job;
 import mengxu.taskscheduling.MobileDevice;
 import mengxu.taskscheduling.Server;
 import mengxu.taskscheduling.Task;
+import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,7 +104,7 @@ public class SystemState {
         this.jobsInSystem.remove(job);
     }
 
-    public void reset() {
+    public void reset(long seed, RandomDataGenerator randomDataGenerator) {
         clockTime = 0.0;
         this.allNumJobsReleased = 0;
         jobsInSystem.clear();
@@ -112,7 +113,7 @@ public class SystemState {
             server.reset();
         }
         for (MobileDevice mobiledevice: mobileDevices) {
-            mobiledevice.reset();
+            mobiledevice.reset(seed, randomDataGenerator);
         }
     }
 
