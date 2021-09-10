@@ -148,44 +148,44 @@ public class SECtest {
 //                    true);
 
 
-            System.out.println("Schedule 1 times!");
-            for(int time=0; time<1; time++){
+            System.out.println("Schedule 10 times!");
+            for(int time=0; time<10; time++){
                 System.out.println("time: " + time);
-                simulation.reset();
+//                simulation.reset();
                 simulation.rerun();
                 double meanFlowtime = simulation.meanFlowtime();
                 double makespan = simulation.makespan();
 
-                System.out.println("MobileDevice can process!");
-                System.out.println("Routing rule: " + routing_rule.getName());
-                System.out.println("Sequencing rule: " + sequencing_rule.getName());
-                System.out.println("Mean flowtime: " + meanFlowtime);
+//                System.out.println("MobileDevice can process!");
+//                System.out.println("Routing rule: " + routing_rule.getName());
+//                System.out.println("Sequencing rule: " + sequencing_rule.getName());
+//                System.out.println("Mean flowtime: " + meanFlowtime);
                 System.out.println("Makespan: " + makespan);
                 System.out.println("Total Job completed: " + simulation.getSystemState().getJobsCompleted().size());
 
                 int numTaskCompleted = 0;
 
-                for(int mob=0; mob<numMobileDevice; mob++){
-//                System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(mob).getJobNotDone());
-                    System.out.println("Job completed of mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getThroughput());
-                    System.out.println("Job released by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getJobList().size());
-                    System.out.println("Task completed by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted());
-                    numTaskCompleted += simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted();
-                }
+//                for(int mob=0; mob<numMobileDevice; mob++){
+////                System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(mob).getJobNotDone());
+//                    System.out.println("Job completed of mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getThroughput());
+//                    System.out.println("Job released by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getJobList().size());
+//                    System.out.println("Task completed by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted());
+//                    numTaskCompleted += simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted();
+//                }
+//
+//                for(int ser=0; ser<simulation.getSystemState().getServers().size(); ser++){
+//                    System.out.println("Task completed by server " + ser + " : " + simulation.getSystemState().getServers().get(ser).getNumTasksCompleted());
+//                    numTaskCompleted += simulation.getSystemState().getServers().get(ser).getNumTasksCompleted();
+//                }
+//
+//                System.out.println("Task completed number: " + numTaskCompleted);
 
-                for(int ser=0; ser<simulation.getSystemState().getServers().size(); ser++){
-                    System.out.println("Task completed by server " + ser + " : " + simulation.getSystemState().getServers().get(ser).getNumTasksCompleted());
-                    numTaskCompleted += simulation.getSystemState().getServers().get(ser).getNumTasksCompleted();
-                }
-
-                System.out.println("Task completed number: " + numTaskCompleted);
-
-            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
-            System.out.print("Complete Job ID: [");
-            for(Job job:simulation.getSystemState().getJobsCompleted()){
-                System.out.print(job.getMobileDevice().getId() + ":" + job.getId() + ",");
-            }
-                System.out.println();
+//                System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
+//                System.out.print("Complete Job ID: [");
+//                for(Job job:simulation.getSystemState().getJobsCompleted()){
+//                    System.out.print(job.getMobileDevice().getId() + ":" + job.getId() + ",");
+//                }
+//                    System.out.println();
             }
 
 

@@ -181,7 +181,7 @@ public class MobileDevice {
         this.jobNotDone = 0;
         this.throughput = 0;
         this.readyTime = 0;
-        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
+//        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
         this.count = 0; //modified by mengxu 2021.08.27
 
         jobList.clear();
@@ -223,6 +223,7 @@ public class MobileDevice {
     public void reseed(long seed, RandomDataGenerator randomDataGenerator) {
         this.seed = seed;
         this.randomDataGenerator = randomDataGenerator;
+        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
     }
 
     public void run(){

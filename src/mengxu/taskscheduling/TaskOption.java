@@ -111,13 +111,22 @@ public class TaskOption implements Comparable<TaskOption>{
         if (Double.compare(priority, other.priority) > 0)
             return false;
 
-        if(task.getJob().getId() < other.task.getJob().getId())
+        if(task.getJob().getReleaseTime() < other.task.getJob().getReleaseTime())
             return true;
+
+        if(task.getJob().getReleaseTime() > other.task.getJob().getReleaseTime())
+            return false;
+
+        if(task.getJob().getMobileDevice().getId() < other.task.getJob().getMobileDevice().getId())
+            return true;
+
+        if(task.getJob().getMobileDevice().getId() > other.task.getJob().getMobileDevice().getId())
+            return false;
 
         if(task.getJob().getId() > other.task.getJob().getId())
             return false;
 
-        return task.getJob().getMobileDevice().getId() < other.task.getJob().getMobileDevice().getId();
+        return task.getJob().getId() < other.task.getJob().getId();
     }
 
     public MobileDevice getMobileDevice() {

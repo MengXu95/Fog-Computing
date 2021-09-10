@@ -14,7 +14,7 @@ public class GPMain {
     public static void main(String[] args) {
         List<String> gpRunArgs = new ArrayList<>();
         boolean isTest = true;
-        int maxTests = 1;
+        int maxTests = 11;
         boolean isDynamic = true;
 
         //include path to params file
@@ -30,8 +30,8 @@ public class GPMain {
         gpRunArgs.add("-p");
         gpRunArgs.add("eval.problem.eval-model.objectives.0="+objective0);
         gpRunArgs.add("-p");
-        for (int i = 1; i <= 30 && i <= maxTests; ++i) {
-            gpRunArgs.add("seed.0="+String.valueOf(i));
+        for (int i = 11; i <= 30 && i <= maxTests; ++i) {
+            gpRunArgs.add("seed.0="+String.valueOf(i-1));
             gpRunArgs.add("-p");
             gpRunArgs.add("stat.file="+"job."+String.valueOf(i)+".out.stat");
             //convert list to array
