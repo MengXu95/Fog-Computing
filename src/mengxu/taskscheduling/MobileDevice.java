@@ -1,19 +1,21 @@
 package mengxu.taskscheduling;
 
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.DigraphGenerator;
-import edu.princeton.cs.algs4.In;
 import mengxu.rule.AbstractRule;
-import mengxu.simulation.DynamicSimulation;
 import mengxu.simulation.event.AbstractEvent;
 import mengxu.simulation.event.JobArrivalEvent;
 import mengxu.simulation.event.ProcessStartEvent;
 import mengxu.simulation.state.SystemState;
+import mengxu.taskscheduling.dag.DAGTypePath;
 import mengxu.taskscheduling.dag.DigraphGeneratorMX;
-import mengxu.util.random.*;
+import mengxu.util.random.AbstractIntegerSampler;
+import mengxu.util.random.AbstractRealSampler;
+import mengxu.util.random.UniformIntegerSampler;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.util.*;
+
+import static mengxu.taskscheduling.dag.TestDigraphGenerator.toPuml;
 
 public class MobileDevice {
 
@@ -40,6 +42,7 @@ public class MobileDevice {
     private final AbstractRealSampler processingRateEdgeSampler;
 //    private final AbstractRealSampler upLoadDelaySampler;
 //    private final AbstractRealSampler downLoadDelaySampler;
+    private final AbstractIntegerSampler workflowSampler;
 
     protected int numJobsRecorded;
     protected int warmupJobs;
@@ -88,6 +91,7 @@ public class MobileDevice {
                         AbstractRealSampler downloadBandwidthEdgeSampler,
                         AbstractRealSampler processingRateCloudSampler,
                         AbstractRealSampler processingRateEdgeSampler,
+                        AbstractIntegerSampler workflowSampler,
                         AbstractRule sequencingRule,
                         AbstractRule routingRule,
                         int numJobsRecorded,
@@ -117,6 +121,8 @@ public class MobileDevice {
         this.downloadBandwidthEdgeSampler = downloadBandwidthEdgeSampler;
         this.processingRateCloudSampler = processingRateCloudSampler;
         this.processingRateEdgeSampler = processingRateEdgeSampler;
+
+        this.workflowSampler = workflowSampler;
 
         setInterReleaseTimeSamplerMean();
 
@@ -323,6 +329,73 @@ public class MobileDevice {
         }
     }
 
+    //modified by mengxu 2021.09.14
+    public void generateWorkflowJob(){
+        int DAGTypeID = this.workflowSampler.next(randomDataGenerator);
+//        DAGType dagType = D;
+        String daxpath = DAGTypePath.getDAGTypePath(DAGTypeID);
+//        String daxpath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_30.xml";
+        WorkflowParser workflowParser = new WorkflowParser(daxpath);
+        List<Task> taskList = workflowParser.getTaskList();
+        double releaseTime = systemState.getClockTime()
+                + interReleaseTimeSampler.next(randomDataGenerator);
+        double weight = jobWeightSampler.next(randomDataGenerator);
+        for(Task task:taskList) {
+            double workload = this.workloadSampler.next(randomDataGenerator);
+            double taskData = this.taskDataSampler.next(randomDataGenerator);
+            task.setWorkload(workload);
+            task.setData(taskData);
+            for (Task child : task.getChildTaskList()) {
+                double taskOutputData = this.taskInputDataSampler.next(randomDataGenerator);
+                task.addChildOutputData(child.getId(), taskOutputData);
+            }
+        }
+        for(Task task:taskList) {
+            for(Task parent: task.getParentTaskList()){
+                double taskInputData = taskList.get(parent.getId()).getChildOutputData(task.getId());
+                task.addParentInputData(parent.getId(),taskInputData);
+            }
+            if(canProcessTask){
+                //the mobileDevice is also an option!!!
+                double procTimeOnMobileDevice = task.getWorkload()/this.processingRate;
+                task.addTaskOption(new TaskOption(task, this, procTimeOnMobileDevice, 0, 0));
+            }
+
+            int numOptions = systemState.getServers().size();
+
+            //todo: need to set different processing time for different VMs (cloud and edge)
+//            double uploadDelayEdge = upLoadDelaySampler.next(randomDataGenerator);
+//            double downloadDelayEdge = downLoadDelaySampler.next(randomDataGenerator);
+//            double uploadDelayCloud = uploadDelayEdge + upLoadDelaySampler.next(randomDataGenerator);
+//            double downloadDelayCloud = downloadDelayEdge + downLoadDelaySampler.next(randomDataGenerator);
+
+            for(int i=0;i<numOptions;i++){
+                if(systemState.getServers().get(i).getType()==ServerType.CLOUD){
+                    double procTimeCloud = task.getWorkload()/systemState.getServers().get(i).getProcessingRate();
+                    double uploadDelayCloud = (task.getData() + task.getAllInputDataTotal())/systemState.getServers().get(i).getUploadBandwidth();
+                    double downloadDelayCloud = (task.getData() + task.getAllOutputDataTotal())/systemState.getServers().get(i).getDownloadBandwidth();
+                    task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), procTimeCloud, uploadDelayCloud, downloadDelayCloud));
+                }
+                else if(systemState.getServers().get(i).getType()==ServerType.EDGE){
+                    double procTimeEdge = task.getWorkload()/systemState.getServers().get(i).getProcessingRate();
+                    double uploadDelayEdge = (task.getData() + task.getAllInputDataTotal())/systemState.getServers().get(i).getUploadBandwidth();
+                    double downloadDelayEdge = (task.getData() + task.getAllOutputDataTotal())/systemState.getServers().get(i).getDownloadBandwidth();
+                    task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), procTimeEdge, uploadDelayEdge, downloadDelayEdge));
+                }
+            }
+        }
+
+        Job job = new Job(numJobsReleased, releaseTime, weight, null,this,taskList, JobType.DAG);
+        for(Task task:taskList){
+            task.setJob(job);
+        }
+        jobList.add(job);
+        systemState.addJobToSystem(job);
+        numJobsReleased++;
+        this.systemState.addAllNumJobsReleased();
+        eventQueue.add(new JobArrivalEvent(job,this));
+    }
+
     public void generateJob(){
         double releaseTime = systemState.getClockTime()
                 + interReleaseTimeSampler.next(randomDataGenerator);
@@ -335,7 +408,9 @@ public class MobileDevice {
         int numEdge = numEdgesSampler.next(randomDataGenerator);
 
         int V = numTask;
-        int E = (int)((V*(V-1) / 2 + V-1) / 2);
+//        int E = (int)((V*(V-1) / 2 + V-1) / 2);
+        int E = V-1 + 10; //for large scale only
+
 //        if(numEdge>(long) V*(V-1) / 2){
 //            E = V*(V-1) / 2;
 //        }
@@ -347,6 +422,7 @@ public class MobileDevice {
 //        }
 //        System.out.println(V + ", " + E);
         Digraph digraph = this.digraphGeneratorMX.rootedOutDAG(V,E);
+        System.out.println(toPuml(digraph));
 //        Digraph digraph = DigraphGeneratorMX.link(numTask);//like the structure: 0->1->2->3
         Digraph reverseDigraph = digraph.reverse();
         //random generate task list and their digraph.

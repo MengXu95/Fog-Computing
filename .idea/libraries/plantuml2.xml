@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="plantuml">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/plantuml-jar-mit-1.2021.5/plantuml.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

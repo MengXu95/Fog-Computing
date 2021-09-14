@@ -3,13 +3,14 @@ package mengxu.taskscheduling;
 import edu.princeton.cs.algs4.Digraph;
 import mengxu.rule.AbstractRule;
 import mengxu.rule.RuleType;
-import mengxu.rule.job.basic.RL;
 import mengxu.rule.server.WIQ;
 import mengxu.simulation.RoutingDecisionSituation;
 import mengxu.simulation.state.SystemState;
 
-import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Task {
     private int id;
@@ -52,6 +53,25 @@ public class Task {
         this.taskOptions = new ArrayList<>();
     }
 
+    public Task(int id){//modified by mengxu 2021.09.14 for generate wirkflow
+        this.id = id;
+        this.digraph = null;
+        this.parentTaskList = new ArrayList<>();
+        this.childTaskList = new ArrayList<>();
+        this.workload = -1;
+        this.data = -1;
+
+        this.inputDateMap = new HashMap<>();//id,data
+        this.outputDateMap = new HashMap<>();
+        this.totalInputData = 0;
+        this.totalOutputData = 0;
+//        this.communicateTime = new ArrayList<>();
+
+        this.complete = false;
+        this.dispatch = false;
+        this.taskOptions = new ArrayList<>();
+    }
+
     public Task(int id, double workload, double data){
         this.id = id;
         this.digraph = null;
@@ -77,6 +97,14 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public void setWorkload(double workload) {
+        this.workload = workload;
+    }
+
+    public void setData(double data) {
+        this.data = data;
     }
 
     public double getWorkload() {

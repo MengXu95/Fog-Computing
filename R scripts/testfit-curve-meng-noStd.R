@@ -4,9 +4,9 @@ working_dir <- "D:/xumeng/ZheJiangLab/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small2MTGP", "middle2MTGP")
-algo.names <- c("small2", "middle2")
-scenarios.name <- c("small2","middle2")
+algos <- c("small2MTGP")
+algo.names <- c("small2")
+scenarios.name <- c("small2")
 
 #objectives <- rep(c("mean-flowtime"), 1)
 #utils <- c(rep(0.85, 1))

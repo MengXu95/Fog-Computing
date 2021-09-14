@@ -1,6 +1,5 @@
 package mengxu.simulation.event;
 
-import mengxu.simulation.DynamicSimulation;
 import mengxu.simulation.RoutingDecisionSituation;
 import mengxu.simulation.SequencingDecisionSituation;
 import mengxu.taskscheduling.*;
@@ -60,6 +59,7 @@ public class JobArrivalEvent extends AbstractEvent{
                 TaskOption taskOption =
                         mobileDevice.getRoutingRule().nextTaskOption(decisionSituation);
 
+
                 //operationOption.setReadyTime(job.getReleaseTime());  //yimei 2019.7.30 move it to above   before routing, the ready time should be set to clocktime
 
                 double taskVisitTime = job.getReleaseTime() + taskOption.getUploadDelay();
@@ -67,11 +67,13 @@ public class JobArrivalEvent extends AbstractEvent{
 //                taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
             }
 //            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
-//                mobileDevice.generateJob();//todo: need modified
+//                mobileDevice.generateJob();
 //            }
 
+            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14
+
             //original
-            mobileDevice.generateJob();//todo: need modified
+//            mobileDevice.generateJob();
         }
 
     }

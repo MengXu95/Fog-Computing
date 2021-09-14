@@ -29,6 +29,9 @@ public class ProcessFinishEvent extends AbstractEvent{
             process.getTaskOption().getTask().setComplete(true);
             mobileDevice.addNumTasksCompleted();
 
+            //for print
+//            System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by mobileDevice itself and is finished at time " + time);
+
             if (!mobileDevice.getQueue().isEmpty()) {
                 SequencingDecisionSituation sequencingDecisionSituation =
                         new SequencingDecisionSituation(mobileDevice.getQueue(), null,
@@ -94,6 +97,14 @@ public class ProcessFinishEvent extends AbstractEvent{
             process.getTaskOption().getTask().getJob().addProcessFinishEvent(this);
             process.getTaskOption().getTask().setComplete(true);
             server.addNumTasksCompleted();
+            //for print
+//            if(server.getType() == ServerType.CLOUD){
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + (server.getId()-2) + " and is finished at time " + time);
+//            }
+//            else{
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + server.getId() + " and is finished at time " + time);
+//            }
+
 
 //            System.out.println("task " + (process.getTaskOption().getTask().getId()+1) + " completed at processor " +  (server.getId()+1) + " at time " + process.getFinishTime());
 

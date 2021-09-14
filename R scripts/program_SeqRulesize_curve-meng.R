@@ -111,7 +111,7 @@ g <- g + theme(axis.text.x = element_text(size = 15))
 g <- g + theme(axis.text.y = element_text(size = 15))
 g <- g + theme(strip.text.x = element_text(size = 17))
 
-ggsave("test-program-size-curve-sequencing.pdf", width = 9, height = 3)
+ggsave("test-program-size-curve-sequencing.pdf", width = 9, height = 6)
 #ggsave("test-program-size-curve-sequencing.pdf", width = 9, height = 6)
 # table showing
 

@@ -151,10 +151,18 @@ public class SchedulingSet {
                         utilLevel, dueDateFactor));*/
 
       //fzhang 2019.2.12 test should be also with 5000 jobs
-        simulations.add(
-                DynamicSimulation.standardFull(simSeed, null, null, 20,
-        0, 3, 10, 15, 20, 30,
-        true));
+//        simulations.add(//small 1
+//                DynamicSimulation.standardFull(simSeed, null, null, 20,
+//        0, 1, 10, 10, 10, 20,
+//        true));
+//        simulations.add(//small 2
+//                DynamicSimulation.standardFull(simSeed, null, null, 20,
+//                        0, 3, 10, 15, 20, 30,
+//                        true));
+        simulations.add(//middle 1
+                DynamicSimulation.standardFull(simSeed, null, null, 30,
+                        0, 3, 15, 20, 40, 50,
+                        true));
         List<Integer> replications = new ArrayList<>();
         replications.add(reps);
 
