@@ -145,4 +145,74 @@ public class DAGTypePath {
 
         return dagTypePath;
     }
+
+    public static String getDAGTypePathForSubmit(int dagTypeID){
+        String dagTypePath = "";
+        if(dagTypeID == DAGType.CyberShake30.value){
+            dagTypePath = "./dax/CyberShake_30.xml";
+        }
+        else if(dagTypeID == DAGType.Epigenomics24.value){
+            dagTypePath = "./dax/Epigenomics_24.xml";
+
+        }
+        else if(dagTypeID == DAGType.Inspiral30.value){
+            dagTypePath = "./dax/Inspiral_30.xml";
+        }
+        else if(dagTypeID == DAGType.Montage25.value){
+            dagTypePath = "./dax/Montage_25.xml";
+        }
+        else if(dagTypeID == DAGType.Sipht30.value){
+            dagTypePath = "./dax/Sipht_30.xml";
+        }
+        else if(dagTypeID == DAGType.CyberShake50.value){
+            dagTypePath = "./dax/CyberShake_50.xml";
+        }
+        else if(dagTypeID == DAGType.Epigenomics46.value){
+            dagTypePath = "./dax/Epigenomics_46.xml";
+        }
+        else if(dagTypeID == DAGType.Inspiral50.value){
+            dagTypePath = "./dax/Inspiral_50.xml";
+        }
+        else if(dagTypeID == DAGType.Montage50.value){
+            dagTypePath = "./dax/Montage_50.xml";
+        }
+        else if(dagTypeID == DAGType.Sipht60.value){
+            dagTypePath = "./dax/Sipht_60.xml";
+        }
+        else if(dagTypeID == DAGType.CyberShake100.value){
+            dagTypePath = "./dax/CyberShake_100.xml";
+        }
+        else if(dagTypeID == DAGType.Epigenomics100.value){
+            dagTypePath = "./dax/Epigenomics_100.xml";
+        }
+        else if(dagTypeID == DAGType.Inspiral100.value){
+            dagTypePath = "./dax/Inspiral_100.xml";
+        }
+        else if(dagTypeID == DAGType.Montage100.value){
+            dagTypePath = "./dax/Montage_100.xml";
+        }
+        else if(dagTypeID == DAGType.Sipht100.value){
+            dagTypePath = "./dax/Sipht_100.xml";
+        }
+        else if(dagTypeID == DAGType.CyberShake1000.value){
+            dagTypePath = "./dax/CyberShake_1000.xml";
+        }
+        else if(dagTypeID == DAGType.Epigenomics997.value){
+            dagTypePath = "./dax/Epigenomics_997.xml";
+        }
+        else if(dagTypeID == DAGType.Inspiral1000.value){
+            dagTypePath = "./dax/Inspiral_1000.xml";
+        }
+        else if(dagTypeID == DAGType.Montage1000.value){
+            dagTypePath = "./dax/Montage_1000.xml";
+        }
+        else if(dagTypeID == DAGType.Sipht1000.value){
+            dagTypePath = "./dax/Sipht_1000.xml";
+        }
+        else{
+            System.out.println("DAG path error!!!");
+        }
+
+        return dagTypePath;
+    }
 }

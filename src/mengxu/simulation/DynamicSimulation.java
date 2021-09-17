@@ -490,7 +490,16 @@ public class DynamicSimulation {
         return value/systemState.getJobsCompleted().size();
     }
 
-    //todo:
+    public double getFirstJobReleaseTime(){
+        double firstJobReleaseTime = Double.POSITIVE_INFINITY;
+        for (Job job : systemState.getJobsCompleted()) {
+            if(job.getReleaseTime()<firstJobReleaseTime){
+                firstJobReleaseTime = job.getReleaseTime();
+            }
+        }
+        return firstJobReleaseTime;
+    }
+
     public double makespan(){
         if(systemState.getJobsCompleted().size() < numJobsRecorded){
 //            System.out.println("This is a bad run!");

@@ -1,12 +1,12 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/"
+working_dir <- "D:/xumeng/ZheJiangLab/ModifiedSimulation/submit to grid/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small2MTGP")
-algo.names <- c("small2")
-scenarios.name <- c("small2")
+algos <- c("newsmall1MTGP", "newsmall2MTGP")
+algo.names <- c("small1", "small2")
+scenarios.name <- c("small1", "small2")
 
 #objectives <- rep(c("mean-flowtime"), 1)
 #utils <- c(rep(0.85, 1))
@@ -149,7 +149,7 @@ g <- g + theme(legend.title = element_blank())
 g <- g + theme(legend.position = "bottom")
 g <- g + theme(legend.text = element_text(size = 19))
 
-g <- g + labs(y = "Test Fitness")
+g <- g + labs(y = "makespan")
 
 g <- g + theme(axis.title.x = element_text(size = 17, face = "bold"))
 g <- g + theme(axis.title.y = element_text(size = 17, face = "bold"))
@@ -163,7 +163,7 @@ g <- g + theme(strip.text.x = element_text(size = 17))
 #g <- g + theme(axis.text.y = element_text(size = 10))
 #g <- g + theme(strip.text.x = element_text(size = 12))
 
-ggsave("testfit-curve-noStd.pdf", width = 9, height = 6)
+ggsave("testfit-curve-noStd.pdf", width = 6, height = 3.5)
 #ggsave("testfit-curve-noStd.pdf", width = 10, height = 5)
 
 # table showing

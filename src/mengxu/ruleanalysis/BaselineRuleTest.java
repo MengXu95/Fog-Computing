@@ -1,13 +1,10 @@
 package mengxu.ruleanalysis;
 
 import ec.Fitness;
-import ec.gp.GPNode;
 import ec.multiobjective.MultiObjectiveFitness;
-import mengxu.algorithm.FCFS;
 import mengxu.algorithm.HEFT;
 import mengxu.rule.AbstractRule;
 import mengxu.rule.RuleType;
-import mengxu.rule.evolved.GPRule;
 import mengxu.taskscheduling.Objective;
 import mengxu.taskscheduling.SchedulingSet;
 
@@ -91,12 +88,12 @@ public class BaselineRuleTest {
 		}
 
 		//generate testset using simseed, replications
-		public SchedulingSet generateTestSet() {
-	        return SchedulingSet.generateSet(simSeed, objectives, 30);
+		public SchedulingSet generateTestSet(String workflowScale) {
+	        return SchedulingSet.generateSet(simSeed, objectives, workflowScale, 30);
 	    }
 
-		public void writeToCSV() {
-	        SchedulingSet testSet = generateTestSet();
+		public void writeToCSV(String workflowScale) {
+	        SchedulingSet testSet = generateTestSet(workflowScale);
 	        File targetPath = new File(trainPath + "test"); //create a folder named "test" in trainPath
 	        if (!targetPath.exists()) {
 	            targetPath.mkdirs();
@@ -183,6 +180,7 @@ public class BaselineRuleTest {
 				idx ++;
 			}
 
-			multipletreeruleTest.writeToCSV();
+			String workflowScale = "small";
+			multipletreeruleTest.writeToCSV(workflowScale);
 		}
 }

@@ -159,13 +159,17 @@ public class MultipleRuleEvaluationModel extends AbstractEvaluationModel{
                 minWorkflowID = 15;
                 maxWorkflowID = 19;
             }
-            else if(workflowScale.equals("hybird-with-huge")){
+            else if(workflowScale.equals("hybird-small-middle")){
                 minWorkflowID = 0;
-                maxWorkflowID = 19;
+                maxWorkflowID = 9;
             }
-            else if(workflowScale.equals("hybird-no-huge")){
+            else if(workflowScale.equals("hybird-small-middle-large")){
                 minWorkflowID = 0;
                 maxWorkflowID = 14;
+            }
+            else if(workflowScale.equals("hybird-small-middle-large-huge")){
+                minWorkflowID = 0;
+                maxWorkflowID = 19;
             }
             else{
                 System.out.println("Initial workflow scale error!!!");

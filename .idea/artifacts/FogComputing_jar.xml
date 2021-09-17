@@ -19,6 +19,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/libraries/commons-math3-3.5.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libraries/pshecj.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/libraries/EJML-dense64-0.27.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libraries/jdom-2.0.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

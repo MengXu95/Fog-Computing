@@ -331,9 +331,11 @@ public class MobileDevice {
 
     //modified by mengxu 2021.09.14
     public void generateWorkflowJob(){
+//        int DAGTypeID = 0;
         int DAGTypeID = this.workflowSampler.next(randomDataGenerator);
 //        DAGType dagType = D;
-        String daxpath = DAGTypePath.getDAGTypePath(DAGTypeID);
+//        String daxpath = DAGTypePath.getDAGTypePath(DAGTypeID);
+        String daxpath = DAGTypePath.getDAGTypePathForSubmit(DAGTypeID);//for submit to grid
 //        String daxpath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_30.xml";
         WorkflowParser workflowParser = new WorkflowParser(daxpath);
         List<Task> taskList = workflowParser.getTaskList();
@@ -388,6 +390,7 @@ public class MobileDevice {
         Job job = new Job(numJobsReleased, releaseTime, weight, null,this,taskList, JobType.DAG);
         for(Task task:taskList){
             task.setJob(job);
+            task.mapClear();//add 2021.09.17
         }
         jobList.add(job);
         systemState.addJobToSystem(job);
@@ -727,28 +730,37 @@ public class MobileDevice {
         return allTaskDone;
     }
 
+    //add 2021.09.15
+    public void clearCompletedJob(Job job){
+        job.getTaskList().clear();
+        job.getFirstArriveReadyTask().clear();
+    }
+
     public void completeJob(Job job) {
-        if(this.systemState.getMobileDevices().size() == 1){
-            //single mobile device
-            if(checkJobDone(job)){
-                numJobsCompleted ++;  //before only have this line
-                if (numJobsReleased > warmupJobs && job.getId() >= 0
-                        && job.getId() < numJobsRecorded + warmupJobs) {
-                    throughput++;  //before only have this line
-                    count = 0;
-                    systemState.addCompletedJob(job);
-//                    jobList.remove(job);//add 2021.09.09
-                }
-            }
-            else{
-                jobNotDone ++;
-                System.out.println("Error! Job not done.");
-            }
-//            int a = systemState.getJobsCompleted().size();
-//        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
-            systemState.removeJobFromSystem(job);
-        }
-        else{
+//        if(this.systemState.getMobileDevices().size() == 1){
+//            //single mobile device
+//            if(checkJobDone(job)){
+//                numJobsCompleted ++;  //before only have this line
+//                if (numJobsReleased > warmupJobs && job.getId() >= 0
+//                        && job.getId() < numJobsRecorded + warmupJobs) {
+//                    throughput++;  //before only have this line
+//                    count = 0;
+//                    //clear the Map of the completed Job to save memory and avoid java.lang.OutOfMemoryError!!!
+//                    //modified 2021.09.15
+//                    clearCompletedJob(job);
+//                    systemState.addCompletedJob(job);
+////                    jobList.remove(job);//add 2021.09.09
+//                }
+//            }
+//            else{
+//                jobNotDone ++;
+//                System.out.println("Error! Job not done.");
+//            }
+////            int a = systemState.getJobsCompleted().size();
+////        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
+//            systemState.removeJobFromSystem(job);
+//        }
+//        else{
             //multiple mobile devices
             if(checkJobDone(job)){
                 numJobsCompleted ++;  //before only have this line
@@ -756,6 +768,9 @@ public class MobileDevice {
                         && job.getId() < numJobsRecorded + warmupJobs) {
                     throughput++;  //before only have this line
                     count = 0;
+                    //clear the Map of the completed Job to save memory and avoid java.lang.OutOfMemoryError!!!
+                    //modified 2021.09.15
+                    clearCompletedJob(job);
                     systemState.addCompletedJob(job);
                 }
             }
@@ -766,7 +781,7 @@ public class MobileDevice {
 //            int a = systemState.getJobsCompleted().size();
 //        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
             systemState.removeJobFromSystem(job);
-        }
+//        }
 
 
     }

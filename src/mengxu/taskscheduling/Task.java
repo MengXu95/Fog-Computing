@@ -227,6 +227,12 @@ public class Task {
         this.totalOutputData = this.totalOutputData + outputData;
     }
 
+    //add 2021.09.17
+    public void mapClear(){
+        this.inputDateMap.clear();
+        this.outputDateMap.clear();
+    }
+
     public double getAllOutputDataTotal(){
         return this.totalOutputData;
     }

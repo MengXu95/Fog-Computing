@@ -41,6 +41,9 @@ public class ProcessFinishEvent extends AbstractEvent{
                 TaskOption dispatchedTask =
                         mobileDevice.getSequencingRule().priorTask(sequencingDecisionSituation);
 
+                //check waiting queue size
+//                System.out.println("waiting queue size: " + mobileDevice.getQueue().size());
+
                 mobileDevice.removeFromQueue(dispatchedTask);
 
                 //must wait for machine to be ready
@@ -99,7 +102,7 @@ public class ProcessFinishEvent extends AbstractEvent{
             server.addNumTasksCompleted();
             //for print
 //            if(server.getType() == ServerType.CLOUD){
-//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + (server.getId()-2) + " and is finished at time " + time);
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + (server.getId()-5) + " and is finished at time " + time);
 //            }
 //            else{
 //                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + server.getId() + " and is finished at time " + time);
@@ -116,6 +119,9 @@ public class ProcessFinishEvent extends AbstractEvent{
                 //System.out.println("=======================================sequencing==========================================");
                 TaskOption dispatchedTask =
                         mobileDevice.getSequencingRule().priorTask(sequencingDecisionSituation);
+
+                //check waiting queue size
+//                System.out.println("waiting queue size: " + server.getQueue().size());
 
                 server.removeFromQueue(dispatchedTask);
 
