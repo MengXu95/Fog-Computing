@@ -296,11 +296,11 @@ public class DynamicSimulation {
             }
 
             //System.out.println("count "+count);
-            if(count > 100000) {
+            if(count > 200000) {
                 count = 0;
                 systemState.setClockTime(Double.MAX_VALUE);
                 eventQueue.clear();
-//                System.out.println("reason: count > 100000");
+                System.out.println("reason: count > 200000");
             }
 
 
@@ -309,10 +309,10 @@ public class DynamicSimulation {
             //when nextEvent was done, check the numOpsInQueue
             for(MobileDevice mobileDevice: systemState.getMobileDevices()){
                 if(mobileDevice.isCanProcessTask()){
-                    if(mobileDevice.getQueue().size() > 100){
+                    if(mobileDevice.getQueue().size() > 300){
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
-//                    System.out.println("reason: MobileDevice().getQueue().size() > 100");
+                    System.out.println("reason: MobileDevice().getQueue().size() > 100");
                     }
                 }
             }
@@ -324,17 +324,17 @@ public class DynamicSimulation {
 //                }
 //            }
             for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 100) {
+                if (s.numTaskInQueue() > 300) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
-//                    System.out.println("reason: Server.getQueue().size() > 100");
+                    System.out.println("reason: Server.getQueue().size() > 100");
                 }
             }
 
             if(systemState.getAllNumJobsReleased() > 500*(warmupJobs + numJobsRecorded)){
                 systemState.setClockTime(Double.MAX_VALUE);
                 eventQueue.clear();
-//                System.out.println("Too many jobs in system!");
+                System.out.println("Too many jobs in system!");
             }
         }
 

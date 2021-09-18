@@ -297,27 +297,27 @@ public class Task {
     }
 
     //only use for HEFT algorithm
-//    public double getUpwardRank(){
-//        if(childTaskList.size() == 0){
-//            return getMeanProcessTime() + getMeanDownloadTime();
-//        }
-//        double upwardRank = getMeanProcessTime();
-//        double max = 0;
-////        for(Task task:childTaskList){
-////            double ref = task.getMeanCommunicationTime() + task.getUpwardRank();
-//        for(int i=0; i< childTaskList.size(); i++){
-//            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getUpwardRank();
-//            if(max < ref){
-//                max = ref;
-//            }
-//        }
-////        DecimalFormat df = new DecimalFormat("#.000");
-////        return Double.parseDouble((df.format(upwardRank + max)));
-//        if(parentTaskList.size()==0){//modified by mengxu 2021.09.09
-//            return upwardRank + max + getMeanUploadTime();
-//        }
-//        return upwardRank + max;
-//    }
+    public double getUpwardRank(){
+        if(childTaskList.size() == 0){
+            return getMeanProcessTime() + getMeanDownloadTime();
+        }
+        double upwardRank = getMeanProcessTime();
+        double max = 0;
+//        for(Task task:childTaskList){
+//            double ref = task.getMeanCommunicationTime() + task.getUpwardRank();
+        for(int i=0; i< childTaskList.size(); i++){
+            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getUpwardRank();
+            if(max < ref){
+                max = ref;
+            }
+        }
+//        DecimalFormat df = new DecimalFormat("#.000");
+//        return Double.parseDouble((df.format(upwardRank + max)));
+        if(parentTaskList.size()==0){//modified by mengxu 2021.09.09
+            return upwardRank + max + getMeanUploadTime();
+        }
+        return upwardRank + max;
+    }
 
 //    public double getDownwardRank(){
 //        if(parentTaskList.size() == 0){

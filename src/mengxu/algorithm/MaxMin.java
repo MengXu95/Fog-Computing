@@ -6,24 +6,29 @@ import mengxu.simulation.state.SystemState;
 import mengxu.taskscheduling.Server;
 import mengxu.taskscheduling.TaskOption;
 
-public class HEFT extends AbstractRule {
+/**
+ * MaxMin,.
+ */
+public class MaxMin extends AbstractRule {
 
-    public HEFT(RuleType type) {
-        name = "\"HEFT\"";
+    public MaxMin(RuleType type) {
+        name = "\"MaxMin\"";
         this.type = type;
     }
 
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-//            return -1;//todo: need to modify when use HEFT
-            return -(taskOption.getTask().getUpwardRank());
+            return -taskOption.getProcTime();
         }
         else if(this.type == RuleType.ROUTING){
-            return taskOption.getEarliestExecutionFinishTime();
+            if(server==null){
+                return taskOption.getMobileDevice().getReadyTime();
+            }
+            return server.getReadyTime();
         }
         else{
-            System.out.println("Error! HEFT");
+            System.out.println("Error! FCFS");
             return -1;
         }
     }
