@@ -7,23 +7,25 @@ import mengxu.taskscheduling.Server;
 import mengxu.taskscheduling.TaskOption;
 
 /**
- * FCFS, namely First Come First Scheduling, allocates the first ready task to the first idle VM.
+ * RoundRobin. //todo: need modify!!!
  */
-public class FCFS extends AbstractRule {
+public class RoundRobin extends AbstractRule {
 
-    public FCFS(RuleType type) {
-        name = "\"FCFS\"";
+    public RoundRobin(RuleType type) {
+        name = "\"RoundRobin\"";
         this.type = type;
     }
 
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-            //todo: need to check using ReadyTime or using ReleseTime!
-            return taskOption.getTask().getJob().getReleaseTime();
-//            return taskOption.getReadyTime();
+            //todo: compare based on job ID. but not suitable for this simulation model!
+            //todo: need modify!.
+            return taskOption.getTask().getJob().getId();
         }
         else if(this.type == RuleType.ROUTING){
+            //todo: compare based on VM ID. but not suitable for this simulation model!
+            //todo: need modify!.
             if(server==null){
                 return taskOption.getMobileDevice().getReadyTime();
             }

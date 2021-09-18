@@ -1,9 +1,6 @@
 package mengxu;
 
-import mengxu.algorithm.FCFS;
-import mengxu.algorithm.HEFT;
-import mengxu.algorithm.MaxMin;
-import mengxu.algorithm.MinMin;
+import mengxu.algorithm.*;
 import mengxu.rule.AbstractRule;
 import mengxu.rule.RuleType;
 import mengxu.simulation.DynamicSimulation;
@@ -100,6 +97,7 @@ public class SECtest {
         routing_rule_list.add(new FCFS(RuleType.ROUTING));
         routing_rule_list.add(new MaxMin(RuleType.ROUTING));
         routing_rule_list.add(new MinMin(RuleType.ROUTING));
+        routing_rule_list.add(new RoundRobin(RuleType.ROUTING));
 //        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(* (+ (Min PT DT) NIQ) (+ PT (Max (/ (* NIQ UT) W) (Max (* NIQ UT) (+ (* PT NIQ) W)))))"));
 //        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (Max (/ (- WIQ TIS) (- (+ WIQ NIQ) (Max NIQ DT))) (+ (+ NIQ PT) (Max (- (Min UT PT) (* UT PT)) TIS))) (+ (Min (* (Min UT DT) (+ UT NIQ)) (/ (- NIQ WIQ) (/ UT WIQ))) (* DT (Max (- UT PT) (* WIQ NIQ)))))"));
 
@@ -110,6 +108,7 @@ public class SECtest {
         sequencing_rule_list.add(new FCFS(RuleType.SEQUENCING));
         sequencing_rule_list.add(new MaxMin(RuleType.SEQUENCING));
         sequencing_rule_list.add(new MinMin(RuleType.SEQUENCING));
+        sequencing_rule_list.add(new RoundRobin(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(- (- (- TIS NIQ) (* (+ UT W) (- TIS NIQ))) (+ (* (* DT PT) (Max W PT)) (- (/ UT UT) (/ NIQ NIQ))))"));
 //        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING,"(/ NIQ TIS)"));
 
