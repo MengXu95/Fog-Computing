@@ -300,7 +300,7 @@ public class DynamicSimulation {
                 count = 0;
                 systemState.setClockTime(Double.MAX_VALUE);
                 eventQueue.clear();
-//                System.out.println("reason: count > 200000");
+//                System.out.println("reason: count > 100000");
             }
 
 
@@ -312,7 +312,7 @@ public class DynamicSimulation {
                     if(mobileDevice.getQueue().size() > 100){
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
-//                    System.out.println("reason: MobileDevice().getQueue().size() > 200");
+//                    System.out.println("reason: MobileDevice().getQueue().size() > 100");
                     }
                 }
             }
@@ -327,15 +327,15 @@ public class DynamicSimulation {
                 if (s.numTaskInQueue() > 100) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
-//                    System.out.println("reason: Server.getQueue().size() > 200");
+//                    System.out.println("reason: Server.getQueue().size() > 100");
                 }
             }
 
-//            if(systemState.getAllNumJobsReleased() > 300*(warmupJobs + numJobsRecorded)){
-//                systemState.setClockTime(Double.MAX_VALUE);
-//                eventQueue.clear();
-////                System.out.println("Too many jobs in system!");
-//            }
+            if(systemState.getAllNumJobsReleased() > 500*(warmupJobs + numJobsRecorded)){
+                systemState.setClockTime(Double.MAX_VALUE);
+                eventQueue.clear();
+//                System.out.println("Too many jobs in system!");
+            }
         }
 
 

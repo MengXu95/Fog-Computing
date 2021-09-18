@@ -3,12 +3,9 @@ package mengxu.simulation.state;
 import mengxu.taskscheduling.Job;
 import mengxu.taskscheduling.MobileDevice;
 import mengxu.taskscheduling.Server;
-import mengxu.taskscheduling.Task;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SystemState {
@@ -20,6 +17,7 @@ public class SystemState {
     private List<Server> servers;
     private List<MobileDevice> mobileDevices;
     private int allNumJobsReleased;
+    private double firstArriveJobRecordedTime;//add 2021.09.18
 
     public SystemState(double clockTime, List<Server> servers, List<MobileDevice> mobileDevices,
                        List<Job> jobsInSystem, List<Job> jobsCompleted) {
@@ -29,6 +27,7 @@ public class SystemState {
         this.jobsInSystem = jobsInSystem;
         this.jobsCompleted = jobsCompleted;
         this.allNumJobsReleased = 0;
+        this.firstArriveJobRecordedTime = 0;
     }
 
     public SystemState() {
@@ -38,6 +37,7 @@ public class SystemState {
         this.jobsInSystem = new ArrayList<>();
         this.jobsCompleted = new ArrayList<>();
         this.allNumJobsReleased = 0;
+        this.firstArriveJobRecordedTime = 0;
     }
 
     public double getClockTime() {
@@ -62,6 +62,14 @@ public class SystemState {
 
     public void addJobToSystem(Job job) {
         jobsInSystem.add(job);
+        this.allNumJobsReleased++;
+        if(this.firstArriveJobRecordedTime < job.getReleaseTime() && job.getId() <= mobileDevices.get(0).getNumJobsRecorded()){
+            this.firstArriveJobRecordedTime = job.getReleaseTime();
+        }
+    }
+
+    public double getFirstArriveJobRecordedTime() {
+        return firstArriveJobRecordedTime;
     }
 
     public List<Job> getJobsCompleted() {
@@ -76,9 +84,9 @@ public class SystemState {
         return servers;
     }
 
-    public void addAllNumJobsReleased() {
-        this.allNumJobsReleased++;
-    }
+//    public void addAllNumJobsReleased() {
+//        this.allNumJobsReleased++;
+//    }
 
     public int getAllNumJobsReleased() {
         return allNumJobsReleased;
@@ -107,6 +115,7 @@ public class SystemState {
     public void reset(long seed, RandomDataGenerator randomDataGenerator) {
         clockTime = 0.0;
         this.allNumJobsReleased = 0;
+        this.firstArriveJobRecordedTime = 0;
         jobsInSystem.clear();
         jobsCompleted.clear();//original
         for (Server server : servers) {
@@ -120,6 +129,7 @@ public class SystemState {
     public void resetforRerun() {
         clockTime = 0.0;
         this.allNumJobsReleased = 0;
+        this.firstArriveJobRecordedTime = 0;
         jobsInSystem.clear();
         jobsCompleted.clear();//original
         for (Server server : servers) {

@@ -1,6 +1,5 @@
 package mengxu.taskscheduling;
 
-import edu.princeton.cs.algs4.Digraph;
 import mengxu.rule.AbstractRule;
 import mengxu.rule.RuleType;
 import mengxu.rule.server.WIQ;
@@ -15,7 +14,6 @@ import java.util.Map;
 public class Task {
     private int id;
     private Job job;
-    private Digraph digraph;
     private List<Task> parentTaskList;
     private List<Task> childTaskList;
 
@@ -33,9 +31,8 @@ public class Task {
     private boolean complete;
     private boolean dispatch;
     private List<TaskOption> taskOptions;
-    public Task(int id, Digraph digraph, double workload, double data){
+    public Task(int id, double workload, double data){
         this.id = id;
-        this.digraph = digraph;
         this.workload = workload;
         this.data = data;
         this.parentTaskList = new ArrayList<>();
@@ -55,30 +52,10 @@ public class Task {
 
     public Task(int id){//modified by mengxu 2021.09.14 for generate wirkflow
         this.id = id;
-        this.digraph = null;
         this.parentTaskList = new ArrayList<>();
         this.childTaskList = new ArrayList<>();
         this.workload = -1;
         this.data = -1;
-
-        this.inputDateMap = new HashMap<>();//id,data
-        this.outputDateMap = new HashMap<>();
-        this.totalInputData = 0;
-        this.totalOutputData = 0;
-//        this.communicateTime = new ArrayList<>();
-
-        this.complete = false;
-        this.dispatch = false;
-        this.taskOptions = new ArrayList<>();
-    }
-
-    public Task(int id, double workload, double data){
-        this.id = id;
-        this.digraph = null;
-        this.parentTaskList = new ArrayList<>();
-        this.childTaskList = new ArrayList<>();
-        this.workload = workload;
-        this.data = data;
 
         this.inputDateMap = new HashMap<>();//id,data
         this.outputDateMap = new HashMap<>();
@@ -319,53 +296,54 @@ public class Task {
         return sumCommunicateTime;
     }
 
-    public double getUpwardRank(){
-        if(childTaskList.size() == 0){
-            return getMeanProcessTime() + getMeanDownloadTime();
-        }
-        double upwardRank = getMeanProcessTime();
-        double max = 0;
-//        for(Task task:childTaskList){
-//            double ref = task.getMeanCommunicationTime() + task.getUpwardRank();
-        for(int i=0; i< childTaskList.size(); i++){
-            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getUpwardRank();
-            if(max < ref){
-                max = ref;
-            }
-        }
-//        DecimalFormat df = new DecimalFormat("#.000");
-//        return Double.parseDouble((df.format(upwardRank + max)));
-        if(parentTaskList.size()==0){//modified by mengxu 2021.09.09
-            return upwardRank + max + getMeanUploadTime();
-        }
-        return upwardRank + max;
-    }
+    //only use for HEFT algorithm
+//    public double getUpwardRank(){
+//        if(childTaskList.size() == 0){
+//            return getMeanProcessTime() + getMeanDownloadTime();
+//        }
+//        double upwardRank = getMeanProcessTime();
+//        double max = 0;
+////        for(Task task:childTaskList){
+////            double ref = task.getMeanCommunicationTime() + task.getUpwardRank();
+//        for(int i=0; i< childTaskList.size(); i++){
+//            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getUpwardRank();
+//            if(max < ref){
+//                max = ref;
+//            }
+//        }
+////        DecimalFormat df = new DecimalFormat("#.000");
+////        return Double.parseDouble((df.format(upwardRank + max)));
+//        if(parentTaskList.size()==0){//modified by mengxu 2021.09.09
+//            return upwardRank + max + getMeanUploadTime();
+//        }
+//        return upwardRank + max;
+//    }
 
-    public double getDownwardRank(){
-        if(parentTaskList.size() == 0){
-            return getMeanUploadTime();
-        }
-        double downwardRank = 0;
-        for(Task task:parentTaskList){
-//            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTime() + task.getDownwardRank();
-            int index = 0;
-            for(int i=0;i<task.getChildTaskList().size();i++){
-                if(task.getChildTaskList().get(i).getId() == this.getId()){
-                   index = i;
-                   break;
-                }
-            }
-            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTimeFromParent(index) + task.getDownwardRank();
-            if(downwardRank < ref){
-                downwardRank = ref;
-            }
-        }
-//        DecimalFormat df = new DecimalFormat("#.000");
-//        return Double.parseDouble((df.format(downwardRank)));
-        return downwardRank;
-    }
+//    public double getDownwardRank(){
+//        if(parentTaskList.size() == 0){
+//            return getMeanUploadTime();
+//        }
+//        double downwardRank = 0;
+//        for(Task task:parentTaskList){
+////            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTime() + task.getDownwardRank();
+//            int index = 0;
+//            for(int i=0;i<task.getChildTaskList().size();i++){
+//                if(task.getChildTaskList().get(i).getId() == this.getId()){
+//                   index = i;
+//                   break;
+//                }
+//            }
+//            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTimeFromParent(index) + task.getDownwardRank();
+//            if(downwardRank < ref){
+//                downwardRank = ref;
+//            }
+//        }
+////        DecimalFormat df = new DecimalFormat("#.000");
+////        return Double.parseDouble((df.format(downwardRank)));
+//        return downwardRank;
+//    }
 
-    public double getUPDOWNRank(){
-        return getUpwardRank() + getDownwardRank();
-    }
+//    public double getUPDOWNRank(){
+//        return getUpwardRank() + getDownwardRank();
+//    }
 }

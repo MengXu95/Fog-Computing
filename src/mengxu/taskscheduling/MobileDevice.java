@@ -20,7 +20,7 @@ import static mengxu.taskscheduling.dag.TestDigraphGenerator.toPuml;
 public class MobileDevice {
 
     private int id;
-    private List<Job> jobList;
+//    private List<Job> jobList;
     private SystemState systemState;
 
     public final static int SEED_ROTATION = 10000;
@@ -133,7 +133,7 @@ public class MobileDevice {
         this.numJobsCompleted = 0;
         this.numJobsRecorded = numJobsRecorded;
         this.warmupJobs = warmupJobs;
-        this.jobList = new ArrayList<>();
+//        this.jobList = new ArrayList<>();
         this.eventQueue = new PriorityQueue<>();
         this.queue = new LinkedList<>();
         this.canProcessTask = false;
@@ -162,9 +162,9 @@ public class MobileDevice {
         return throughput;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
-    }
+//    public List<Job> getJobList() {
+//        return jobList;
+//    }
 
     public int getNumJobsReleased() {
         return numJobsReleased;
@@ -190,7 +190,7 @@ public class MobileDevice {
 //        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
         this.count = 0; //modified by mengxu 2021.08.27
 
-        jobList.clear();
+//        jobList.clear();
         queue.clear();
         eventQueue.clear();
 //        setup();
@@ -387,15 +387,17 @@ public class MobileDevice {
             }
         }
 
-        Job job = new Job(numJobsReleased, releaseTime, weight, null,this,taskList, JobType.DAG);
+//        int jobID = numJobsReleased;
+        int jobID = systemState.getAllNumJobsReleased();
+        Job job = new Job(jobID, releaseTime, weight,this,taskList, JobType.DAG);
         for(Task task:taskList){
             task.setJob(job);
             task.mapClear();//add 2021.09.17
         }
-        jobList.add(job);
+//        jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
-        this.systemState.addAllNumJobsReleased();
+//        this.systemState.addAllNumJobsReleased();
         eventQueue.add(new JobArrivalEvent(job,this));
     }
 
@@ -484,14 +486,14 @@ public class MobileDevice {
             }
         }
 
-        Job job = new Job(numJobsReleased, releaseTime, weight, digraph,this,taskList, JobType.DAG);
+        Job job = new Job(numJobsReleased, releaseTime, weight,this,taskList, JobType.DAG);
         for(Task task:taskList){
             task.setJob(job);
         }
-        jobList.add(job);
+//        jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
-        this.systemState.addAllNumJobsReleased();
+//        this.systemState.addAllNumJobsReleased();
         eventQueue.add(new JobArrivalEvent(job,this));
     }
 
@@ -719,6 +721,10 @@ public class MobileDevice {
         this.eventQueue.add(event);
     }
 
+    public void setNumJobsRecorded(int numJobsRecorded) {
+        this.numJobsRecorded = numJobsRecorded;
+    }
+
     public boolean checkJobDone(Job job){
         boolean allTaskDone = true;
         for(Task task: job.getTaskList()){
@@ -734,6 +740,7 @@ public class MobileDevice {
     public void clearCompletedJob(Job job){
         job.getTaskList().clear();
         job.getFirstArriveReadyTask().clear();
+        job.getProcessFinishEvents().clear();
     }
 
     public void completeJob(Job job) {
@@ -764,8 +771,9 @@ public class MobileDevice {
             //multiple mobile devices
             if(checkJobDone(job)){
                 numJobsCompleted ++;  //before only have this line
-                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
-                        && job.getId() < numJobsRecorded + warmupJobs) {
+                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() < this.systemState.getFirstArriveJobRecordedTime()) {
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
+//                        && job.getId() < numJobsRecorded + warmupJobs) {
                     throughput++;  //before only have this line
                     count = 0;
                     //clear the Map of the completed Job to save memory and avoid java.lang.OutOfMemoryError!!!

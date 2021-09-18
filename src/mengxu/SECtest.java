@@ -68,7 +68,7 @@ public class SECtest {
             System.out.println("Makespan: " + makespan);
             System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(0).getJobNotDone());
             System.out.println("Job completed: " + simulation.getSystemState().getMobileDevices().get(0).getThroughput());
-            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getJobList().size());
+//            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getJobList().size());
 //            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
 //            System.out.print("Complete Job ID: [");
 //            for(Job job:simulation.getSystemState().getJobsCompleted()){

@@ -120,6 +120,11 @@ public class MultipleTreeMultipleRuleEvaluationModel extends MultipleRuleEvaluat
             f.setObjectives(state, fitnesses);
         }
 
+        if(countInd % state.population.subpops[0].individuals.length == 0) {
+            System.out.println("bad run: " + countBadrun);
+            countBadrun = 0;
+        }
+
         //modified by fzhang 23.5.2018  save bad run information for one population
         //if(countInd % 1024 == 0) {
    /*     if(countInd % state.population.subpops[0].individuals.length == 0) {

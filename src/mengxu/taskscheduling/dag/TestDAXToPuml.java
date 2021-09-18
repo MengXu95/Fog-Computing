@@ -25,7 +25,7 @@ public class TestDAXToPuml {
     }
 
     public static void main(String[] args) {
-        int DAGTypeID = 0;
+        int DAGTypeID = 12;
         String daxpath = DAGTypePath.getDAGTypePathForSubmit(DAGTypeID);//for submit to grid
 //        String daxpath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_30.xml";
         WorkflowParser workflowParser = new WorkflowParser(daxpath);

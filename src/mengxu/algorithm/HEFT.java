@@ -16,7 +16,8 @@ public class HEFT extends AbstractRule {
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-            return -(taskOption.getTask().getUpwardRank());
+            return -1;//todo: need to modify when use HEFT
+//            return -(taskOption.getTask().getUpwardRank());
         }
         else if(this.type == RuleType.ROUTING){
             return taskOption.getEarliestExecutionFinishTime();
