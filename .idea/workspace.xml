@@ -26,30 +26,25 @@
   <component name="ChangeListManager">
     <list default="true" id="f3eb666b-d359-4c7c-b2c3-44855438372c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/SECtest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/SECtest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/CPOP.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/R scripts/program_RoutRulesize_curve-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/program_RoutRulesize_curve-meng.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R scripts/program_SeqRulesize_curve-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/program_SeqRulesize_curve-meng.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R scripts/testfit-box-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/testfit-box-meng.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R scripts/testfit-curve-meng-noStd.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/testfit-curve-meng-noStd.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R scripts/testfit-curve-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/testfit-curve-meng.R" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/R scripts/trainTimefit-curve-meng-noStd.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/trainTimefit-curve-meng-noStd.R" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/HEFT.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/HEFT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/ruleanalysis/MultipleTreeRuleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/ruleanalysis/MultipleTreeRuleTest.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/DynamicSimulation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/DynamicSimulation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/state/SystemState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/state/SystemState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Job.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Job.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/MobileDevice.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/MobileDevice.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Server.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Server.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Task.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Task.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/test_DAG_generator.puml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/test_DAG_generator.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/SECtest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/SECtest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/CPOP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/CPOP.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/SchedulingSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/SchedulingSet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/FCFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/FCFS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/HEFT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/HEFT.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleevaluation/MultipleTreeMultipleRuleEvaluationModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleevaluation/MultipleTreeMultipleRuleEvaluationModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/MaxMin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/MaxMin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/MinMin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/MinMin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/RoundRobin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/RoundRobin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleanalysis/BaselineRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleanalysis/BaselineRuleTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleanalysis/MultipleTreeRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleanalysis/MultipleTreeRuleTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/DynamicSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/DynamicSimulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/state/SystemState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/state/SystemState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/Job.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/MobileDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/MobileDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/Server.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/dag/TestDAXToPuml.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/dag/TestDAXToPuml.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/test_DAG_generator.puml" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/test_DAG_generator.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/SchedulingSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/SchedulingSet.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,11 +114,11 @@
       <recent name="D:\xumeng\ZheJiangLab\Fog-Computing" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SECtest">
-    <configuration name="BaselineRuleTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.BaselineRuleTest">
+    <configuration name="BaselineRuleTest" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="mengxu.ruleanalysis.BaselineRuleTest" />
       <module name="Fog-Computing" />
-      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../HEFT/results/ simple-rule 30 null null 2 1 makespan" />
+      <option name="PROGRAM_PARAMETERS" value="$PROJECT_DIR$/../ModifiedSimulation/submitToGrid/modified/baselineRule/large1 simple-rule 30 null null 2 1 makespan" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="mengxu.ruleanalysis.*" />
@@ -193,10 +188,10 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Application.BaselineRuleTest" />
       <item itemvalue="Application.GPMain" />
       <item itemvalue="Application.MultipleTreeRuleTest" />
       <item itemvalue="Application.SECtest" />
-      <item itemvalue="Application.BaselineRuleTest" />
       <item itemvalue="Application.TestDAXToPuml" />
       <item itemvalue="JAR Application.jdom-2.0.0.jar" />
     </list>
@@ -205,7 +200,6 @@
         <item itemvalue="Application.SECtest" />
         <item itemvalue="Application.GPMain" />
         <item itemvalue="Application.TestDAXToPuml" />
-        <item itemvalue="Application.BaselineRuleTest" />
         <item itemvalue="Application.MultipleTreeRuleTest" />
       </list>
     </recent_temporary>
@@ -234,10 +228,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="45" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1631194739637">
+    <state x="45" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1632640345923">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state x="45" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1368.872@0.0.1368.872" timestamp="1631194739637" />
+    <state x="45" y="83" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1368.872@0.0.1368.872" timestamp="1632640345923" />
     <state x="437" y="239" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1628769230236">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
@@ -250,42 +244,46 @@
       <screen x="0" y="0" width="1368" height="872" />
     </state>
     <state x="487" y="204" key="FileChooserDialogImpl/0.0.1368.872@0.0.1368.872" timestamp="1631762582465" />
-    <state width="1326" height="317" key="GridCell.Tab.0.bottom" timestamp="1631953961601">
+    <state width="1326" height="183" key="GridCell.Tab.0.bottom" timestamp="1632702563433">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="317" key="GridCell.Tab.0.bottom/0.0.1368.872@0.0.1368.872" timestamp="1631953961601" />
-    <state width="1326" height="317" key="GridCell.Tab.0.center" timestamp="1631953961601">
+    <state width="1326" height="183" key="GridCell.Tab.0.bottom/0.0.1368.872@0.0.1368.872" timestamp="1632702563433" />
+    <state width="1326" height="183" key="GridCell.Tab.0.center" timestamp="1632702563428">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="317" key="GridCell.Tab.0.center/0.0.1368.872@0.0.1368.872" timestamp="1631953961601" />
-    <state width="1326" height="317" key="GridCell.Tab.0.left" timestamp="1631953961601">
+    <state width="1326" height="183" key="GridCell.Tab.0.center/0.0.1368.872@0.0.1368.872" timestamp="1632702563428" />
+    <state width="1326" height="183" key="GridCell.Tab.0.left" timestamp="1632702563420">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="317" key="GridCell.Tab.0.left/0.0.1368.872@0.0.1368.872" timestamp="1631953961601" />
-    <state width="1326" height="317" key="GridCell.Tab.0.right" timestamp="1631953961601">
+    <state width="1326" height="183" key="GridCell.Tab.0.left/0.0.1368.872@0.0.1368.872" timestamp="1632702563419" />
+    <state width="1326" height="183" key="GridCell.Tab.0.right" timestamp="1632702563428">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="317" key="GridCell.Tab.0.right/0.0.1368.872@0.0.1368.872" timestamp="1631953961601" />
-    <state width="1326" height="146" key="GridCell.Tab.1.bottom" timestamp="1631932614926">
+    <state width="1326" height="183" key="GridCell.Tab.0.right/0.0.1368.872@0.0.1368.872" timestamp="1632702563428" />
+    <state width="1326" height="146" key="GridCell.Tab.1.bottom" timestamp="1631957069306">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="146" key="GridCell.Tab.1.bottom/0.0.1368.872@0.0.1368.872" timestamp="1631932614926" />
-    <state width="1326" height="146" key="GridCell.Tab.1.center" timestamp="1631932614926">
+    <state width="1326" height="146" key="GridCell.Tab.1.bottom/0.0.1368.872@0.0.1368.872" timestamp="1631957069306" />
+    <state width="1326" height="146" key="GridCell.Tab.1.center" timestamp="1631957069306">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="146" key="GridCell.Tab.1.center/0.0.1368.872@0.0.1368.872" timestamp="1631932614926" />
-    <state width="1326" height="146" key="GridCell.Tab.1.left" timestamp="1631932614926">
+    <state width="1326" height="146" key="GridCell.Tab.1.center/0.0.1368.872@0.0.1368.872" timestamp="1631957069306" />
+    <state width="1326" height="146" key="GridCell.Tab.1.left" timestamp="1631957069306">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="146" key="GridCell.Tab.1.left/0.0.1368.872@0.0.1368.872" timestamp="1631932614926" />
-    <state width="1326" height="146" key="GridCell.Tab.1.right" timestamp="1631932614926">
+    <state width="1326" height="146" key="GridCell.Tab.1.left/0.0.1368.872@0.0.1368.872" timestamp="1631957069306" />
+    <state width="1326" height="146" key="GridCell.Tab.1.right" timestamp="1631957069306">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
-    <state width="1326" height="146" key="GridCell.Tab.1.right/0.0.1368.872@0.0.1368.872" timestamp="1631932614926" />
+    <state width="1326" height="146" key="GridCell.Tab.1.right/0.0.1368.872@0.0.1368.872" timestamp="1631957069306" />
     <state x="262" y="23" key="SettingsEditor" timestamp="1631603860304">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
     <state x="262" y="23" key="SettingsEditor/0.0.1368.872@0.0.1368.872" timestamp="1631603860304" />
+    <state x="277" y="169" key="Vcs.Push.Dialog.v2" timestamp="1632645542554">
+      <screen x="0" y="0" width="1368" height="872" />
+    </state>
+    <state x="277" y="169" key="Vcs.Push.Dialog.v2/0.0.1368.872@0.0.1368.872" timestamp="1632645542554" />
     <state x="347" y="184" width="672" height="678" key="search.everywhere.popup" timestamp="1627889151051">
       <screen x="0" y="0" width="1368" height="872" />
     </state>
@@ -311,7 +309,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/mengxu/simulation/DynamicSimulation.java</url>
-          <line>341</line>
+          <line>334</line>
           <option name="timeStamp" value="32" />
         </line-breakpoint>
       </breakpoints>

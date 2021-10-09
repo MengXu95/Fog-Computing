@@ -12,7 +12,7 @@ import mengxu.taskscheduling.TaskOption;
 public class MaxMin extends AbstractRule {
 
     public MaxMin(RuleType type) {
-        name = "\"MaxMin\"";
+        name = "MaxMin";
         this.type = type;
     }
 

@@ -12,7 +12,7 @@ import mengxu.taskscheduling.TaskOption;
 public class RoundRobin extends AbstractRule {
 
     public RoundRobin(RuleType type) {
-        name = "\"RoundRobin\"";
+        name = "RoundRobin";
         this.type = type;
     }
 
@@ -21,7 +21,7 @@ public class RoundRobin extends AbstractRule {
         if(this.type == RuleType.SEQUENCING){
             //todo: compare based on job ID. but not suitable for this simulation model!
             //todo: need modify!.
-            return taskOption.getTask().getJob().getId();
+            return taskOption.getTask().getJob().getReleaseTime();
         }
         else if(this.type == RuleType.ROUTING){
             //todo: compare based on VM ID. but not suitable for this simulation model!

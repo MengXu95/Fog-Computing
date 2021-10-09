@@ -2,7 +2,7 @@ package mengxu.ruleanalysis;
 
 import ec.Fitness;
 import ec.multiobjective.MultiObjectiveFitness;
-import mengxu.algorithm.HEFT;
+import mengxu.algorithm.*;
 import mengxu.rule.AbstractRule;
 import mengxu.rule.RuleType;
 import mengxu.taskscheduling.Objective;
@@ -26,14 +26,19 @@ public class BaselineRuleTest {
 	    protected String testSetName;
 	    protected List<Objective> objectives; // The objectives to test.
 	    protected int numTrees;
-	    protected AbstractRule baselineSequencingRule;
-		protected AbstractRule baselineRoutingRule;
+		protected List<AbstractRule> baselineSequencingRuleList;
+		protected List<AbstractRule> baselineRoutingRuleList;
+		protected List<String> ruleNameList;
+
+//	    protected AbstractRule baselineSequencingRule;
+//		protected AbstractRule baselineRoutingRule;
+//		protected String ruleName;
 
 	    public BaselineRuleTest(String trainPath, RuleTypeV2 ruleType, int numRuns,
                                 String testScenario, String testSetName,
                                 List<Objective> objectives, int numTrees,
-								AbstractRule baselineSequencingRule,
-								AbstractRule baselineRoutingRule) {
+								List<AbstractRule> baselineSequencingRuleList,
+								List<AbstractRule> baselineRoutingRuleList) {
 	        this.trainPath = trainPath;
 	        this.ruleType = ruleType;
 	        this.numRuns = numRuns;
@@ -41,16 +46,17 @@ public class BaselineRuleTest {
 	        this.testSetName = testSetName;
 	        this.objectives = objectives;
 	        this.numTrees = numTrees;
-	        this.baselineSequencingRule = baselineSequencingRule;
-	        this.baselineRoutingRule = baselineRoutingRule;
+	        this.baselineSequencingRuleList = baselineSequencingRuleList;
+	        this.baselineRoutingRuleList = baselineRoutingRuleList;
+//	        this.ruleName = this.baselineRoutingRule.getName();
 	    }
 
 	    public BaselineRuleTest(String trainPath, RuleTypeV2 ruleType, int numRuns,
                                 String testScenario, String testSetName, int numTreess,
-								AbstractRule baselineSequencingRule,
-								AbstractRule baselineRoutingRule) {
+								List<AbstractRule> baselineSequencingRuleList,
+								List<AbstractRule> baselineRoutingRuleList) {
 	        this(trainPath, ruleType, numRuns, testScenario, testSetName,
-					new ArrayList<>(), numTreess, baselineSequencingRule,baselineRoutingRule);
+					new ArrayList<>(), numTreess, baselineSequencingRuleList,baselineRoutingRuleList);
 	    }
 
 	    public String getTrainPath() {
@@ -92,9 +98,18 @@ public class BaselineRuleTest {
 	        return SchedulingSet.generateSet(simSeed, objectives, workflowScale, 30);
 	    }
 
-		public void writeToCSV(String workflowScale) {
+		public void MultiRuleWriteToCSV(String workflowScale) {
+	    	for(int i=0; i<this.baselineSequencingRuleList.size(); i++){
+	    		AbstractRule baselineSequencingRule = this.baselineSequencingRuleList.get(i);
+				AbstractRule baselineRoutingRule = this.baselineRoutingRuleList.get(i);
+				String ruleName = baselineSequencingRule.getName();
+				writeToCSV(workflowScale,ruleName,baselineSequencingRule,baselineRoutingRule);
+			}
+		}
+
+		public void writeToCSV(String workflowScale, String ruleName, AbstractRule baselineSequencingRule, AbstractRule baselineRoutingRule) {
 	        SchedulingSet testSet = generateTestSet(workflowScale);
-	        File targetPath = new File(trainPath + "test"); //create a folder named "test" in trainPath
+	        File targetPath = new File(trainPath + "/" + ruleName +"/test"); //create a folder named "test" in trainPath
 	        if (!targetPath.exists()) {
 	            targetPath.mkdirs();
 	        }
@@ -103,9 +118,9 @@ public class BaselineRuleTest {
 
 //	        List<TestResult> testResults = new ArrayList<>();
 			Fitness fitness = new MultiObjectiveFitness();
-			this.baselineSequencingRule.calcFitness(  //in calcFitness(), it will check which one is routing/sequencing rule
+			baselineSequencingRule.calcFitness(  //in calcFitness(), it will check which one is routing/sequencing rule
 					fitness, null,
-					testSet, this.baselineRoutingRule, objectives);
+					testSet, baselineRoutingRule, objectives);
 
 
 	        try {
@@ -171,16 +186,39 @@ public class BaselineRuleTest {
 
 			//RuleTest ruleTest = new RuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees);
 			//modified by fzhang  24.5.2018  use multipleTreeRuleTest
-			AbstractRule baselineSequencingRule = new HEFT(RuleType.SEQUENCING);
-			AbstractRule baselineRoutingRule = new HEFT(RuleType.ROUTING);
-			BaselineRuleTest multipletreeruleTest = new BaselineRuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees, baselineSequencingRule, baselineRoutingRule);
+//			AbstractRule baselineSequencingRule1 = new HEFT(RuleType.SEQUENCING);
+//			AbstractRule baselineRoutingRule1 = new HEFT(RuleType.ROUTING);
+//			AbstractRule baselineSequencingRule2 = new FCFS(RuleType.SEQUENCING);
+//			AbstractRule baselineRoutingRule2 = new FCFS(RuleType.ROUTING);
+//			AbstractRule baselineSequencingRule3 = new MaxMin(RuleType.SEQUENCING);
+//			AbstractRule baselineRoutingRule3 = new MaxMin(RuleType.ROUTING);
+//			AbstractRule baselineSequencingRule4 = new MinMin(RuleType.SEQUENCING);
+//			AbstractRule baselineRoutingRule4 = new MinMin(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule5 = new RoundRobin(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule5 = new RoundRobin(RuleType.ROUTING);
+
+			List<AbstractRule> baselineSequencingRuleList = new ArrayList<>();
+//			baselineSequencingRuleList.add(baselineSequencingRule1);
+//			baselineSequencingRuleList.add(baselineSequencingRule2);
+//			baselineSequencingRuleList.add(baselineSequencingRule3);
+//			baselineSequencingRuleList.add(baselineSequencingRule4);
+			baselineSequencingRuleList.add(baselineSequencingRule5);
+
+			List<AbstractRule> baselineRoutingRuleList = new ArrayList<>();
+//			baselineRoutingRuleList.add(baselineRoutingRule1);
+//			baselineRoutingRuleList.add(baselineRoutingRule2);
+//			baselineRoutingRuleList.add(baselineRoutingRule3);
+//			baselineRoutingRuleList.add(baselineRoutingRule4);
+			baselineRoutingRuleList.add(baselineRoutingRule5);
+
+			BaselineRuleTest multipletreeruleTest = new BaselineRuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees, baselineSequencingRuleList, baselineRoutingRuleList);
 
 			for (int i = 0; i < numObjectives; i++) {
 				multipletreeruleTest.addObjective(args[idx]);
 				idx ++;
 			}
 
-			String workflowScale = "small";
-			multipletreeruleTest.writeToCSV(workflowScale);
+			String workflowScale = "hybird-small-middle-large";
+			multipletreeruleTest.MultiRuleWriteToCSV(workflowScale);
 		}
 }

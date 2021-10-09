@@ -12,7 +12,7 @@ import mengxu.taskscheduling.TaskOption;
 public class FCFS extends AbstractRule {
 
     public FCFS(RuleType type) {
-        name = "\"FCFS\"";
+        name = "FCFS";
         this.type = type;
     }
 

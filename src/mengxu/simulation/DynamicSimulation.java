@@ -296,46 +296,39 @@ public class DynamicSimulation {
             }
 
             //System.out.println("count "+count);
-            if(count > 200000) {
-                count = 0;
-                systemState.setClockTime(Double.MAX_VALUE);
-                eventQueue.clear();
-                System.out.println("reason: count > 200000");
-            }
-
-
-            //This is used to stop the bad run!!!
-            //===================ignore busy machine here==============================
-            //when nextEvent was done, check the numOpsInQueue
-            for(MobileDevice mobileDevice: systemState.getMobileDevices()){
-                if(mobileDevice.isCanProcessTask()){
-                    if(mobileDevice.getQueue().size() > 300){
-                        systemState.setClockTime(Double.MAX_VALUE);
-                        eventQueue.clear();
-                    System.out.println("reason: MobileDevice().getQueue().size() > 100");
-                    }
-                }
-            }
-//            if(nextEvent.getMobileDevice().isCanProcessTask()){
-//                if(nextEvent.getMobileDevice().getQueue().size() > 100){
-//                    systemState.setClockTime(Double.MAX_VALUE);
-//                    eventQueue.clear();
-////                    System.out.println("reason: MobileDevice().getQueue().size() > 200");
+//            if(count > 1000000) {
+//                count = 0;
+//                systemState.setClockTime(Double.MAX_VALUE);
+//                eventQueue.clear();
+//                System.out.println("reason: count > 200000");
+//            }
+//
+//
+//            //This is used to stop the bad run!!!
+//            //===================ignore busy machine here==============================
+//            //when nextEvent was done, check the numOpsInQueue
+//            for(MobileDevice mobileDevice: systemState.getMobileDevices()){
+//                if(mobileDevice.isCanProcessTask()){
+//                    if(mobileDevice.getQueue().size() > 500){
+//                        systemState.setClockTime(Double.MAX_VALUE);
+//                        eventQueue.clear();
+//                    System.out.println("reason: MobileDevice().getQueue().size() > 100");
+//                    }
 //                }
 //            }
-            for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 300) {
-                    systemState.setClockTime(Double.MAX_VALUE);
-                    eventQueue.clear();
-                    System.out.println("reason: Server.getQueue().size() > 100");
-                }
-            }
-
-            if(systemState.getAllNumJobsReleased() > 500*(warmupJobs + numJobsRecorded)){
-                systemState.setClockTime(Double.MAX_VALUE);
-                eventQueue.clear();
-                System.out.println("Too many jobs in system!");
-            }
+//            for (Server s: systemState.getServers()) {
+//                if (s.numTaskInQueue() > 1000) {
+//                    systemState.setClockTime(Double.MAX_VALUE);
+//                    eventQueue.clear();
+//                    System.out.println("reason: Server.getQueue().size() > 100");
+//                }
+//            }
+//
+//            if(systemState.getAllNumJobsReleased() > 500*(warmupJobs + numJobsRecorded)){
+//                systemState.setClockTime(Double.MAX_VALUE);
+//                eventQueue.clear();
+//                System.out.println("Too many jobs in system!");
+//            }
         }
 
 

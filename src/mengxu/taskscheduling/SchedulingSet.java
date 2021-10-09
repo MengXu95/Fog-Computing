@@ -176,30 +176,34 @@ public class SchedulingSet {
             minWorkflowID = 15;
             maxWorkflowID = 19;
         }
-        else if(workflowScale.equals("hybird-with-huge")){
+        else if(workflowScale.equals("hybird-small-middle")){
             minWorkflowID = 0;
-            maxWorkflowID = 19;
+            maxWorkflowID = 9;
         }
-        else if(workflowScale.equals("hybird-no-huge")){
+        else if(workflowScale.equals("hybird-small-middle-large")){
             minWorkflowID = 0;
             maxWorkflowID = 14;
+        }
+        else if(workflowScale.equals("hybird-small-middle-large-huge")){
+            minWorkflowID = 0;
+            maxWorkflowID = 19;
         }
         else{
             System.out.println("Initial workflow scale error!!!");
         }
 
         //small 1
+        DynamicSimulation simulation = new DynamicSimulation(simSeed,
+                null, null, 50, 0,
+                1, 60, 60, minWorkflowID,
+                maxWorkflowID, true);
+
+
+        //Nsmall 2
 //        DynamicSimulation simulation = new DynamicSimulation(simSeed,
 //                null, null, 20, 0,
-//                1, 10, 15, minWorkflowID,
+//                3, 15, 20, minWorkflowID,
 //                maxWorkflowID, true);
-
-
-        //small 2
-        DynamicSimulation simulation = new DynamicSimulation(simSeed,
-                null, null, 20, 0,
-                3, 15, 20, minWorkflowID,
-                maxWorkflowID, true);
 
 
 //        //middle 1

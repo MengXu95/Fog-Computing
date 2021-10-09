@@ -9,7 +9,7 @@ import mengxu.taskscheduling.TaskOption;
 public class HEFT extends AbstractRule {
 
     public HEFT(RuleType type) {
-        name = "\"HEFT\"";
+        name = "HEFT";
         this.type = type;
     }
 
