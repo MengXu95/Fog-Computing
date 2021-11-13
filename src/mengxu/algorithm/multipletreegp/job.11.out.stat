@@ -1,0 +1,70 @@
+
+Generation: 0
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [5376.219480552194]
+Tree 0:
+ (Min TWT NIQ)
+Tree 1:
+ (/ (Max NIQ DT) (/ PT TTIQ))
+
+Generation: 1
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [4068.1119391322063]
+Tree 0:
+ (/ (* (- (+ NIQ WIQ) (+ TWT TIS)) (Min (Max TWT UT) NIQ)) (/ NIQ (+ TIS (* DT UT))))
+Tree 1:
+ (Max (- (+ (Max (Max DT UT) (Min TTIQ PT)) (/ (* MRT NTR) (Min MRT TWT))) (/ (+ (Max TIS TIS) (Max NIQ TWT)) (+ (+ WIQ PT) (Max TIS TTIQ)))) (+ (* (/ (Max TWT TTIQ) (+ PT WIQ)) (Min (/ PT DT) (Min DT WIQ))) (Max (- (Min PT TIS) (* TWT TIS)) (/ (Min NTR WIQ) (* UT TIS)))))
+
+Generation: 2
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [3756.689748752253]
+Tree 0:
+ (* (* (/ (- (Max DT MRT) (Max MRT DT)) TTIQ) (+ (Max (- TWT TWT) (Max WIQ DT)) (- (Min NIQ WIQ) MRT))) (/ (- (/ (Min DT MRT) PT) (- (Min DT DT) (+ UT NIQ))) (- (Max (* WIQ PT) (+ WIQ TTIQ)) (+ (Min UT PT) (/ WIQ DT)))))
+Tree 1:
+ (+ (/ (- (Max UT PT) (Min NTR WIQ)) (/ TWT NTR)) (* NTR (* MRT TTIQ)))
+
+Generation: 3
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [4542.860942192236]
+Tree 0:
+ (/ (* (- (+ NIQ WIQ) (+ TWT TIS)) PT) (/ NIQ (+ TIS (* DT UT))))
+Tree 1:
+ (/ (Max NIQ DT) (/ PT TTIQ))
+
+Generation: 4
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [3514.850303383508]
+Tree 0:
+ (+ (Min TWT NIQ) (- (- UT TIS) (+ PT NIQ)))
+Tree 1:
+ (+ (/ (- (Max UT PT) (Min NTR WIQ)) (/ PT TTIQ)) (* MRT TTIQ))
+
+Generation: 5
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [4329.207188635197]
+Tree 0:
+ (+ (Min TWT NIQ) (- (- UT TIS) (+ PT NIQ)))
+Tree 1:
+ (+ (/ (- (Max UT PT) (Min NTR WIQ)) (/ PT TTIQ)) (* MRT TTIQ))
+
+Generation: 6
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [4019.8323287334433]
+Tree 0:
+ (/ (* (- (+ NIQ WIQ) (+ TWT TIS)) (Min (Max TWT UT) NIQ)) (/ NIQ (+ TIS (Min DT MRT))))
+Tree 1:
+ (+ (/ (- (Max UT PT) (Min NTR WIQ)) (/ PT (/ TWT NTR))) (* MRT TTIQ))

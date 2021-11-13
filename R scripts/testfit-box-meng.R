@@ -5,7 +5,7 @@ setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
 algos <- c("small", "middle","large")
-devices <- c("1", "2", "3", "4")
+devices <- c("1", "2", "3")
 algo.names <- c("small", "middle","large")
 #scenarios.name <- c("Nsmall1MTGP", "Nsmall2MTGP","Nsmall3MTGP","Nsmall4MTGP",
 #                    "Nmiddle1MTGP", "Nmiddle2MTGP","Nmiddle3MTGP","Nmiddle4MTGP",

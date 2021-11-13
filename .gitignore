@@ -4,6 +4,5 @@ out/
 resources/
 test/
 *.csv
-*.stat
 *.pdf
 *.zip

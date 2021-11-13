@@ -32,7 +32,7 @@ public class RoundRobin extends AbstractRule {
             return server.getReadyTime();
         }
         else{
-            System.out.println("Error! FCFS");
+            System.out.println("Error! RoundRobin");
             return -1;
         }
     }
