@@ -63,14 +63,38 @@ public class JobArrivalEvent extends AbstractEvent{
                 //operationOption.setReadyTime(job.getReleaseTime());  //yimei 2019.7.30 move it to above   before routing, the ready time should be set to clocktime
 
                 double taskVisitTime = job.getReleaseTime() + taskOption.getUploadDelay();
+
+//                //for print
+//                Server server = taskOption.getServer();
+//                if(server.getType() == ServerType.CLOUD){
+//                    System.out.println("task " + taskOption.getTask().getId() + " is started to be uploaded to " + server.getType() + " " + (server.getId()-5) + " at time " + job.getReleaseTime());
+//                }
+//                else if(server.getType() == ServerType.EDGE){
+//                    System.out.println("task " + taskOption.getTask().getId() + " is started to be uploaded to " + server.getType() + " " + server.getId() + " at time " + job.getReleaseTime());
+//                }
+//                else{
+//                    System.out.println("task " + taskOption.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + job.getReleaseTime());
+//                }
+//
+//                if(server.getType() == ServerType.CLOUD){
+//                    System.out.println("task " + taskOption.getTask().getId() + " is uploaded to " + server.getType() + " " + (server.getId()-5) + " at time " + taskVisitTime);
+//                }
+//                else if(server.getType() == ServerType.EDGE){
+//                    System.out.println("task " + taskOption.getTask().getId() + " is uploaded to " + server.getType() + " " + server.getId() + " at time " + taskVisitTime);
+//                }
+//                else{
+//                    System.out.println("task " + taskOption.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + taskVisitTime);
+//                }
+
                 mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, taskOption, mobileDevice));
 //                taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
             }
-//            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
+            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){//used for test
 //                mobileDevice.generateJob();
-//            }
+                mobileDevice.generateWorkflowJob();
+            }
 
-            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14
+//            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14
 
             //original
 //            mobileDevice.generateJob();

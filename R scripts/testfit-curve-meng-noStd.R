@@ -1,6 +1,6 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/ModifiedSimulation/submit to grid/modified/"
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submit to grid/modified/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
@@ -163,7 +163,7 @@ g <- g + theme(strip.text.x = element_text(size = 17))
 #g <- g + theme(axis.text.y = element_text(size = 10))
 #g <- g + theme(strip.text.x = element_text(size = 12))
 
-ggsave("testfit-curve-noStd.pdf", width = 6, height = 6)
+ggsave("testfit-curve-noStd-new.pdf", width = 6, height = 6)
 #ggsave("testfit-curve-noStd.pdf", width = 10, height = 5)
 
 # table showing

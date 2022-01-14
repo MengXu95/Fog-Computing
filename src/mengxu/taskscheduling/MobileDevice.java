@@ -8,6 +8,7 @@ import mengxu.simulation.event.ProcessStartEvent;
 import mengxu.simulation.state.SystemState;
 import mengxu.taskscheduling.dag.DAGTypePath;
 import mengxu.taskscheduling.dag.DigraphGeneratorMX;
+import mengxu.taskscheduling.dag.TestDAXToPuml;
 import mengxu.util.random.AbstractIntegerSampler;
 import mengxu.util.random.AbstractRealSampler;
 import mengxu.util.random.UniformIntegerSampler;
@@ -200,7 +201,8 @@ public class MobileDevice {
         this.numJobsReleased = 0;
         this.throughput = 0;
 //        generateOneFixedJob();
-        generateJob();
+        generateWorkflowJob();
+//        generateJob();
     }
 
 //    public void reset(RandomDataGenerator randomDataGenerator) {
@@ -339,6 +341,10 @@ public class MobileDevice {
 //        String daxpath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_30.xml";
         WorkflowParser workflowParser = new WorkflowParser(daxpath);
         List<Task> taskList = workflowParser.getTaskList();
+
+        //add 2021.12.1
+//        System.out.println(TestDAXToPuml.toPuml(taskList));
+
         double releaseTime = systemState.getClockTime()
                 + interReleaseTimeSampler.next(randomDataGenerator);
         double weight = jobWeightSampler.next(randomDataGenerator);
@@ -771,14 +777,14 @@ public class MobileDevice {
             //multiple mobile devices
             if(checkJobDone(job)){
                 numJobsCompleted ++;  //before only have this line
-                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() < this.systemState.getFirstArriveJobRecordedTime()) {
+                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime()) {
 //                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
 //                        && job.getId() < numJobsRecorded + warmupJobs) {
                     throughput++;  //before only have this line
                     count = 0;
                     //clear the Map of the completed Job to save memory and avoid java.lang.OutOfMemoryError!!!
                     //modified 2021.09.15
-                    clearCompletedJob(job);
+//                    clearCompletedJob(job);//todo:2021.12.02
                     systemState.addCompletedJob(job);
                 }
             }

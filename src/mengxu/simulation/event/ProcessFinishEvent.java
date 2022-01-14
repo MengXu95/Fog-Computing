@@ -68,6 +68,11 @@ public class ProcessFinishEvent extends AbstractEvent{
                             mobileDevice.getRoutingRule());
                     for(TaskOption nextTask:nextTaskList){
                         double taskVisitTime = time + nextTask.getUploadDelay();
+                        //for print
+//                        System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + time);
+//                        System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + taskVisitTime);
+
+
                         mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
 //                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }
@@ -164,6 +169,28 @@ public class ProcessFinishEvent extends AbstractEvent{
 //                        }
 //                        mobileDevice.addEvent(new TaskVisitEvent(startTime, nextTask));
                         double taskVisitTime = time + nextTask.getUploadDelay();
+
+                        //for print
+//                        if(server.getType() == ServerType.CLOUD){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is started to be uploaded to " + server.getType() + " " + (server.getId()-5) + " at time " + time);
+//                        }
+//                        else if(server.getType() == ServerType.EDGE){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is started to be uploaded to " + server.getType() + " " + server.getId() + " at time " + time);
+//                        }
+//                        else{
+//                            System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + time);
+//                        }
+//
+//                        if(server.getType() == ServerType.CLOUD){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is uploaded to " + server.getType() + " " + (server.getId()-5) + " at time " + taskVisitTime);
+//                        }
+//                        else if(server.getType() == ServerType.EDGE){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is uploaded to " + server.getType() + " " + server.getId() + " at time " + taskVisitTime);
+//                        }
+//                        else{
+//                            System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + taskVisitTime);
+//                        }
+
                         mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
 //                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }

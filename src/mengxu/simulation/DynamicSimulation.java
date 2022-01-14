@@ -508,6 +508,8 @@ public class DynamicSimulation {
                 allJobComplete = job.getCompletionTime();
             }
         }
+//        System.out.println("First job release time: " + firstJobReleaseTime);
+//        System.out.println("All jobs completed time: " + allJobComplete);
         return allJobComplete-firstJobReleaseTime;
 //        return allJobComplete;
     }

@@ -5,6 +5,7 @@ import mengxu.simulation.SequencingDecisionSituation;
 import mengxu.taskscheduling.MobileDevice;
 import mengxu.taskscheduling.Process;
 import mengxu.taskscheduling.Server;
+import mengxu.taskscheduling.ServerType;
 
 import java.util.List;
 
@@ -31,6 +32,10 @@ public class ProcessStartEvent extends AbstractEvent{
             process.getTaskOption().getMobileDevice().setReadyTime(process.getFinishTime());
             mobileDevice.addEvent(
                     new ProcessFinishEvent(process.getFinishTime(), process, mobileDevice));
+
+            //for print
+//            System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by mobileDevice itself and is started at time " + time);
+
         }
         else{
             Server server = process.getServer();
@@ -39,6 +44,14 @@ public class ProcessStartEvent extends AbstractEvent{
 
             mobileDevice.addEvent(
                     new ProcessFinishEvent(process.getFinishTime(), process, mobileDevice));
+
+            //for print
+//            if(server.getType() == ServerType.CLOUD){
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + (server.getId()-5) + " and is started at time " + time);
+//            }
+//            else{
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + server.getId() + " and is atarted at time " + time);
+//            }
         }
 
     }

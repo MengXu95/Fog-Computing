@@ -4,6 +4,7 @@ import ec.EvolutionState;
 import ec.Individual;
 import ec.gp.GPIndividual;
 import ec.util.Parameter;
+import mengxu.algorithm.FCFS;
 import mengxu.rule.RuleType;
 import mengxu.rule.evolved.GPRule;
 import mengxu.ruleevaluation.AbstractEvaluationModel;
@@ -63,8 +64,17 @@ public class MultipleTreeRuleOptimizationProblem extends RuleOptimizationProblem
 		//GPRule rule = new GPRule(RuleType.SEQUENCING, ((GPIndividual) indi).trees[0]);
 
 		//modified by fzhang 23.5.2018  read two rules from one individual
-		GPRule sequencingRule = new GPRule(RuleType.SEQUENCING, ((GPIndividual) indi).trees[0]);
-		GPRule routingRule = new GPRule(RuleType.ROUTING, ((GPIndividual) indi).trees[1]);
+		GPRule sequencingRule;
+		GPRule routingRule;
+		if(((GPIndividual) indi).trees.length == 1){
+			sequencingRule = null;
+			routingRule = new GPRule(RuleType.ROUTING, ((GPIndividual) indi).trees[0]);
+		}
+		else{
+			sequencingRule = new GPRule(RuleType.SEQUENCING, ((GPIndividual) indi).trees[0]);
+			routingRule = new GPRule(RuleType.ROUTING, ((GPIndividual) indi).trees[1]);
+		}
+
 
 		List rules = new ArrayList();
 		List fitnesses = new ArrayList();

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Fog-Computing.iml" filepath="$PROJECT_DIR$/Fog-Computing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Fog-Computing.iml" filepath="$PROJECT_DIR$/.idea/Fog-Computing.iml" />
     </modules>
   </component>
 </project>

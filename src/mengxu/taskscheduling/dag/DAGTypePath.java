@@ -77,67 +77,67 @@ public class DAGTypePath {
     public static String getDAGTypePath(int dagTypeID){
         String dagTypePath = "";
         if(dagTypeID == DAGType.CyberShake30.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_30.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/CyberShake_30.xml";
         }
         else if(dagTypeID == DAGType.Epigenomics24.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Epigenomics_24.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Epigenomics_24.xml";
 
         }
         else if(dagTypeID == DAGType.Inspiral30.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Inspiral_30.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Inspiral_30.xml";
         }
         else if(dagTypeID == DAGType.Montage25.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Montage_25.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Montage_25.xml";
 
         }
         else if(dagTypeID == DAGType.Sipht30.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Sipht_30.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Sipht_30.xml";
         }
         else if(dagTypeID == DAGType.CyberShake50.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_50.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/CyberShake_50.xml";
         }
         else if(dagTypeID == DAGType.Epigenomics46.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Epigenomics_46.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Epigenomics_46.xml";
         }
         else if(dagTypeID == DAGType.Inspiral50.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Inspiral_50.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Inspiral_50.xml";
         }
         else if(dagTypeID == DAGType.Montage50.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Montage_50.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Montage_50.xml";
         }
         else if(dagTypeID == DAGType.Sipht60.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Sipht_60.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Sipht_60.xml";
         }
         else if(dagTypeID == DAGType.CyberShake100.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_100.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/CyberShake_100.xml";
         }
         else if(dagTypeID == DAGType.Epigenomics100.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Epigenomics_100.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Epigenomics_100.xml";
         }
         else if(dagTypeID == DAGType.Inspiral100.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Inspiral_100.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Inspiral_100.xml";
         }
         else if(dagTypeID == DAGType.Montage100.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Montage_100.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Montage_100.xml";
         }
         else if(dagTypeID == DAGType.Sipht100.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Sipht_100.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Sipht_100.xml";
         }
         else if(dagTypeID == DAGType.CyberShake1000.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_1000.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/CyberShake_1000.xml";
 
         }
         else if(dagTypeID == DAGType.Epigenomics997.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Epigenomics_997.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Epigenomics_997.xml";
         }
         else if(dagTypeID == DAGType.Inspiral1000.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Inspiral_1000.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Inspiral_1000.xml";
         }
         else if(dagTypeID == DAGType.Montage1000.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Montage_1000.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Montage_1000.xml";
         }
         else if(dagTypeID == DAGType.Sipht1000.value){
-            dagTypePath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\Sipht_1000.xml";
+            dagTypePath = "/Users/mengxu/IdeaProjects/Fog-Computing/src/mengxu/taskscheduling/dag/dax/Sipht_1000.xml";
         }
         else{
             System.out.println("DAG path error!!!");

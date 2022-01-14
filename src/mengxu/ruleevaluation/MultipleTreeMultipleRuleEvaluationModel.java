@@ -3,7 +3,9 @@ package mengxu.ruleevaluation;
 import ec.EvolutionState;
 import ec.Fitness;
 import ec.multiobjective.MultiObjectiveFitness;
+import mengxu.algorithm.FCFS;
 import mengxu.rule.AbstractRule;
+import mengxu.rule.RuleType;
 import mengxu.simulation.DynamicSimulation;
 import mengxu.taskscheduling.Server;
 //import yimei.jss.jobshop.WorkCenter;
@@ -47,8 +49,16 @@ public class MultipleTreeMultipleRuleEvaluationModel extends MultipleRuleEvaluat
             DynamicSimulation simulation = simulations.get(j);
 
             //========================change here======================================
-            simulation.setSequencingRule(sequencingRule); //indicate different individuals
-            simulation.setRoutingRule(routingRule);
+            //this is used for single tree (routing rule) evaluation
+            if(sequencingRule == null){
+                simulation.setSequencingRule(new FCFS(RuleType.SEQUENCING)); //indicate different individuals
+                simulation.setRoutingRule(routingRule);
+            }
+            else{
+                simulation.setSequencingRule(sequencingRule); //indicate different individuals
+                simulation.setRoutingRule(routingRule);
+            }
+
             //System.out.println(simulation);
             simulation.run();
 

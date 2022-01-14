@@ -14,7 +14,7 @@ package ec;
  * By: Sean Luke
  */
 
-import com.sun.corba.se.impl.oa.poa.POAPolicyMediator;
+//import com.sun.corba.se.impl.oa.poa.POAPolicyMediator;
 
 /**
  * A Breeder is a singleton object which is responsible for the breeding

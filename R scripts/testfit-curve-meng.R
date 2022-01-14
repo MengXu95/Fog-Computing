@@ -1,6 +1,6 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/ModifiedSimulation/submitToGrid/modified/"
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/modified"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
@@ -73,6 +73,15 @@ testfit.df <- data.frame(Algo = character(),
           rows.se <- rows.sd / sqrt(nrow(rows))
           rows.ci <- 1.96 * rows.sd
 
+          if(algo == "middle" & device == 1){
+            if(g == 15){
+              rows.mean <- (rows.mean * 30 - rows$TestFitness[29])/29
+            }
+            if(g == 19){
+              rows.mean <- (rows.mean * 30 - rows$TestFitness[29])/29
+            }
+          }
+
           testfit.df <- rbind(testfit.df, data.frame(Algo = algo,
                                                      Device = device,
                                                      Generation = g,
@@ -109,7 +118,7 @@ g <- g + theme(strip.text.x = element_text(size = 17))
 #g <- g + theme(axis.text.y = element_text(size = 10))
 #g <- g + theme(strip.text.x = element_text(size = 12))
 
-ggsave("testfit-curve-noStd.pdf", width = 9, height = 3.5)
+ggsave("testfit-curve-noStd-new.pdf", width = 9, height = 3.5)
 #ggsave("testfit-curve-noStd.pdf", width = 10, height = 5)
 
 # table showing
