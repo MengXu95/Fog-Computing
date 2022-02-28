@@ -30,6 +30,9 @@ for(pross in 1:6){
   rect(xleft = 0, ybottom = pross-0.3, xright = 1200, ytop = pross+0.3, lwd = 1, lty = 2)
 }
 color <- c("#FFD700", "#E3E3E3")
+
+# color <- c("#ef5285", "#60c5ba")
+# colorUpDown <- c("#a5dff9", "#feee7d")
 c = color[1]
 
 for(pos in 1:nrow(result.df)){
@@ -42,7 +45,10 @@ for(pos in 1:nrow(result.df)){
   else{
     c = color[2]
   }
+
+  # rect(xleft = row$uploadTime, ybottom = row$processorID-0.3, xright = row$startTime, ytop = row$processorID+0.3, col = colorUpDown[1], lwd = 1)
   rect(xleft = row$startTime, ybottom = row$processorID-0.3, xright = row$completeTime, ytop = row$processorID+0.3, col = c, lwd = 1)
+  # rect(xleft = row$completeTime, ybottom = row$processorID-0.3, xright = row$downloadTime, ytop = row$processorID+0.3, col = colorUpDown[2], lwd = 1)
   text((row$startTime+row$completeTime)/2, row$processorID+0.02, txt, cex = 0.8)
 }
 

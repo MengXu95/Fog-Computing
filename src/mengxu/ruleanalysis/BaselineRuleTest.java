@@ -186,30 +186,30 @@ public class BaselineRuleTest {
 
 			//RuleTest ruleTest = new RuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees);
 			//modified by fzhang  24.5.2018  use multipleTreeRuleTest
-//			AbstractRule baselineSequencingRule1 = new HEFT(RuleType.SEQUENCING);
-//			AbstractRule baselineRoutingRule1 = new HEFT(RuleType.ROUTING);
-//			AbstractRule baselineSequencingRule2 = new FCFS(RuleType.SEQUENCING);
-//			AbstractRule baselineRoutingRule2 = new FCFS(RuleType.ROUTING);
-//			AbstractRule baselineSequencingRule3 = new MaxMin(RuleType.SEQUENCING);
-//			AbstractRule baselineRoutingRule3 = new MaxMin(RuleType.ROUTING);
-//			AbstractRule baselineSequencingRule4 = new MinMin(RuleType.SEQUENCING);
-//			AbstractRule baselineRoutingRule4 = new MinMin(RuleType.ROUTING);
-			AbstractRule baselineSequencingRule5 = new RoundRobin(RuleType.SEQUENCING);
-			AbstractRule baselineRoutingRule5 = new RoundRobin(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule1 = new HEFT(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule1 = new HEFT(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule2 = new FCFS(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule2 = new FCFS(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule3 = new MaxMin(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule3 = new MaxMin(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule4 = new MinMin(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule4 = new MinMin(RuleType.ROUTING);
+//			AbstractRule baselineSequencingRule5 = new RoundRobin(RuleType.SEQUENCING);
+//			AbstractRule baselineRoutingRule5 = new RoundRobin(RuleType.ROUTING);
 
 			List<AbstractRule> baselineSequencingRuleList = new ArrayList<>();
-//			baselineSequencingRuleList.add(baselineSequencingRule1);
-//			baselineSequencingRuleList.add(baselineSequencingRule2);
-//			baselineSequencingRuleList.add(baselineSequencingRule3);
-//			baselineSequencingRuleList.add(baselineSequencingRule4);
-			baselineSequencingRuleList.add(baselineSequencingRule5);
+			baselineSequencingRuleList.add(baselineSequencingRule1);
+			baselineSequencingRuleList.add(baselineSequencingRule2);
+			baselineSequencingRuleList.add(baselineSequencingRule3);
+			baselineSequencingRuleList.add(baselineSequencingRule4);
+//			baselineSequencingRuleList.add(baselineSequencingRule5);
 
 			List<AbstractRule> baselineRoutingRuleList = new ArrayList<>();
-//			baselineRoutingRuleList.add(baselineRoutingRule1);
-//			baselineRoutingRuleList.add(baselineRoutingRule2);
-//			baselineRoutingRuleList.add(baselineRoutingRule3);
-//			baselineRoutingRuleList.add(baselineRoutingRule4);
-			baselineRoutingRuleList.add(baselineRoutingRule5);
+			baselineRoutingRuleList.add(baselineRoutingRule1);
+			baselineRoutingRuleList.add(baselineRoutingRule2);
+			baselineRoutingRuleList.add(baselineRoutingRule3);
+			baselineRoutingRuleList.add(baselineRoutingRule4);
+//			baselineRoutingRuleList.add(baselineRoutingRule5);
 
 			BaselineRuleTest multipletreeruleTest = new BaselineRuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees, baselineSequencingRuleList, baselineRoutingRuleList);
 
@@ -218,7 +218,7 @@ public class BaselineRuleTest {
 				idx ++;
 			}
 
-			String workflowScale = "hybird-small-middle-large";
+			String workflowScale = "small";
 			multipletreeruleTest.MultiRuleWriteToCSV(workflowScale);
 		}
 }

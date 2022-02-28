@@ -5,34 +5,22 @@
 #eg: Rscript t_test.R static coevolve simple
 #eg: Rscript t_test.R dynamic coevolution simple
 
-working_dir <- "D:/xumeng/PhdMainCode/Paper 3 - MCTS/"
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
 setwd(working_dir)
+
 sprintf("------------------------Start------------------------------")
-#algos <- c("kCCGP","MTAGP","cMTAGP","aMTAGP","dMTAGP")
-#algo.names <- c("CCGP","MTAGP","cMTAGP","aMTAGP","dMTAGP")
-
-#algos <- c("kCCGP","eMTAGP")
-#algo.names <- c("kCCGP","eMTAGP")
-algos <- c("iMTAGP", "aMTGPMCTS")
-algo.names <- c("iMTAGP", "aMTGPMCTS")
-# algos <- c("dagp-penalty-1", "dagp-penalty-0.1", "dagp-penalty-0.01")
-# algo.names <- c("1", "0.1", "0.01")
-#objectives <- rep(c("mean-flowtime", "mean-tardiness", "mean-weighted-tardiness"), 2)
-#utils <- c(rep(0.85, 3), rep(0.95, 3))
-#ddfactors <- rep(1.5, 6)
-#
-#scenarios.name <- c("<FTmean, 0.85, 1.5>", "<Tmean, 0.85, 1.5>", "<WTmean, 0.85, 1.5>",
-#                    "<FTmean, 0.95, 1.5>", "<Tmean, 0.95, 1.5>", "<WTmean, 0.95, 1.5>")
-
-objectives <- rep(c("max-flowtime", "mean-flowtime", "mean-weighted-flowtime"), 2)
-utils <- c(rep(0.85, 3), rep(0.95, 3))
-ddfactors <- rep(1.5, 6)
-
-scenarios.name <- c("<Fmax, 0.85, 1.5>", "<Fmean, 0.85, 1.5>", "<WFmean, 0.85, 1.5>",
-                    "<Fmax, 0.95, 1.5>", "<Fmean, 0.95, 1.5>", "<WFmean, 0.95, 1.5>")
+# algos <- c("middle","large")
+# devices <- c("1", "2", "3")
+# algo.names <- c("middle","large")
+# scenarios.name <- c("","","","","","")
+algos <- c("small", "middle","large")
+devices <- c("1", "2", "3")
+algo.names <- c("small", "middle","large")
+scenarios.name <- c("","","","","","","","","")
 
 result.df <- data.frame(Scenario = character(),
                         Algo = character(),
+                        Device = integer(),
                         Run = integer(),
                         Generation = integer(),
                         SeqRuleSize = integer(),
@@ -44,6 +32,24 @@ result.df <- data.frame(Scenario = character(),
                         TestFitness = double(),
                         TrainTime = double()
 )
+
+
+for (a in 1:length(algos)) {
+  algo <- algos[a]
+  for (m in 1:length(devices)){
+    scenario.name <- paste0("N",algo,m,"MTGP")
+    scenarios.name[(a-1)*3+m] <- scenario.name
+    #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
+    testfile <- paste0("result.csv")
+    df <- read.csv(paste0(algo, "/", scenario.name, "/results/test/", testfile), header = TRUE)
+    result.df <- rbind(result.df,
+                       cbind(Scenario = rep(scenario.name, nrow(df)),
+                             Algo = rep(algo.names[a], nrow(df)),
+                             Device = rep(devices[m], nrow(df)),
+                             df))
+  }
+}
+
 
 p_value_function = function(a, b) {
   constant_arrays = TRUE
@@ -76,32 +82,30 @@ p_value_function = function(a, b) {
 }
 
 
-output_dir = paste("t_tests/",sep="")
-output_file = paste(algos[1],"-",algos[2],"-sequencing-results.csv",sep="")
-#create the matrix which will store all our results
-output_matrix = matrix(, nrow = length(scenarios.name), ncol = 4)
-colnames(output_matrix) = c("filename",paste(algos[1],">",algos[2],sep=""),paste(algos[1],"=",algos[2],sep=""),paste(algos[1],"<",algos[2],sep=""))
-
+# output_dir = paste("t_tests/",sep="")
+# output_file = paste(algos[1],"-",algos[2],"-routing-results.csv",sep="")
+# #create the matrix which will store all our results
+# output_matrix = matrix(, nrow = length(scenarios.name), ncol = 4)
+# colnames(output_matrix) = c("filename",paste(algos[1],">",algos[2],sep=""),paste(algos[1],"=",algos[2],sep=""),paste(algos[1],"<",algos[2],sep=""))
 
 i=1
-for (s in 1:length(scenarios.name)) {
+for (s in 1:(length(scenarios.name)-2)) {
   scenario.name <- scenarios.name[s]
-  scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
-  testfile <- paste0("missing-", utils[s], "-", ddfactors[s], ".csv")
+  p <- s+2
+  output_dir = paste("t_tests/",sep="")
+  output_file = paste(scenarios.name[s],"-",scenarios.name[p],"-sequencing-results.csv",sep="")
+  #create the matrix which will store all our results
+  output_matrix = matrix(, nrow = 1, ncol = 4)
+  colnames(output_matrix) = c("filename",paste(scenarios.name[s],">",scenarios.name[p],sep=""),paste(scenarios.name[s],"=",scenarios.name[p],sep=""),paste(scenarios.name[s],"<",scenarios.name[p],sep=""))
+
 
   a_better = 0
   b_better = 0
   equal = 0
 
-  algoa <- algos[1]
-  dfa <- read.csv(paste0(algoa, "/trainResults/", scenario, "/test/", testfile), header = TRUE)
-  #best_makespans_a = as.numeric(unlist(dfa["TestFitness"]))
-  best_makespans_a = as.numeric(subset(dfa, Generation == 50)$SeqRuleSize)
+  best_makespans_a = as.numeric(subset(result.df, Generation == 50 & Scenario == scenarios.name[s])$SeqRuleSize)
 
-  algob <- algos[2]
-  dfb <- read.csv(paste0(algob, "/trainResults/", scenario, "/test/", testfile), header = TRUE)
-  #best_makespans_b = as.numeric(unlist(dfb["TestFitness"]))
-  best_makespans_b = as.numeric(subset(dfb, Generation == 50)$SeqRuleSize)
+  best_makespans_b = as.numeric(subset(result.df, Generation == 50 & Scenario == scenarios.name[p])$SeqRuleSize)
 
   p_val_a = p_value_function(best_makespans_a,best_makespans_b)
   if (is.na(p_val_a)) {
@@ -121,22 +125,24 @@ for (s in 1:length(scenarios.name)) {
   }
 
   output_matrix[i,] = c(scenario.name,a_better,equal,b_better)
-  i = i + 1
+  # i = i + 1
 
+  write.csv(output_matrix,file=paste0(output_dir,output_file))
+
+  print(paste("Wrote t-test results to directory:",output_dir))
+  print(paste("Filename:",paste0(output_dir,output_file)))
+  a_better = sum(output_matrix[,2]==1)
+  b_better = sum(output_matrix[,4]==1)
+  equal = sum(output_matrix[,3]==1)
+  print(paste(scenarios.name[s],"was better in",a_better,"files."))
+  print(paste(scenarios.name[p],"was better in",b_better,"files."))
+  print(paste("They were equal in",equal,"files."))
+  print(paste("====================================================="))
 }
 
 
 #lets process our results, and save them in the matrix we made
 
 #write.csv(output_matrix)
-write.csv(output_matrix,file=paste0(output_dir,output_file))
 
-print(paste("Wrote t-test results to directory:",output_dir))
-print(paste("Filename:",paste0(output_dir,output_file)))
-a_better = sum(output_matrix[,2]==1)
-b_better = sum(output_matrix[,4]==1)
-equal = sum(output_matrix[,3]==1)
-print(paste(algo.names[1],"was better in",a_better,"files."))
-print(paste(algo.names[2],"was better in",b_better,"files."))
-print(paste("They were equal in",equal,"files."))
 

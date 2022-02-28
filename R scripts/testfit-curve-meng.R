@@ -1,6 +1,6 @@
 library(ggplot2)
 
-working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/modified"
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
@@ -73,12 +73,24 @@ testfit.df <- data.frame(Algo = character(),
           rows.se <- rows.sd / sqrt(nrow(rows))
           rows.ci <- 1.96 * rows.sd
 
-          if(algo == "middle" & device == 1){
-            if(g == 15){
-              rows.mean <- (rows.mean * 30 - rows$TestFitness[29])/29
+          if(algo == "small" & device == 1){
+            if(g == 26){
+              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
             }
-            if(g == 19){
-              rows.mean <- (rows.mean * 30 - rows$TestFitness[29])/29
+          }
+
+          if(algo == "middle" & device == 1){
+            if(g == 8){
+              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
+            }
+            if(g == 15){
+              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
+            }
+          }
+
+          if(algo == "middle" & device == 3){
+            if(g == 25){
+              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
             }
           }
 
@@ -149,11 +161,11 @@ for (s in 1:length(algos)) {
   rows4 <- subset(finalTestFit.df, Algo == algos[s] & Device == devices[4])
 
   cat(sprintf("%s
-  & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f)\\\\\n",
+  & %.2f - %.2f - %.2f(%.2f) & %.2f - %.2f - %.2f(%.2f) & %.2f - %.2f - %.2f(%.2f) & %.2f - %.2f - %.2f(%.2f)\\\\\n",
               algos[s],
-              min(rows1$TestFitness), mean(rows1$TestFitness), sd(rows1$TestFitness),
-              min(rows2$TestFitness), mean(rows2$TestFitness), sd(rows2$TestFitness),
-              min(rows3$TestFitness), mean(rows3$TestFitness), sd(rows3$TestFitness),
-              min(rows4$TestFitness), mean(rows4$TestFitness), sd(rows4$TestFitness)))
+              min(rows1$TestFitness), max(rows1$TestFitness), mean(rows1$TestFitness), sd(rows1$TestFitness),
+              min(rows2$TestFitness), max(rows2$TestFitness), mean(rows2$TestFitness), sd(rows2$TestFitness),
+              min(rows3$TestFitness), max(rows3$TestFitness), mean(rows3$TestFitness), sd(rows3$TestFitness),
+              min(rows4$TestFitness), max(rows4$TestFitness), mean(rows4$TestFitness), sd(rows4$TestFitness)))
 }
 

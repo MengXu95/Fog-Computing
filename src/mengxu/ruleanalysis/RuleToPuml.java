@@ -7,9 +7,10 @@ import mengxu.rule.evolved.GPRule;
 public class RuleToPuml {
 
     public static void main(String[] args) {
-        GPRule routingRule = GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (- (+ (+ PT OWT) (Max TIS (+ PT WIQ))) (* (- OWT (Min W TRANT)) (/ NPT TIS))) (+ TRANT (- (+ (+ (+ PT OWT) (+ TRANT WIQ)) (+ TRANT (+ PT WIQ))) (Min (+ (+ (+ PT OWT) (- OWT W)) (Max MWT WKR)) (- (Max (/ NPT TIS) WKR) (+ NPT W))))))");
-        GPRule sequencingRule = GPRule.readFromLispExpression(RuleType.SEQUENCING,"(- (- (- (- (- (- (+ PT NPT) (- TIS WIQ)) (+ WKR OWT)) (+ WKR (- WIQ PT))) (- (- WIQ (+ PT NPT)) PT)) OWT) (- WIQ PT))");
-        GPTree tree = sequencingRule.getGPTree();
+        GPRule routingRule = GPRule.readFromLispExpression(RuleType.ROUTING,"(+ (* (Max (Min NIQ (* (Min NIQ MRT) (Max (/ TTIQ PT) PT))) PT) NIQ) (* (/ NTR PT) (* (* (/ NTR PT) (Max (Min NIQ MRT) PT)) (Max PT (Min NIQ MRT)))))");
+//        GPRule sequencingRule = GPRule.readFromLispExpression(RuleType.SEQUENCING,"(Max (Min (Max (Max (/ (* TWT WIQ) (* TIS MRT)) (Min PT WIQ)) (Min MRT (* DT MRT))) (* (/ TTIQ (+ PT (+ TTIQ TIS))) (- MRT TIS))) (/ NTR MRT))");
+//        GPTree tree = sequencingRule.getGPTree();
+        GPTree tree = routingRule.getGPTree();
 //        String expression = LispSimplifier.simplifyExpression(expression);
 //        GPTree tree = LispParser.parseJobShopRule(expression);
         System.out.println(tree.child.makeGraphvizTree());

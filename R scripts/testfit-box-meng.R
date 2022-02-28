@@ -1,12 +1,15 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/ModifiedSimulation/submitToGrid/modified/"
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small", "middle","large")
-devices <- c("1", "2", "3")
-algo.names <- c("small", "middle","large")
+algos <- c("middle")
+devices <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+algo.names <- c("middle")
+# algos <- c("small", "middle","large")
+# devices <- c("1", "2", "3")
+# algo.names <- c("small", "middle","large")
 #scenarios.name <- c("Nsmall1MTGP", "Nsmall2MTGP","Nsmall3MTGP","Nsmall4MTGP",
 #                    "Nmiddle1MTGP", "Nmiddle2MTGP","Nmiddle3MTGP","Nmiddle4MTGP",
 #                    "Nlarge1MTGP", "Nlarge2MTGP","Nlarge3MTGP","Nlarge4MTGP")
@@ -83,11 +86,32 @@ for (a in 1:length(algos)) {
   }
 }
 
-finalTestFit.df$Algo <- factor(finalTestFit.df$Algo, levels = algos) #2020.10.20 order the appearrence of subplots
-g <- ggplot(finalTestFit.df, aes(Device, TestFitness, colour = factor(Device), shape = factor(Device))) + geom_boxplot()
+testline.df <- data.frame(Algo = character(),
+                          Device = integer(),
+                          MeanTestFitness = double())
+
+for (m in 1:length(devices)){
+  device <- devices[m]
+
+    rowsall <- subset(finalTestFit.df, Device == device)
+
+    testline.df <- rbind(testline.df, data.frame(Algo = rowsall$Algo,
+                                                 Device = device,
+                                                 MeanTestFitness = mean(rowsall$TestFitness)))
+}
+
+finalTestFit.df$Algo <- factor(finalTestFit.df$Algo, levels = algos)
+finalTestFit.df$Device <- factor(finalTestFit.df$Device, levels = devices)#2020.10.20 order the appearrence of subplots
+# g <- ggplot(finalTestFit.df, aes(Device, TestFitness, colour = factor(Device), shape = factor(Device))) + geom_boxplot()
+
+g <- ggplot() +
+  geom_boxplot(data = finalTestFit.df, mapping = aes(Device, TestFitness, colour = factor(Device))) +
+  geom_line(data = testline.df, mapping =  aes(x = Device, y = MeanTestFitness, group = Algo)) +
+  geom_point(data = testline.df, mapping =  aes(x = Device, y = MeanTestFitness, group = Algo))
+# + geom_line(finalTestFit.df, aes(Device, mean(TestFitness)))
 #g <- g + facet_wrap(~ Scenario, nrow = 2, scales = "free")
 #g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
-g <- g + facet_wrap(~ Algo, ncol = 3, scales = "free")
+g <- g + facet_wrap(~ Algo, ncol = 1, scales = "free")
 
 g <- g + theme(legend.title = element_blank())
 g <- g + theme(legend.position = "bottom")
@@ -107,7 +131,7 @@ g <- g + theme(strip.text.x = element_text(size = 17))
 #g <- g + theme(axis.text.y = element_text(size = 10))
 #g <- g + theme(strip.text.x = element_text(size = 12))
 
-ggsave("testfit-box.pdf", width = 9, height = 3.5)
+ggsave("testfit-box-middle.pdf", width = 9, height = 4.2)
 #ggsave("testfit-curve-noStd.pdf", width = 10, height = 5)
 
 # table showing

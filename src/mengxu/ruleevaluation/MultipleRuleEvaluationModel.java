@@ -105,10 +105,10 @@ public class MultipleRuleEvaluationModel extends AbstractEvaluationModel{
 //            int numMachines = state.parameters.getIntWithDefault(p, null, 10);
             // Number of jobs
             p = b.push(P_SIM_NUM_JOBS);
-            int numJobs = state.parameters.getIntWithDefault(p, null, 5000);
+            int numJobs = state.parameters.getIntWithDefault(p, null, 50);
             // Number of warmup jobs
             p = b.push(P_SIM_WARMUP_JOBS);
-            int warmupJobs = state.parameters.getIntWithDefault(p, null, 1000);
+            int warmupJobs = state.parameters.getIntWithDefault(p, null, 0);
             // Number of mobiledevices
             p = b.push(P_SIM_NUM_MOBILEDEVICE);
             int numMobileDevice = state.parameters.getIntWithDefault(p, null, 1);

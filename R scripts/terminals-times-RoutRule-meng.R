@@ -1,7 +1,7 @@
 library(ggplot2)
 
-setwd("/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/modified/")
-#设置工作目录
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
+setwd(working_dir)
 
 # algo <- "large" #"simple_feature_selection
 algos <- c("small", "large")

@@ -39,12 +39,16 @@ public class SECtest {
 //        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
 //        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
 //        routing_rule_list.add(new FCFS(RuleType.ROUTING));
-        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(/ PT (* (- (* (- (- (- TTIQ PT) (- NTR DT)) (- NTR DT)) (Max PT UT)) (- (/ (+ NIQ MRT) (- MRT TWT)) (+ (- (- MRT TWT) NTR) PT))) (Max PT UT)))"));
+//        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(/ (/ PT DT) (/ (/ (/ (/ PT DT) (/ (Max WIQ PT) (/ PT DT))) (/ (Max WIQ PT) (/ (/ (/ PT DT) DT) (/ (Max WIQ PT) (Max WIQ PT))))) (/ (+ (Max (/ PT DT) (* WIQ NTR)) PT) (/ PT DT))))"));
+
+        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(+ (* (Max (Min NIQ (* (Min NIQ MRT) (Max (/ TTIQ PT) PT))) PT) NIQ) (* (/ NTR PT) (* (* (/ NTR PT) (Max (Min NIQ MRT) PT)) (Max PT (Min NIQ MRT)))))"));
 //        sequencing_rule_list.add(new RL(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new PT(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new PTPlusRL(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new FCFS(RuleType.SEQUENCING));
-        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(Max TTIQ (- (Max NTR MRT) (Max WIQ NTR)))"));
+//        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(+ (/ (Max (* WIQ TWT) (/ WIQ TWT)) (Max (+ NIQ MRT) (/ TTIQ TIS))) (* (- MRT NIQ) (Min MRT WIQ)))"));
+
+        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(* NTR (Min NTR (* (Max (/ (Min NIQ DT) DT) (- (Max PT UT) (Min MRT TTIQ))) (Min NTR NTR))))"));
 
         System.out.println("Job number: " + numJobs);
         for (int i = 0; i < routing_rule_list.size(); i++) {
@@ -62,7 +66,7 @@ public class SECtest {
 //                    false);
             DynamicSimulation simulation = new DynamicSimulation(1,sequencing_rule,routing_rule,
                     numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
-                    1,4,true);
+                    1,4,false);
 
             simulation.run();
             double meanFlowtime = simulation.meanFlowtime();
@@ -71,12 +75,17 @@ public class SECtest {
             System.out.println("MobileDevice can not process!");
             System.out.println("Routing rule: " + routing_rule.getName());
             System.out.println("Sequencing rule: " + sequencing_rule.getName());
+
+            //about server
+
+
             System.out.println("Mean flowtime: " + meanFlowtime);
             System.out.println("Makespan: " + makespan);
             System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(0).getJobNotDone());
             System.out.println("Job completed: " + simulation.getSystemState().getMobileDevices().get(0).getThroughput());
 //            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getJobList().size());
             System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
+            System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(1).getNumJobsReleased());
 
             System.out.print("Complete Job ID: [");
             for(Job job:simulation.getSystemState().getJobsCompleted()){
@@ -95,7 +104,7 @@ public class SECtest {
         File selectParentIndex = new File("scheduling.csv"); //successedTransfer[i][j]: task j makes a successful transfer for task i.
         try {
             BufferedWriter writer = new BufferedWriter(new FileWriter(selectParentIndex));
-            writer.write("jobID, taskID, processorType, processorID, startTime, completeTime");
+            writer.write("jobID, taskID, processorType, processorID, startTime, completeTime, uploadTime, downloadTime");
             writer.newLine();
             for (Job job:jobs) {
                 List<ProcessFinishEvent> ref = job.getProcessFinishEvents();
@@ -127,8 +136,10 @@ public class SECtest {
 //                        processor = ref.get(i).getProcess().getServer().getType() + " " + (ref.get(i).getProcess().getServer().getId());
 //                    }
                     double startTime = ref.get(i).getProcess().getStartTime();
-                    double completeTime = ref.get(i).getProcess().getFinishTime();
-                    writer.write(job.getId() + "," + taskID + "," + processorType + "," + processor + "," + startTime + "," + completeTime);
+                    double completeTime = ref.get(i).getProcess().getFinishTime() - ref.get(i).getProcess().getTaskOption().getDownloadDelay();
+                    double uploadTime = startTime - ref.get(i).getProcess().getTaskOption().getUploadDelay();
+                    double downloadTime = ref.get(i).getProcess().getFinishTime();
+                    writer.write(job.getId() + "," + taskID + "," + processorType + "," + processor + "," + startTime + "," + completeTime + "," + uploadTime + "," + downloadTime);
                     writer.newLine();
                 }
             }
@@ -138,6 +149,55 @@ public class SECtest {
             e.printStackTrace();
         }
     }
+
+//    //2021.7.21 modified by mengxu, to store the selected parent index of each generation
+//    public static void writeSchedulingResultsToFile(List<Job> jobs, int edgeNum, int numMobileDevice){
+//        File selectParentIndex = new File("scheduling.csv"); //successedTransfer[i][j]: task j makes a successful transfer for task i.
+//        try {
+//            BufferedWriter writer = new BufferedWriter(new FileWriter(selectParentIndex));
+//            writer.write("jobID, taskID, processorType, processorID, startTime, completeTime");
+//            writer.newLine();
+//            for (Job job:jobs) {
+//                List<ProcessFinishEvent> ref = job.getProcessFinishEvents();
+//                for(int i=0; i<ref.size(); i++){
+//                    int taskID = ref.get(i).getProcess().getTaskOption().getTask().getId();
+//                    String processorType = "";
+//                    int processor = 0;
+//                    if(ref.get(i).getProcess().getServer() == null){
+//                        processorType = "Device";
+//                        processor = ref.get(i).getMobileDevice().getId();
+//                    }
+//                    else if(ref.get(i).getProcess().getServer().getType() == ServerType.CLOUD){
+//                        processorType = "Cloud";
+//                        processor = ref.get(i).getProcess().getServer().getId()+numMobileDevice;
+//                    }
+//                    else if(ref.get(i).getProcess().getServer().getType() == ServerType.EDGE){
+//                        processorType = "Fog";
+//                        processor = ref.get(i).getProcess().getServer().getId()+numMobileDevice;
+//                    }
+//
+////                    String processor = "";
+////                    if(ref.get(i).getProcess().getServer() == null){
+////                        processor = "Device " + ref.get(i).getMobileDevice().getId();
+////                    }
+////                    else if(ref.get(i).getProcess().getServer().getType() == ServerType.CLOUD){
+////                        processor = ref.get(i).getProcess().getServer().getType() + " " + (ref.get(i).getProcess().getServer().getId()-edgeNum);
+////                    }
+////                    else if(ref.get(i).getProcess().getServer().getType() == ServerType.EDGE){
+////                        processor = ref.get(i).getProcess().getServer().getType() + " " + (ref.get(i).getProcess().getServer().getId());
+////                    }
+//                    double startTime = ref.get(i).getProcess().getStartTime();
+//                    double completeTime = ref.get(i).getProcess().getFinishTime() - ref.get(i).getProcess().getTaskOption().getDownloadDelay();
+//                    writer.write(job.getId() + "," + taskID + "," + processorType + "," + processor + "," + startTime + "," + completeTime);
+//                    writer.newLine();
+//                }
+//            }
+//
+//            writer.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void dynamicCheck(){
         int numJobs = 50;
@@ -220,27 +280,27 @@ public class SECtest {
 
                 int numTaskCompleted = 0;
 
-//                for(int mob=0; mob<numMobileDevice; mob++){
-////                System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(mob).getJobNotDone());
-//                    System.out.println("Job completed of mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getThroughput());
-//                    System.out.println("Job released by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getJobList().size());
-//                    System.out.println("Task completed by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted());
-//                    numTaskCompleted += simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted();
-//                }
-//
-//                for(int ser=0; ser<simulation.getSystemState().getServers().size(); ser++){
-//                    System.out.println("Task completed by server " + ser + " : " + simulation.getSystemState().getServers().get(ser).getNumTasksCompleted());
-//                    numTaskCompleted += simulation.getSystemState().getServers().get(ser).getNumTasksCompleted();
-//                }
-//
-//                System.out.println("Task completed number: " + numTaskCompleted);
+                for(int mob=0; mob<numMobileDevice; mob++){
+//                System.out.println("Job not done: " + simulation.getSystemState().getMobileDevices().get(mob).getJobNotDone());
+                    System.out.println("Job completed of mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getThroughput());
+                    System.out.println("Job released by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getNumJobsReleased());
+                    System.out.println("Task completed by mobiledevice " + mob + " : " + simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted());
+                    numTaskCompleted += simulation.getSystemState().getMobileDevices().get(mob).getNumTasksCompleted();
+                }
 
-//                System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
-//                System.out.print("Complete Job ID: [");
-//                for(Job job:simulation.getSystemState().getJobsCompleted()){
-//                    System.out.print(job.getMobileDevice().getId() + ":" + job.getId() + ",");
-//                }
-//                System.out.println();
+                for(int ser=0; ser<simulation.getSystemState().getServers().size(); ser++){
+                    System.out.println("Task completed by server " + ser + " : " + simulation.getSystemState().getServers().get(ser).getNumTasksCompleted());
+                    numTaskCompleted += simulation.getSystemState().getServers().get(ser).getNumTasksCompleted();
+                }
+
+                System.out.println("Task completed number: " + numTaskCompleted);
+
+                System.out.println("Job released: " + simulation.getSystemState().getMobileDevices().get(0).getNumJobsReleased());
+                System.out.print("Complete Job ID: [");
+                for(Job job:simulation.getSystemState().getJobsCompleted()){
+                    System.out.print(job.getMobileDevice().getId() + ":" + job.getId() + ",");
+                }
+                System.out.println();
             }
 
 

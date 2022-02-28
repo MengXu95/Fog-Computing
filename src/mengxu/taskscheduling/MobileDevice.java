@@ -2,6 +2,7 @@ package mengxu.taskscheduling;
 
 import edu.princeton.cs.algs4.Digraph;
 import mengxu.rule.AbstractRule;
+import mengxu.simulation.DynamicSimulation;
 import mengxu.simulation.event.AbstractEvent;
 import mengxu.simulation.event.JobArrivalEvent;
 import mengxu.simulation.event.ProcessStartEvent;
@@ -74,6 +75,8 @@ public class MobileDevice {
     int count = 0;
 
     private int numTasksCompleted;
+
+    private DynamicSimulation simulation; //modified by mengxu 2022.02.22
 
 
     public MobileDevice(int id, double processingRate,
@@ -148,6 +151,10 @@ public class MobileDevice {
 //        this.digraphGeneratorMX = new DigraphGeneratorMX();
         this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
 
+    }
+
+    public void setSimulation(DynamicSimulation simulation){
+        this.simulation = simulation;
     }
 
     public void setCanProcessTask(boolean canProcessTask) {
@@ -813,7 +820,8 @@ public class MobileDevice {
     }
 
     public boolean canAddToQueue(Process process) {//???
-        Iterator<AbstractEvent> e = eventQueue.iterator();
+        Iterator<AbstractEvent> e = simulation.getEventQueue().iterator();
+//        Iterator<AbstractEvent> e = eventQueue.iterator();
         if (e.hasNext()) {
             AbstractEvent a = e.next();
             if (a instanceof ProcessStartEvent) {

@@ -134,7 +134,8 @@ public class ProcessFinishEvent extends AbstractEvent{
                 double processStartTime = Math.max(server.getReadyTime(), time);
 
                 Process nextP = new Process(server, dispatchedTask, processStartTime);
-                mobileDevice.addEvent(new ProcessStartEvent(nextP, mobileDevice));
+                mobileDevice.addEvent(new ProcessStartEvent(nextP, dispatchedTask.getTask().getJob().getMobileDevice()));
+//                mobileDevice.addEvent(new ProcessStartEvent(nextP, mobileDevice));
             }
 
             if(process.getTaskOption().getTask().getJob().getJobType() == JobType.DAG){

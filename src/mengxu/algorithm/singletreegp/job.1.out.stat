@@ -1,0 +1,8 @@
+
+Generation: 0
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [3093.648223224204]
+Tree 0:
+ (+ (+ WIQ PT) (Min DT MRT))

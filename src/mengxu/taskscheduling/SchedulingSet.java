@@ -194,8 +194,8 @@ public class SchedulingSet {
 
         //small 1
         DynamicSimulation simulation = new DynamicSimulation(simSeed,
-                null, null, 50, 0,
-                1, 60, 60, minWorkflowID,
+                null, null, 20, 0,
+                3, 20, 20, minWorkflowID,
                 maxWorkflowID, true);
 
 

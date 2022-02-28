@@ -1,6 +1,7 @@
 library(ggplot2)
 
-setwd("/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/modified/")
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
+setwd(working_dir)
 
 algos <- c("small", "large")
 

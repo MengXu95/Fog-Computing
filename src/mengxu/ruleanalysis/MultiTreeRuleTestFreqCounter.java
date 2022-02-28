@@ -174,10 +174,10 @@ public class MultiTreeRuleTestFreqCounter extends MultipleTreeRuleTest{
     }
 
     public static void main(String[] args) {
-        String dir = "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/modified/";
-        String[] algos = new String[]{"large"};
+        String dir = "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222/";
+        String[] algos = new String[]{"small"};
         String[] fsNames = new String[]{"relative-terminals"};
-        String[] scenarios = new String[]{"Nlarge1MTGP", "Nlarge2MTGP", "Nlarge3MTGP", "Nlarge4MTGP"};
+        String[] scenarios = new String[]{"Nsmall1MTGP", "Nsmall2MTGP", "Nsmall3MTGP"};
 
         String trainPath = "";
         RuleTypeV2 ruleType = RuleTypeV2.get("simple-rule");
