@@ -91,7 +91,7 @@ public class JobArrivalEvent extends AbstractEvent{
             }
 
             //modified by mengxu 2022.02.22
-            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded()+ mobileDevice.getWarmupJobs()){
+            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded() + mobileDevice.getWarmupJobs()){
                 mobileDevice.generateWorkflowJob();
             }
 

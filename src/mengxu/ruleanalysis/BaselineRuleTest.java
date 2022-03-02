@@ -103,6 +103,7 @@ public class BaselineRuleTest {
 	    		AbstractRule baselineSequencingRule = this.baselineSequencingRuleList.get(i);
 				AbstractRule baselineRoutingRule = this.baselineRoutingRuleList.get(i);
 				String ruleName = baselineSequencingRule.getName();
+				System.out.println(ruleName);
 				writeToCSV(workflowScale,ruleName,baselineSequencingRule,baselineRoutingRule);
 			}
 		}
@@ -218,7 +219,7 @@ public class BaselineRuleTest {
 				idx ++;
 			}
 
-			String workflowScale = "small";
+			String workflowScale = "hybird-small-middle";
 			multipletreeruleTest.MultiRuleWriteToCSV(workflowScale);
 		}
 }
