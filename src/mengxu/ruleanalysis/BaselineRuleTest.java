@@ -122,6 +122,7 @@ public class BaselineRuleTest {
 			baselineSequencingRule.calcFitness(  //in calcFitness(), it will check which one is routing/sequencing rule
 					fitness, null,
 					testSet, baselineRoutingRule, objectives);
+			System.out.println("makespan: " + fitness.fitness());
 
 
 	        try {
@@ -219,7 +220,7 @@ public class BaselineRuleTest {
 				idx ++;
 			}
 
-			String workflowScale = "hybird-small-middle";
+			String workflowScale = "hybird-small-middle-large";
 			multipletreeruleTest.MultiRuleWriteToCSV(workflowScale);
 		}
 }

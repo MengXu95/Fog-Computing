@@ -821,7 +821,6 @@ public class MobileDevice {
 
     public boolean canAddToQueue(Process process) {//???
         Iterator<AbstractEvent> e = simulation.getEventQueue().iterator();
-//        Iterator<AbstractEvent> e = eventQueue.iterator();
         if (e.hasNext()) {
             AbstractEvent a = e.next();
             if (a instanceof ProcessStartEvent) {

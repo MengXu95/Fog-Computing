@@ -192,7 +192,8 @@ public class ProcessFinishEvent extends AbstractEvent{
 //                            System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + taskVisitTime);
 //                        }
 
-                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
+                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, nextTask.getTask().getJob().getMobileDevice()));
+//                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
 //                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }
                 }

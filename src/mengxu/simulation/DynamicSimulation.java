@@ -301,7 +301,7 @@ public class DynamicSimulation {
             }
 
             //System.out.println("count "+count);
-            if(count > 200000) {
+            if(count > 400000) {
                 count = 0;
                 systemState.setClockTime(Double.MAX_VALUE);
                 eventQueue.clear();
@@ -314,18 +314,18 @@ public class DynamicSimulation {
             //when nextEvent was done, check the numOpsInQueue
             for(MobileDevice mobileDevice: systemState.getMobileDevices()){
                 if(mobileDevice.isCanProcessTask()){
-                    if(mobileDevice.getQueue().size() > 100){
+                    if(mobileDevice.getQueue().size() > 400){
                         systemState.setClockTime(Double.MAX_VALUE);
                         eventQueue.clear();
-//                    System.out.println("reason: MobileDevice().getQueue().size() > 100");
+//                    System.out.println("reason: MobileDevice().getQueue().size() > 200");
                     }
                 }
             }
             for (Server s: systemState.getServers()) {
-                if (s.numTaskInQueue() > 100) {
+                if (s.numTaskInQueue() > 400) {
                     systemState.setClockTime(Double.MAX_VALUE);
                     eventQueue.clear();
-//                    System.out.println("reason: Server.getQueue().size() > 100");
+//                    System.out.println("reason: Server.getQueue().size() > 200");
                 }
             }
 

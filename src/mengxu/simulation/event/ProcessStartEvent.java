@@ -89,8 +89,6 @@ public class ProcessStartEvent extends AbstractEvent{
         if (other instanceof ProcessFinishEvent)
             return -1;
 
-        if (other instanceof TaskVisitEvent)
-            return -1;
 
         return 1;
     }

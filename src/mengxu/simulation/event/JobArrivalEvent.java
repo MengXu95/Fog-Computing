@@ -91,11 +91,11 @@ public class JobArrivalEvent extends AbstractEvent{
             }
 
             //modified by mengxu 2022.02.22
-            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded() + mobileDevice.getWarmupJobs()){
-                mobileDevice.generateWorkflowJob();
-            }
+//            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded() + mobileDevice.getWarmupJobs()){
+//                mobileDevice.generateWorkflowJob();
+//            }
 
-//            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14
+            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14
 
             //original
 //            mobileDevice.generateJob();
