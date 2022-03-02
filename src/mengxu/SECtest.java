@@ -38,15 +38,15 @@ public class SECtest {
 //        routing_rule_list.add(new WIQ(RuleType.ROUTING));
 //        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
 //        routing_rule_list.add(new TPTIQ(RuleType.ROUTING));
-        routing_rule_list.add(new FCFS(RuleType.ROUTING));
+//        routing_rule_list.add(new FCFS(RuleType.ROUTING));
 
-//        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(+ (* (Max (Min NIQ (* (Min NIQ MRT) (Max (/ TTIQ PT) PT))) PT) NIQ) (* (/ NTR PT) (* (* (/ NTR PT) (Max (Min NIQ MRT) PT)) (Max PT (Min NIQ MRT)))))"));
+        routing_rule_list.add(GPRule.readFromLispExpression(RuleType.ROUTING, "(/ (/ PT DT) (/ (/ (/ (/ PT DT) (/ (Max WIQ PT) (/ PT DT))) (/ (Max WIQ PT) (/ (/ (/ PT DT) DT) (/ (Max WIQ PT) (Max WIQ PT))))) (/ (+ (Max (/ PT DT) (* WIQ NTR)) PT) (/ PT DT))))"));
 //        sequencing_rule_list.add(new RL(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new PT(RuleType.SEQUENCING));
 //        sequencing_rule_list.add(new PTPlusRL(RuleType.SEQUENCING));
-        sequencing_rule_list.add(new FCFS(RuleType.SEQUENCING));
+//        sequencing_rule_list.add(new FCFS(RuleType.SEQUENCING));
 
-//        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(* NTR (Min NTR (* (Max (/ (Min NIQ DT) DT) (- (Max PT UT) (Min MRT TTIQ))) (Min NTR NTR))))"));
+        sequencing_rule_list.add(GPRule.readFromLispExpression(RuleType.SEQUENCING, "(+ (/ (Max (* WIQ TWT) (/ WIQ TWT)) (Max (+ NIQ MRT) (/ TTIQ TIS))) (* (- MRT NIQ) (Min MRT WIQ)))"));
 
         System.out.println("Job number: " + numJobs);
         for (int i = 0; i < routing_rule_list.size(); i++) {

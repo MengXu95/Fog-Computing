@@ -90,12 +90,12 @@ public class JobArrivalEvent extends AbstractEvent{
 //                taskOption.getTask().setDispatch(true);//modified by mengxu 2021.08.03
             }
 
-            //modified by mengxu 2022.02.22
+            //modified by mengxu 2022.02.22 this is for 2 workflow scheduling to draw the scheduling process figures
 //            if(mobileDevice.getSystemState().getAllNumJobsReleased()<mobileDevice.getNumJobsRecorded() + mobileDevice.getWarmupJobs()){
 //                mobileDevice.generateWorkflowJob();
 //            }
 
-            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14
+            mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14 this is for training and test
 
             //original
 //            mobileDevice.generateJob();
