@@ -64,7 +64,7 @@ public class SECtest {
 //                    false);
             DynamicSimulation simulation = new DynamicSimulation(1,sequencing_rule,routing_rule,
                     numJobs, warmupJobs, numMobileDevice, numEdgeServer, numCloudServer,
-                    1,4,true);
+                    1,4,false);
 
             simulation.run();
             double meanFlowtime = simulation.meanFlowtime();

@@ -17,9 +17,9 @@ testfile <- paste0("scheduling.csv")
 result.df <- read.csv(paste0(testfile), header = TRUE)
 
 # par(pin = c(10,5))
-pdf('scheduling.pdf', width=18,height=6)
-plot(1:5,1:5,xlim = c(-70,1180), ylim = c(-0.5,5.5), type = "n", cex.axis = 1.5, font.axis = 1, yaxt = "n", ann = FALSE)
-par(mai=c(0,2.2,0,0)) #下，左，上，右留白
+pdf('scheduling.pdf', width=12,height=3)
+plot(1:5,1:5,xlim = c(-70,1180), ylim = c(-0.5,5.5), type = "n", cex.axis = 1, font.axis = 1, yaxt = "n", ann = FALSE)
+par(mai=c(0,1.7,0,0)) #下，左，上，右留白
 # plot("Time","Processor",xlim = c(0,950), ylim = c(-0.5,5.5), type = "n", cex.axis = 2, font.axis = 1)
 
 # plot("time", "processor", xlim = c(0,950), ylim = c(-0.5,5.5), type = "n")
@@ -27,7 +27,7 @@ par(mai=c(0,2.2,0,0)) #下，左，上，右留白
 
 for(pross in 1:6){
   pross <- pross - 1
-  rect(xleft = 0, ybottom = pross-0.3, xright = 1200, ytop = pross+0.3, lwd = 1, lty = 2)
+  rect(xleft = 0, ybottom = pross-0.32, xright = 1200, ytop = pross+0.32, lwd = 1, lty = 2)
 }
 color <- c("#FFD700", "#E3E3E3")
 c = color[1]
@@ -42,11 +42,11 @@ for(pos in 1:nrow(result.df)){
   else{
     c = color[2]
   }
-  rect(xleft = row$startTime, ybottom = row$processorID-0.3, xright = row$completeTime, ytop = row$processorID+0.3, col = c, lwd = 1)
-  text((row$startTime+row$completeTime)/2, row$processorID+0.02, txt, cex = 0.8)
+  rect(xleft = row$startTime, ybottom = row$processorID-0.32, xright = row$completeTime, ytop = row$processorID+0.32, col = c, lwd = 1)
+  text((row$startTime+row$completeTime)/2, row$processorID+0.01, txt, cex = 0.6)
 }
 
-axis(side = 2, at = c(0, 1, 2, 3, 4, 5), labels = paste(c("Device 0","Device 1", "Edge 0", "Edge 1", "Cloud 0","Cloud 1")), las =2, cex.axis = 1.4, xpd = TRUE)
+axis(side = 2, at = c(0, 1, 2, 3, 4, 5), labels = paste(c("Device 0","Device 1", "Edge 0", "Edge 1", "Cloud 0","Cloud 1")), las =2, cex.axis = 0.8, xpd = TRUE)
 title(xlab= 'Time', cex.lab = 2)
 # axis(side = 2, at = c(0, 1, 2, 3, 4, 5), labels = c("Device 0","Device 1", "Fog 0", "Fog 1", "Cloud 0","Cloud 1"))
 # scale_y_continuous(limits=c(-0.5,5.5),breaks = c(0, 1, 2, 3, 4, 5),labels=c("Device 0", "Device 1", "Fog 0", "Fog 1", "Cloud 0","Cloud 1"))
