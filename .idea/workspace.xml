@@ -9,13 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4de642cf-c8b9-4688-ac29-7ce5bc40083d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R scripts/scheduling-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/scheduling-meng.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/SECtest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/SECtest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleanalysis/RuleToPuml.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleanalysis/RuleToPuml.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleanalysis/rule_DAG_generator.puml" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleanalysis/rule_DAG_generator.puml" afterDir="false" />
-    </list>
+    <list default="true" id="4de642cf-c8b9-4688-ac29-7ce5bc40083d" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
