@@ -90,7 +90,7 @@ public class ProcessStartEvent extends AbstractEvent{
             return -1;
 
         if (other instanceof TaskVisitEvent)
-            return -1;
+            return -1; //todo: notice, modified part one. Totally two parts are modified.
 
         return 1;
     }
