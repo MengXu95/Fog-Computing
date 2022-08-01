@@ -375,13 +375,13 @@ public class ProcessFinishEvent extends AbstractEvent{
                     return 1;
             }
 
-//            //original-----------------
+            //original-----------------
 //            if (process.getServer().getId() < otherPFE.process.getServer().getId())
 //                return -1;
 //
 //            if (process.getServer().getId() > otherPFE.process.getServer().getId())
 //                return 1;
-//            //-------------------
+            //-------------------
         }
 
         return 1;

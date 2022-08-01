@@ -784,7 +784,10 @@ public class MobileDevice {
             //multiple mobile devices
             if(checkJobDone(job)){
                 numJobsCompleted ++;  //before only have this line
+                //original used for TSC paper
                 if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime()) {
+                //modified by mengxu 2022.08.01
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime() && job.getId() < numJobsRecorded + warmupJobs) {
 //                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
 //                        && job.getId() < numJobsRecorded + warmupJobs) {
                     throughput++;  //before only have this line
@@ -805,6 +808,10 @@ public class MobileDevice {
 //        }
 
 
+    }
+
+    public double getProcessingRate() {
+        return processingRate;
     }
 
     public int getJobNotDone() {

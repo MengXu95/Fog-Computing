@@ -319,6 +319,126 @@ public class Task {
         return upwardRank + max;
     }
 
+    //add by mengxu 2022.07.27, only for DMWHDBS algorithm <need check!>
+    public double getOCCW(){
+        //todo: modified based on function getMeanCommunicationTimeToChild(int childIndex), need to check
+
+        //step 1: calculate the total download time
+        //todo:this might not right, need to check to use mean download time among all the options?
+        double totalDownloadTime = 0;
+        for(TaskOption taskOption:taskOptions){
+            totalDownloadTime += taskOption.getDownloadDelay();
+        }
+
+        //step 2: calculate the total upload time with the successors
+        //todo:this might not right, need to check to use mean upload time among all the options?
+        double totalUploadTime = 0;
+        for(int i=0; i< childTaskList.size(); i++){
+            for(TaskOption taskOption:childTaskList.get(i).getTaskOptions()){
+                totalUploadTime += taskOption.getUploadDelay();
+            }
+        }
+
+        //the total communication time
+        double sumCommunicateTime = totalDownloadTime + totalUploadTime;
+
+        return sumCommunicateTime;
+    }
+
+    //add by mengxu 2022.07.27, only for DMWHDBS algorithm <need check!>
+    //need to notice this upward rank is different with that in HEFT. The details can be seen in the paper.
+    //todo: need to check
+    public double getUpwardRankForDMWHDBS(){
+        if(childTaskList.size() == 0){
+            return getMeanProcessTime() * 1;//as in our problem, the computation cost is zero.
+        }
+
+        double upwardRank = getMeanProcessTime() * 1 + getOCCW();
+        double max = 0;
+        for(int i=0; i< childTaskList.size(); i++){
+            double ref = childTaskList.get(i).getUpwardRank();
+            if(max < ref){
+                max = ref;
+            }
+        }
+
+        return upwardRank + max;
+    }
+
+    //add by mengxu 2022.07.28, only for BWAWA algorithm <need check!>
+    //need to notice this downward rank is different with that in HEFT. The details can be seen in the paper.
+    //todo: need to check
+    public double getDownwardRankForBWAWA(){
+        if(parentTaskList.size() == 0){
+//            return this.job.getReleaseTime();//
+            return 0;//the original. as in our problem, the computation cost is zero.
+        }
+
+        double downwardRank = getMeanProcessTime();
+        double sumCommunicationTime = 0;
+        for(int i=0; i<parentTaskList.size();i++){
+            sumCommunicationTime += getMeanCommunicationTimeFromParent(i);//todo: need to check! 2022.07.30 not sure if this is right
+//            sumCommunicationTime += getMeanCommunicationTimeFromParent(parentTaskList.get(i).id);
+        }
+
+        downwardRank += sumCommunicationTime/parentTaskList.size();
+
+        double max = 0;
+        for(int i=0; i< parentTaskList.size(); i++){
+            double ref = parentTaskList.get(i).getDownwardRankForBWAWA();
+            if(max < ref){
+                max = ref;
+            }
+        }
+
+        return downwardRank + max;
+    }
+
+
+    //add by mengxu 2022.07.30, only for SDLS algorithm <need check!>
+    //need to notice this downward rank is different with that in HEFT. But based on my implemented, it seems that
+    //this Sb_Level is very similar with the Upward of HEFT.
+    //todo: need to check
+    public double getSb_LevelForSDLS(){
+        if(childTaskList.size() == 0){
+            double meanProcessingRate = 0;
+            for(int k=0; k<this.getTaskOptions().size(); k++){
+                if(this.getTaskOptions().get(k).getServer() == null){
+                    meanProcessingRate += this.getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+                }
+                else {
+                    meanProcessingRate += this.getTaskOptions().get(k).getServer().getProcessingRate();
+                }
+            }
+            meanProcessingRate = meanProcessingRate/this.getTaskOptions().size();
+            double meanProcessTime = this.workload/meanProcessingRate;
+            return meanProcessTime + getMeanDownloadTime();
+        }
+
+        double meanProcessingRate = 0;
+        for(int k=0; k<this.getTaskOptions().size(); k++){
+            if(this.getTaskOptions().get(k).getServer() == null){
+                meanProcessingRate += this.getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+            }
+            else {
+                meanProcessingRate += this.getTaskOptions().get(k).getServer().getProcessingRate();
+            }
+        }
+        meanProcessingRate = meanProcessingRate/this.getTaskOptions().size();
+        double meanProcessTime = this.workload/meanProcessingRate;
+
+        double max = 0;
+        for(int i=0; i< childTaskList.size(); i++){
+            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getSb_LevelForSDLS();
+            if(max < ref){
+                max = ref;
+            }
+        }
+
+        return meanProcessTime + max;
+    }
+
+
 //    public double getDownwardRank(){
 //        if(parentTaskList.size() == 0){
 //            return getMeanUploadTime();

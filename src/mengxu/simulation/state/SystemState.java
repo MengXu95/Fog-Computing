@@ -63,9 +63,16 @@ public class SystemState {
     public void addJobToSystem(Job job) {
         jobsInSystem.add(job);
         this.allNumJobsReleased++;
-        if(this.firstArriveJobRecordedTime < job.getReleaseTime() && job.getId() <= mobileDevices.get(0).getNumJobsRecorded()){
+
+        //modified by mengxu in 2022.08.01
+        if(this.firstArriveJobRecordedTime < job.getReleaseTime() && job.getId() <= mobileDevices.get(0).getNumJobsRecorded() + mobileDevices.get(0).getWarmupJobs()){
             this.firstArriveJobRecordedTime = job.getReleaseTime();
         }
+
+        //original used
+//        if(this.firstArriveJobRecordedTime < job.getReleaseTime()){
+//            this.firstArriveJobRecordedTime = job.getReleaseTime();
+//        }
     }
 
     public double getFirstArriveJobRecordedTime() {

@@ -145,4 +145,8 @@ public class Server {
     public void reset() {
         reset(0.0);
     }
+
+//    public double getProcessingRate() {
+//        return processingRate;
+//    }
 }

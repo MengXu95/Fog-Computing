@@ -191,6 +191,45 @@ public class TaskOption implements Comparable<TaskOption>{
         return getEarliestExecutionStartTime() + getProcTime();
     }
 
+
+    public double bandRate(){
+        if(this.server == null){
+            return 0;
+        }
+        double AvBw = (server.getUploadBandwidth() + server.getDownloadBandwidth())/2;
+        double mBW = 1; //as we do not have a bandwidth requirements of our task
+
+        return mBW/AvBw;
+    }
+
+    //add by mengxu 2022.07.30, only for SDLS algorithm <need check!>
+    //need to notice this downward rank is different with that in HEFT. But based on my implemented, it seems that
+    //this Sb_Level is very similar with the Upward of HEFT.
+    public double getSDL(){
+        double meanProcessingRate = 0;
+        for(int k=0; k<this.getTask().getTaskOptions().size(); k++){
+            if(this.getTask().getTaskOptions().get(k).getServer() == null){
+                meanProcessingRate += this.getTask().getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+            }
+            else {
+                meanProcessingRate += this.getTask().getTaskOptions().get(k).getServer().getProcessingRate();
+            }
+        }
+        meanProcessingRate = meanProcessingRate/this.getTask().getTaskOptions().size();
+        double meanProcessTime = this.getTask().getWorkload()/meanProcessingRate;
+
+        double delta = 0;
+        if(this.server == null){
+            delta = meanProcessTime - this.getTask().getWorkload()/this.mobileDevice.getProcessingRate();
+        }
+        else{
+            delta = meanProcessTime - this.getTask().getWorkload()/this.server.getProcessingRate();
+        }
+
+        double SDL = this.task.getSb_LevelForSDLS() + this.task.getJob().getReleaseTime() - this.getEarliestExecutionStartTime() + delta;
+        return SDL;
+    }
+
     @Override
     public int compareTo(TaskOption o) {
         return -1;

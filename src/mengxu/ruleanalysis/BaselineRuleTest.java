@@ -196,22 +196,30 @@ public class BaselineRuleTest {
 			AbstractRule baselineRoutingRule3 = new MaxMin(RuleType.ROUTING);
 			AbstractRule baselineSequencingRule4 = new MinMin(RuleType.SEQUENCING);
 			AbstractRule baselineRoutingRule4 = new MinMin(RuleType.ROUTING);
-//			AbstractRule baselineSequencingRule5 = new RoundRobin(RuleType.SEQUENCING);
-//			AbstractRule baselineRoutingRule5 = new RoundRobin(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule5 = new MHEFT(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule5 = new MHEFT(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule6 = new BWAWA(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule6 = new BWAWA(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule7 = new SDLS(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule7 = new SDLS(RuleType.ROUTING);
 
 			List<AbstractRule> baselineSequencingRuleList = new ArrayList<>();
 			baselineSequencingRuleList.add(baselineSequencingRule1);
 			baselineSequencingRuleList.add(baselineSequencingRule2);
 			baselineSequencingRuleList.add(baselineSequencingRule3);
 			baselineSequencingRuleList.add(baselineSequencingRule4);
-//			baselineSequencingRuleList.add(baselineSequencingRule5);
+			baselineSequencingRuleList.add(baselineSequencingRule5);
+			baselineSequencingRuleList.add(baselineSequencingRule6);
+			baselineSequencingRuleList.add(baselineSequencingRule7);
 
 			List<AbstractRule> baselineRoutingRuleList = new ArrayList<>();
 			baselineRoutingRuleList.add(baselineRoutingRule1);
 			baselineRoutingRuleList.add(baselineRoutingRule2);
 			baselineRoutingRuleList.add(baselineRoutingRule3);
 			baselineRoutingRuleList.add(baselineRoutingRule4);
-//			baselineRoutingRuleList.add(baselineRoutingRule5);
+			baselineRoutingRuleList.add(baselineRoutingRule5);
+			baselineRoutingRuleList.add(baselineRoutingRule6);
+			baselineRoutingRuleList.add(baselineRoutingRule7);
 
 			BaselineRuleTest multipletreeruleTest = new BaselineRuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees, baselineSequencingRuleList, baselineRoutingRuleList);
 
