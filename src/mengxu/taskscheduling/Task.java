@@ -280,7 +280,6 @@ public class Task {
     }
 
     public double getMeanCommunicationTimeToChild(int childIndex){
-        //todo: need to modify, different with the  (wrong I think )
         //the communication time for taskOption is defined as the (uploadDelay + downloadDelay)/2
         double sumCommunicateTime = 0;
 
@@ -299,7 +298,8 @@ public class Task {
     //only use for HEFT algorithm
     public double getUpwardRank(){
         if(childTaskList.size() == 0){
-            return getMeanProcessTime() + getMeanDownloadTime();
+//            return getMeanProcessTime() + getMeanDownloadTime();//original
+            return getMeanProcessTime() + getMeanDownloadTime() - this.job.getReleaseTime();//as the workflows arrive over time.
         }
         double upwardRank = getMeanProcessTime();
         double max = 0;
@@ -370,18 +370,27 @@ public class Task {
     //todo: need to check
     public double getDownwardRankForBWAWA(){
         if(parentTaskList.size() == 0){
-//            return this.job.getReleaseTime();//
-            return 0;//the original. as in our problem, the computation cost is zero.
+            return this.job.getReleaseTime();// we need to consider the release time of workflow as the workflow arrive over time in our problem
+//            return 0;//the original. as in our problem, the computation cost is zero.
         }
 
         double downwardRank = getMeanProcessTime();
-        double sumCommunicationTime = 0;
-        for(int i=0; i<parentTaskList.size();i++){
-            sumCommunicationTime += getMeanCommunicationTimeFromParent(i);//todo: need to check! 2022.07.30 not sure if this is right
-//            sumCommunicationTime += getMeanCommunicationTimeFromParent(parentTaskList.get(i).id);
-        }
+//        double sumCommunicationTime = 0;
+//        for(int i=0; i<parentTaskList.size();i++){
+//            sumCommunicationTime += getMeanCommunicationTimeFromParent(i);
+////            sumCommunicationTime += getMeanCommunicationTimeFromParent(parentTaskList.get(i).id);
+//        }
+//        downwardRank += sumCommunicationTime/parentTaskList.size();
 
-        downwardRank += sumCommunicationTime/parentTaskList.size();
+        //I should use the max communication cost of all the parents in our problem as we want to give an order of all the tasks in the list.
+        double maxCommunicationTime = 0;
+        for(int i=0; i<parentTaskList.size();i++){
+            double ref = getMeanCommunicationTimeFromParent(i);
+            if(maxCommunicationTime < ref){
+                maxCommunicationTime = ref;
+            }
+        }
+        downwardRank += maxCommunicationTime;
 
         double max = 0;
         for(int i=0; i< parentTaskList.size(); i++){
@@ -389,6 +398,10 @@ public class Task {
             if(max < ref){
                 max = ref;
             }
+        }
+
+        if(childTaskList.size()==0){//add by mengxu 2022.08.03
+            return downwardRank + max + getMeanDownloadTime();
         }
 
         return downwardRank + max;
@@ -412,7 +425,9 @@ public class Task {
             }
             meanProcessingRate = meanProcessingRate/this.getTaskOptions().size();
             double meanProcessTime = this.workload/meanProcessingRate;
-            return meanProcessTime + getMeanDownloadTime();
+//            return meanProcessTime + getMeanDownloadTime();//original
+            return meanProcessTime + getMeanDownloadTime() - this.job.getReleaseTime();
+            //we consider the release time of workflow in our problem as the workflows arrive over time.
         }
 
         double meanProcessingRate = 0;
@@ -435,7 +450,18 @@ public class Task {
             }
         }
 
+        if(parentTaskList.size()==0){//modified by mengxu 2022.08.03
+            return meanProcessTime + max + getMeanUploadTime();
+        }
+
         return meanProcessTime + max;
+    }
+
+    @Override
+    public String toString() {
+        return  "ID=" + this.getId() +
+                ", done=" + this.complete +
+                '}';
     }
 
 
@@ -466,4 +492,5 @@ public class Task {
 //    public double getUPDOWNRank(){
 //        return getUpwardRank() + getDownwardRank();
 //    }
+
 }

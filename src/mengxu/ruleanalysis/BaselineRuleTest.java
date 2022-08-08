@@ -196,30 +196,34 @@ public class BaselineRuleTest {
 			AbstractRule baselineRoutingRule3 = new MaxMin(RuleType.ROUTING);
 			AbstractRule baselineSequencingRule4 = new MinMin(RuleType.SEQUENCING);
 			AbstractRule baselineRoutingRule4 = new MinMin(RuleType.ROUTING);
-			AbstractRule baselineSequencingRule5 = new MHEFT(RuleType.SEQUENCING);
-			AbstractRule baselineRoutingRule5 = new MHEFT(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule5 = new SDLS(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule5 = new SDLS(RuleType.ROUTING);
 			AbstractRule baselineSequencingRule6 = new BWAWA(RuleType.SEQUENCING);
 			AbstractRule baselineRoutingRule6 = new BWAWA(RuleType.ROUTING);
-			AbstractRule baselineSequencingRule7 = new SDLS(RuleType.SEQUENCING);
-			AbstractRule baselineRoutingRule7 = new SDLS(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule7 = new CEAS(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule7 = new CEAS(RuleType.ROUTING);
+			AbstractRule baselineSequencingRule8 = new MHEFT(RuleType.SEQUENCING);
+			AbstractRule baselineRoutingRule8 = new MHEFT(RuleType.ROUTING);
 
 			List<AbstractRule> baselineSequencingRuleList = new ArrayList<>();
-			baselineSequencingRuleList.add(baselineSequencingRule1);
-			baselineSequencingRuleList.add(baselineSequencingRule2);
-			baselineSequencingRuleList.add(baselineSequencingRule3);
-			baselineSequencingRuleList.add(baselineSequencingRule4);
-			baselineSequencingRuleList.add(baselineSequencingRule5);
-			baselineSequencingRuleList.add(baselineSequencingRule6);
+//			baselineSequencingRuleList.add(baselineSequencingRule1);
+//			baselineSequencingRuleList.add(baselineSequencingRule2);
+//			baselineSequencingRuleList.add(baselineSequencingRule3);
+//			baselineSequencingRuleList.add(baselineSequencingRule4);
+//			baselineSequencingRuleList.add(baselineSequencingRule5);
+//			baselineSequencingRuleList.add(baselineSequencingRule6);
 			baselineSequencingRuleList.add(baselineSequencingRule7);
+//			baselineSequencingRuleList.add(baselineSequencingRule8);
 
 			List<AbstractRule> baselineRoutingRuleList = new ArrayList<>();
-			baselineRoutingRuleList.add(baselineRoutingRule1);
-			baselineRoutingRuleList.add(baselineRoutingRule2);
-			baselineRoutingRuleList.add(baselineRoutingRule3);
-			baselineRoutingRuleList.add(baselineRoutingRule4);
-			baselineRoutingRuleList.add(baselineRoutingRule5);
-			baselineRoutingRuleList.add(baselineRoutingRule6);
+//			baselineRoutingRuleList.add(baselineRoutingRule1);
+//			baselineRoutingRuleList.add(baselineRoutingRule2);
+//			baselineRoutingRuleList.add(baselineRoutingRule3);
+//			baselineRoutingRuleList.add(baselineRoutingRule4);
+//			baselineRoutingRuleList.add(baselineRoutingRule5);
+//			baselineRoutingRuleList.add(baselineRoutingRule6);
 			baselineRoutingRuleList.add(baselineRoutingRule7);
+//			baselineRoutingRuleList.add(baselineRoutingRule8);
 
 			BaselineRuleTest multipletreeruleTest = new BaselineRuleTest(trainPath, ruleType, numRuns, testScenario, testSetName, numTrees, baselineSequencingRuleList, baselineRoutingRuleList);
 
@@ -228,7 +232,9 @@ public class BaselineRuleTest {
 				idx ++;
 			}
 
-			String workflowScale = "hybird-small-middle-large";
+//			String workflowScale = "small"; //for small scenarios 1 2 3
+//			String workflowScale = "hybird-small-middle"; //for medium scenarios 1 2 3
+			String workflowScale = "hybird-small-middle-large"; //for large scenarios 1 2 3
 			multipletreeruleTest.MultiRuleWriteToCSV(workflowScale);
 		}
 }

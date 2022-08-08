@@ -154,4 +154,14 @@ public class Job {
 //        }
 //        return time;
 //    }
+
+    @Override
+    public String toString() {
+        return  "ID=" + this.getId() +
+                ", releaseTime=" + this.getReleaseTime() +
+                ", taskNumber=" + this.taskList.size() +
+                ", taskCompleted=" + this.getProcessFinishEvents().size() +
+                ", done=" + this.isDone() +
+                '}';
+    }
 }

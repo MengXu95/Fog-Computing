@@ -19,9 +19,9 @@ public class FCFS extends AbstractRule {
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-            //todo: need to check using ReadyTime or using ReleseTime!
             return taskOption.getTask().getJob().getReleaseTime();
-//            return taskOption.getReadyTime();
+//            return taskOption.getReadyTime(); //I think I should use the release time, as the first arrive first serve policy.
+            //modified 2022.08.01
         }
         else if(this.type == RuleType.ROUTING){
             if(server==null){

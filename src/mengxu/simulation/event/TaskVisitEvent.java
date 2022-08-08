@@ -83,12 +83,12 @@ public class TaskVisitEvent extends AbstractEvent{
         if (other instanceof TaskVisitEvent)
             return 0;
 
-        if (other instanceof ProcessStartEvent)
-            return -1; //todo: notice, modified part two. Totally two parts are modified.
+//        if (other instanceof ProcessStartEvent)
+//            return -1; //original
 
         //modified version
-//        if (other instanceof ProcessStartEvent)
-//            return 1; //todo: notice, modified part two. Totally two parts are modified.
+        if (other instanceof ProcessStartEvent)
+            return 1; //todo: notice, modified part two. Totally two parts are modified.
 
 
         return -1;

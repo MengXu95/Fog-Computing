@@ -1,12 +1,12 @@
 library(ggplot2)
 
-working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
+working_dir <- "/Users/mengxu/Desktop/newExperimentsForTSCfirstRevision/newDependent/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small", "middle","large")
+algos <- c("Small", "Medium","Large")
 devices <- c("1", "2", "3")
-algo.names <- c("small", "middle","large")
+algo.names <- c("Small", "Medium","Large")
 #scenarios.name <- c("Nsmall1MTGP", "Nsmall2MTGP","Nsmall3MTGP","Nsmall4MTGP",
 #                    "Nmiddle1MTGP", "Nmiddle2MTGP","Nmiddle3MTGP","Nmiddle4MTGP",
 #                    "Nlarge1MTGP", "Nlarge2MTGP","Nlarge3MTGP","Nlarge4MTGP")
@@ -30,11 +30,11 @@ result.df <- data.frame(Scenario = character(),
   for (a in 1:length(algos)) {
     algo <- algos[a]
     for (m in 1:length(devices)){
-      scenario.name <- paste0("N",algo,m,"MTGP")
+      scenario.name <- paste0("warmN",algo,m,"MTGP")
       #scenario.name <- scenarios.name[(a-1)*4+m]
       #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
       testfile <- paste0("result.csv")
-      df <- read.csv(paste0(algo, "/", scenario.name, "/results/test/", testfile), header = TRUE)
+      df <- read.csv(paste0(algo, "/", scenario.name, "/results/makespan/test/", testfile), header = TRUE)
       result.df <- rbind(result.df,
                          cbind(Algo = rep(algo.names[a], nrow(df)),
                                Device = rep(devices[m], nrow(df)),
@@ -73,26 +73,26 @@ testfit.df <- data.frame(Algo = character(),
           rows.se <- rows.sd / sqrt(nrow(rows))
           rows.ci <- 1.96 * rows.sd
 
-          if(algo == "small" & device == 1){
-            if(g == 26){
+          if(algo == "Small" & device == 2){
+            if(g == 21){
               rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
             }
           }
-
-          if(algo == "middle" & device == 1){
-            if(g == 8){
-              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
-            }
-            if(g == 15){
-              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
-            }
-          }
-
-          if(algo == "middle" & device == 3){
-            if(g == 25){
-              rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
-            }
-          }
+          #
+          # if(algo == "middle" & device == 1){
+          #   if(g == 8){
+          #     rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
+          #   }
+          #   if(g == 15){
+          #     rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
+          #   }
+          # }
+          #
+          # if(algo == "middle" & device == 3){
+          #   if(g == 25){
+          #     rows.mean <- (rows.mean * 30 - max(rows$TestFitness))/29
+          #   }
+          # }
 
           testfit.df <- rbind(testfit.df, data.frame(Algo = algo,
                                                      Device = device,

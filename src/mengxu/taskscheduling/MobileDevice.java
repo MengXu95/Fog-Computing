@@ -31,7 +31,7 @@ public class MobileDevice {
 
     private final AbstractIntegerSampler numTasksSampler;
 //    private final AbstractRealSampler procTimeSampler;
-    private final AbstractRealSampler interReleaseTimeSampler;
+    private final AbstractRealSampler interReleaseTimeSampler; //modified by mengxu 2022.08.03 to hind it
     private final AbstractRealSampler jobWeightSampler;
     private final AbstractRealSampler workloadSampler;
     private final AbstractRealSampler taskDataSampler;
@@ -78,6 +78,10 @@ public class MobileDevice {
 
     private DynamicSimulation simulation; //modified by mengxu 2022.02.22
 
+    //add by mengxu 2022.08.03
+    public DynamicSimulation getSimulation() {
+        return simulation;
+    }
 
     public MobileDevice(int id, double processingRate,
                         SystemState systemState, long seed,
@@ -113,7 +117,7 @@ public class MobileDevice {
         this.taskDataSampler = taskDataSampler;
         this.taskInputDataSampler = taskInputDataSampler;
 
-        this.interReleaseTimeSampler = interReleaseTimeSampler;
+        this.interReleaseTimeSampler = interReleaseTimeSampler; //modified by mengxu 2022.08.03 to hind it
         this.jobWeightSampler = jobWeightSampler;
 //        this.upLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
 //        this.downLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
@@ -128,7 +132,7 @@ public class MobileDevice {
 
         this.workflowSampler = workflowSampler;
 
-        setInterReleaseTimeSamplerMean();
+        setInterReleaseTimeSamplerMean(); //modified by meng xu 2022.08.03 to hide it
 
         this.sequencingRule = sequencingRule;
         this.routingRule = routingRule;
@@ -161,8 +165,10 @@ public class MobileDevice {
         this.canProcessTask = canProcessTask;
     }
 
+    //modified by mengxu 2022.08.03 to hind it
     public void setInterReleaseTimeSamplerMean() {
-        double mean = 100;//what's the meaning of this
+        double mean = 100;//for test
+//        double mean = 100;//what's the meaning of this, original used for TSC, a bigger mean denotes the workflow arrives slowly.
         interReleaseTimeSampler.setMean(mean);
     }
 
@@ -352,8 +358,13 @@ public class MobileDevice {
         //add 2021.12.1
 //        System.out.println(TestDAXToPuml.toPuml(taskList));
 
+        //modified by mengxu 2022.08.03
+//        double releaseTime = systemState.getClockTime()
+//                + this.simulation.getInterReleaseTimeSampler().next(this.simulation.getRandomDataGenerator());
+
         double releaseTime = systemState.getClockTime()
-                + interReleaseTimeSampler.next(randomDataGenerator);
+                + interReleaseTimeSampler.next(randomDataGenerator);//original
+
         double weight = jobWeightSampler.next(randomDataGenerator);
         for(Task task:taskList) {
             double workload = this.workloadSampler.next(randomDataGenerator);
@@ -408,15 +419,27 @@ public class MobileDevice {
             task.mapClear();//add 2021.09.17
         }
 //        jobList.add(job);
-        systemState.addJobToSystem(job);
-        numJobsReleased++;
+        //modified by mengxu 2022.08.03
+        boolean couldAdd = systemState.addJobToSystem(job);
+        if(couldAdd){
+            numJobsReleased++;
 //        this.systemState.addAllNumJobsReleased();
-        eventQueue.add(new JobArrivalEvent(job,this));
+            eventQueue.add(new JobArrivalEvent(job,this));
+        }
+
+        //original for TSC
+//        numJobsReleased++;
+////        this.systemState.addAllNumJobsReleased();
+//        eventQueue.add(new JobArrivalEvent(job,this));
     }
 
     public void generateJob(){
+//        double releaseTime = systemState.getClockTime()
+//                + this.simulation.getInterReleaseTimeSampler().next(randomDataGenerator);//modified by mengxu 2022.08.03
+
         double releaseTime = systemState.getClockTime()
-                + interReleaseTimeSampler.next(randomDataGenerator);
+                + this.interReleaseTimeSampler.next(randomDataGenerator);//modified by mengxu 2022.08.03
+
         double weight = jobWeightSampler.next(randomDataGenerator);
         int numTask = numTasksSampler.next(randomDataGenerator);
 
@@ -785,9 +808,12 @@ public class MobileDevice {
             if(checkJobDone(job)){
                 numJobsCompleted ++;  //before only have this line
                 //original used for TSC paper
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime()) {
                 if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime()) {
-                //modified by mengxu 2022.08.01
-//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime() && job.getId() < numJobsRecorded + warmupJobs) {
+//                //modified by mengxu 2022.08.01
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= warmupJobs && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime() && job.getId() < numJobsRecorded + warmupJobs) {
+                //modified by mengxu 2022.08.03
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= warmupJobs && job.getId() < numJobsRecorded + warmupJobs) {
 //                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
 //                        && job.getId() < numJobsRecorded + warmupJobs) {
                     throughput++;  //before only have this line
@@ -796,6 +822,10 @@ public class MobileDevice {
                     //modified 2021.09.15
 //                    clearCompletedJob(job);//todo:2021.12.02
                     systemState.addCompletedJob(job);
+//                    System.out.println("complete jobID: " + job.getId());//for check
+//                    if(systemState.getJobsCompleted().size() == 45){
+//                        System.out.println("error here!");
+//                    }
                 }
             }
             else{

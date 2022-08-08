@@ -192,32 +192,25 @@ public class SchedulingSet {
             System.out.println("Initial workflow scale error!!!");
         }
 
-        //small 1
+        //small 1 2 3
+//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
+//                null, null, 20, 10,
+//                3, 20, 20, minWorkflowID,
+//                maxWorkflowID, true);
+
+        //medium 1 2 3
+//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
+//                null, null, 30, 15,
+//                3, 30, 30, minWorkflowID,
+//                maxWorkflowID, true);
+
+
+        //large 1 2 3
         DynamicSimulation simulation = new DynamicSimulation(simSeed,
-                null, null, 50, 0,
-                3, 60, 60, minWorkflowID,
+                null, null, 50, 25,
+                1, 60, 60, minWorkflowID,
                 maxWorkflowID, true);
 
-
-        //Nsmall 2
-//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
-//                null, null, 20, 0,
-//                3, 15, 20, minWorkflowID,
-//                maxWorkflowID, true);
-
-
-//        //middle 1
-//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
-//                null, null, 30, 0,
-//                1, 15, 20, minWorkflowID,
-//                maxWorkflowID, true);
-
-
-        //middle 2
-//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
-//                null, null, 30, 0,
-//                3, 20, 25, minWorkflowID,
-//                maxWorkflowID, true);
 
         simulations.add(simulation);
         List<Integer> replications = new ArrayList<>();

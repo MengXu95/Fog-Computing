@@ -202,6 +202,8 @@ public class TaskOption implements Comparable<TaskOption>{
         return mBW/AvBw;
     }
 
+
+
     //add by mengxu 2022.07.30, only for SDLS algorithm <need check!>
     //need to notice this downward rank is different with that in HEFT. But based on my implemented, it seems that
     //this Sb_Level is very similar with the Upward of HEFT.
@@ -226,8 +228,36 @@ public class TaskOption implements Comparable<TaskOption>{
             delta = meanProcessTime - this.getTask().getWorkload()/this.server.getProcessingRate();
         }
 
-        double SDL = this.task.getSb_LevelForSDLS() + this.task.getJob().getReleaseTime() - this.getEarliestExecutionStartTime() + delta;
+        double SDL = this.task.getSb_LevelForSDLS() - this.getEarliestExecutionStartTime() + delta;
         return SDL;
+    }
+
+    //add by mengxu 2022.08.01, only for CEAS algorithm <need check!>
+    //I do some modification to make this method suitable for my problem, as we do not consider cost and energy and makespan deadline
+    //in my problem.
+    public double getCostUtility(){
+        //ge the maximum computing rate
+        double maxComputingRate = 0;
+        for(int k=0; k<this.getTask().getTaskOptions().size(); k++){
+            double ref = 0;
+            if(this.getTask().getTaskOptions().get(k).getServer() == null){
+                ref = this.getTask().getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+
+            }
+            else {
+                ref = this.getTask().getTaskOptions().get(k).getServer().getProcessingRate();
+            }
+            if(ref > maxComputingRate){
+                maxComputingRate = ref;
+            }
+        }
+
+        double fastestExecutionTime = this.task.getWorkload()/maxComputingRate + this.downloadDelay + this.uploadDelay;
+        //the original fastestExecutionTime do not consider the workflow's release time, but they consider the makespan constraints in their
+        //paper, so in my problem we do not consider makespan constraints so we need to add the workflow's release time to make it similar to
+        //makespan constraint in the original paper. 2022.08.01
+
+        return this.task.getWorkload()/fastestExecutionTime - this.task.getJob().getReleaseTime();
     }
 
     @Override

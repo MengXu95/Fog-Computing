@@ -289,7 +289,10 @@ public class MultipleTreeRuleTest {
 				multipletreeruleTest.addObjective(args[idx]);
 				idx ++;
 			}
-			String workflowScale = "small";
+
+//			String workflowScale = "small"; //for small 1 2 3
+//			String workflowScale = "hybird-small-middle"; //for medium 1 2 3
+			String workflowScale = "hybird-small-middle-large"; //for large 1 2 3
 			multipletreeruleTest.writeToCSV(workflowScale);
 		}
 }

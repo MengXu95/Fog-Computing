@@ -1,12 +1,12 @@
 library(ggplot2)
 
-working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submitToGrid/newModified20220222"
+working_dir <- "/Users/mengxu/Desktop/newExperimentsForTSCfirstRevision/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("middle")
+algos <- c("Medium")
 devices <- c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
-algo.names <- c("middle")
+algo.names <- c("Medium")
 # algos <- c("small", "middle","large")
 # devices <- c("1", "2", "3")
 # algo.names <- c("small", "middle","large")
@@ -48,11 +48,11 @@ result.df <- data.frame(Scenario = character(),
 for (a in 1:length(algos)) {
   algo <- algos[a]
   for (m in 1:length(devices)){
-    scenario.name <- paste0("N",algo,m,"MTGP")
+    scenario.name <- paste0("warm",algo,m,"MTGP")
     #scenario.name <- scenarios.name[(a-1)*4+m]
     #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
     testfile <- paste0("result.csv")
-    df <- read.csv(paste0(algo, "/", scenario.name, "/results/test/", testfile), header = TRUE)
+    df <- read.csv(paste0(algo, "/", scenario.name, "/results/makespan/test/", testfile), header = TRUE)
     result.df <- rbind(result.df,
                        cbind(Algo = rep(algo.names[a], nrow(df)),
                              Device = rep(devices[m], nrow(df)),

@@ -21,7 +21,6 @@ public class SDLS extends AbstractRule {
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-//            return -1;//todo: need to modify when use HEFT
             return -(taskOption.getTask().getSb_LevelForSDLS()); //I think this is the same as traditional HEFT
         }
         else if(this.type == RuleType.ROUTING){

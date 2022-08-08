@@ -17,7 +17,7 @@ public class SystemState {
     private List<Server> servers;
     private List<MobileDevice> mobileDevices;
     private int allNumJobsReleased;
-    private double firstArriveJobRecordedTime;//add 2021.09.18
+    private double firstArriveJobRecordedTime;//add 2021.09.18 modified by mengxu 2022.08.03 to hide this
 
     public SystemState(double clockTime, List<Server> servers, List<MobileDevice> mobileDevices,
                        List<Job> jobsInSystem, List<Job> jobsCompleted) {
@@ -60,21 +60,46 @@ public class SystemState {
         return mobileDevices;
     }
 
-    public void addJobToSystem(Job job) {
-        jobsInSystem.add(job);
-        this.allNumJobsReleased++;
+    public boolean addJobToSystem(Job job) {
+        //original
+//        jobsInSystem.add(job);
+//        this.allNumJobsReleased++;
+//        return true;
 
-        //modified by mengxu in 2022.08.01
-        if(this.firstArriveJobRecordedTime < job.getReleaseTime() && job.getId() <= mobileDevices.get(0).getNumJobsRecorded() + mobileDevices.get(0).getWarmupJobs()){
-            this.firstArriveJobRecordedTime = job.getReleaseTime();
+        //modified by mengxu in 2022.08.06
+        if(job.getReleaseTime() > this.clockTime){
+            jobsInSystem.add(job);
+            this.allNumJobsReleased++;
+            if(this.allNumJobsReleased < mobileDevices.get(0).getNumJobsRecorded() + mobileDevices.get(0).getWarmupJobs()){
+                this.firstArriveJobRecordedTime = job.getReleaseTime();
+            }
+            return true;
+        }
+        else{
+            return false;
         }
 
+        //modified by mengxu in 2022.08.01
+//        if(this.firstArriveJobRecordedTime < job.getReleaseTime() && job.getId() <= mobileDevices.get(0).getNumJobsRecorded() + mobileDevices.get(0).getWarmupJobs()){
+//            this.firstArriveJobRecordedTime = job.getReleaseTime();
+//            //modified in 2022.08.03//todo: need to check
+//            jobsInSystem.add(job);
+//            this.allNumJobsReleased++;
+//            return true;
+//        }
+//        else{
+//            return false;
+//        }
+
         //original used
+//        jobsInSystem.add(job);
+//        this.allNumJobsReleased++;
 //        if(this.firstArriveJobRecordedTime < job.getReleaseTime()){
 //            this.firstArriveJobRecordedTime = job.getReleaseTime();
 //        }
     }
 
+    //modified by Meng xu 2022.08.03 to hide this
     public double getFirstArriveJobRecordedTime() {
         return firstArriveJobRecordedTime;
     }
@@ -122,7 +147,7 @@ public class SystemState {
     public void reset(long seed, RandomDataGenerator randomDataGenerator) {
         clockTime = 0.0;
         this.allNumJobsReleased = 0;
-        this.firstArriveJobRecordedTime = 0;
+//        this.firstArriveJobRecordedTime = 0;
         jobsInSystem.clear();
         jobsCompleted.clear();//original
         for (Server server : servers) {
@@ -136,7 +161,7 @@ public class SystemState {
     public void resetforRerun() {
         clockTime = 0.0;
         this.allNumJobsReleased = 0;
-        this.firstArriveJobRecordedTime = 0;
+//        this.firstArriveJobRecordedTime = 0;
         jobsInSystem.clear();
         jobsCompleted.clear();//original
         for (Server server : servers) {

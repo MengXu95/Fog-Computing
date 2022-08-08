@@ -94,6 +94,7 @@ public abstract class AbstractRule {
         //modified by mengxu 2021.08.27
         int[] col = new int[objectives.size()];
 
+//        System.out.println("Run 0: ");
         //System.out.println("The simulation size is "+simulations.size()); //1
         for (int j = 0; j < simulations.size(); j++) {
             DynamicSimulation simulation = simulations.get(j);
@@ -140,6 +141,7 @@ public abstract class AbstractRule {
 
             //System.out.println("The value of replication is "+schedulingSet.getReplications()); //50
             for (int k = 1; k < schedulingSet.getReplications().get(j); k++) {
+//                System.out.println("Run " + k + ": ");
 //                simulation.rotateSeed();//modified by mengxu, add on 2021.08.26
                 simulation.rerun();
 

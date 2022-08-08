@@ -97,6 +97,10 @@ public class JobArrivalEvent extends AbstractEvent{
 
             mobileDevice.generateWorkflowJob();//modified by mengxu 2021.09.14 this is for training and test
 
+            //modified by mengxu 2022.08.03
+//            int randomMobileDeviceID = mobileDevice.getSimulation().getNumMobileDevicesSampler().next(mobileDevice.getSimulation().getRandomDataGenerator());
+//            mobileDevice.getSystemState().getMobileDevices().get(randomMobileDeviceID).generateWorkflowJob();
+
             //original
 //            mobileDevice.generateJob();
         }
@@ -111,5 +115,26 @@ public class JobArrivalEvent extends AbstractEvent{
     @Override
     public void addRoutingDecisionSituation(MobileDevice mobileDevice, List<RoutingDecisionSituation> situations, int minOptions) {
         trigger(mobileDevice);
+    }
+
+    @Override//add by mengxu 2022.08.06
+    public int compareTo(AbstractEvent other) {
+        if (time < other.time)
+            return -1;
+
+        if (time > other.time)
+            return 1;
+
+        if (other instanceof JobArrivalEvent) {
+            JobArrivalEvent otherJAE = (JobArrivalEvent)other;
+
+            if (job.getId() < otherJAE.job.getId())
+                return -1;
+
+            if (job.getId() > otherJAE.job.getId())
+                return 1;
+        }
+
+        return -1;
     }
 }
