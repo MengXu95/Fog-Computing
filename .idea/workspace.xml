@@ -11,40 +11,7 @@
   <component name="ChangeListManager">
     <list default="true" id="4de642cf-c8b9-4688-ac29-7ce5bc40083d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R scripts/testfit-box-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/testfit-box-meng.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/R scripts/testfit-curve-meng.R" beforeDir="false" afterPath="$PROJECT_DIR$/R scripts/testfit-curve-meng.R" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/job.1.out.stat" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/job.1.out.stat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/rule/AbstractRule.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/rule/AbstractRule.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/ruleanalysis/MultipleTreeRuleTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/ruleanalysis/MultipleTreeRuleTest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/DynamicSimulation$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/DynamicSimulation$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/DynamicSimulation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/DynamicSimulation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/event/JobArrivalEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/event/JobArrivalEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/event/ProcessStartEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/event/ProcessStartEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/event/TaskVisitEvent.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/event/TaskVisitEvent.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/state/SystemState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/simulation/state/SystemState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Job.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Job.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/MobileDevice.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/MobileDevice.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/SchedulingSet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/SchedulingSet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Task.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/Task.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/TaskOption.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Fog-Computing/mengxu/taskscheduling/TaskOption.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/FCFS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/FCFS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/SDLS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/SDLS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/job.1.out.stat" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/job.1.out.stat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/algorithm/multipletreegp/multipletreegp-dynamicBaseline.params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/rule/AbstractRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/rule/AbstractRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleanalysis/BaselineRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleanalysis/BaselineRuleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/ruleanalysis/MultipleTreeRuleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/ruleanalysis/MultipleTreeRuleTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/DynamicSimulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/DynamicSimulation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/event/JobArrivalEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/event/JobArrivalEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/event/ProcessStartEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/event/ProcessStartEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/event/TaskVisitEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/event/TaskVisitEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/simulation/state/SystemState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/simulation/state/SystemState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/Job.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/Job.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/MobileDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/MobileDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/SchedulingSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/SchedulingSet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/mengxu/taskscheduling/TaskOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/mengxu/taskscheduling/TaskOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -117,7 +117,7 @@ public class JobArrivalEvent extends AbstractEvent{
         trigger(mobileDevice);
     }
 
-    @Override//add by mengxu 2022.08.06
+    @Override//add by mengxu
     public int compareTo(AbstractEvent other) {
         if (time < other.time)
             return -1;

@@ -352,7 +352,6 @@ public class ProcessFinishEvent extends AbstractEvent{
         if (other instanceof ProcessFinishEvent) {
             ProcessFinishEvent otherPFE = (ProcessFinishEvent)other;
 
-            //modified by mengxu 2021.05.27
             if(process.getServer() == null && otherPFE.getProcess().getServer() == null){
                 if(process.getTaskOption().getTask().getJob().getMobileDevice().getId() < otherPFE.process.getTaskOption().getTask().getJob().getMobileDevice().getId()){
                     return -1;
@@ -375,13 +374,6 @@ public class ProcessFinishEvent extends AbstractEvent{
                     return 1;
             }
 
-            //original-----------------
-//            if (process.getServer().getId() < otherPFE.process.getServer().getId())
-//                return -1;
-//
-//            if (process.getServer().getId() > otherPFE.process.getServer().getId())
-//                return 1;
-            //-------------------
         }
 
         return 1;
