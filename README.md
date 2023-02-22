@@ -10,10 +10,11 @@ This README would normally document whatever steps are necessary to get your app
 
 ### How do I get set up? ###
 
-1. Download the source files in the `src/` folder and the dependencies in the `libraries/` folder.
-2. Create a Java Project using `src/` and `libraries/` (the repository is a IDEA IntelliJ project by default).
-3. The ECJ functions are located at `src/ec/`, and the functions for WS and GP are in `src/mengxu/`. Now you are ready to run a number of different algorithms.
-4. Before starting, it is highly recommended to get yourself familiar with the ECJ package, especially the GP part. You can start from the four tutorials located at `src/ec/app/tutorialx` (x = 1, ..., 4). Turorial 4 is about GP for symbolic regression, which is very useful for understanding this project. A more thorough manual can be found in https://cs.gmu.edu/~eclab/projects/ecj/docs/manual/manual.pdf.
+1. Go to the branch `multiDeviceDebug`.
+2. Download the source files in the `src/` folder and the dependencies in the `libraries/` folder.
+3. Create a Java Project using `src/` and `libraries/` (the repository is a IDEA IntelliJ project by default).
+4. The ECJ functions are located at `src/ec/`, and the functions for WS and GP are in `src/mengxu/`. Now you are ready to run a number of different algorithms.
+5. Before starting, it is highly recommended to get yourself familiar with the ECJ package, especially the GP part. You can start from the four tutorials located at `src/ec/app/tutorialx` (x = 1, ..., 4). Turorial 4 is about GP for symbolic regression, which is very useful for understanding this project. A more thorough manual can be found in https://cs.gmu.edu/~eclab/projects/ecj/docs/manual/manual.pdf.
 
 ### Project structure ###
 
