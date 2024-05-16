@@ -36,13 +36,13 @@ eval.num-shuffled = 0
 stat.do-generation = true
 stat.do-message = true
 
-generations = 5
+generations = 51
 quit-on-run-complete = true
 
 pop = ec.Population
 pop.subpops = 1
 pop.subpop.0 = ec.Subpopulation
-pop.subpop.0.size =	512
+pop.subpop.0.size =	100
 
 breed.elite.0 = 10
 
@@ -273,12 +273,13 @@ eval.problem.eval-model.objectives = 1
 eval.problem.eval-model.objectives.0 = makespan
 eval.problem.eval-model.sim-models = 1
 eval.problem.eval-model.sim-models.0.num-mobiledevice = 1
-eval.problem.eval-model.sim-models.0.num-edgeserver = 15
-eval.problem.eval-model.sim-models.0.num-cloudserver = 25
-eval.problem.eval-model.sim-models.0.num-jobs = 50
-eval.problem.eval-model.sim-models.0.warmup-jobs = 0
-eval.problem.eval-model.sim-models.0.min-num-tasks = 30
-eval.problem.eval-model.sim-models.0.max-num-tasks = 100
+eval.problem.eval-model.sim-models.0.num-edgeserver = 20
+eval.problem.eval-model.sim-models.0.num-cloudserver = 20
+eval.problem.eval-model.sim-models.0.num-jobs = 20
+eval.problem.eval-model.sim-models.0.warmup-jobs = 10
+#eval.problem.eval-model.sim-models.0.min-workflow-ID = 1
+#eval.problem.eval-model.sim-models.0.max-workflow-ID = 4
+eval.problem.eval-model.sim-models.0.workflow-scale = small
 eval.problem.eval-model.rotate-sim-seed = true
 eval.problem.eval-model.can-mobiledevice-work = yes
 terminals-from = relative

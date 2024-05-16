@@ -1,15 +1,19 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/"
+working_dir <- "D:/xumeng/ZheJiangLab/ModifiedSimulation/submitToGrid/modified/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small2MTGP")
-algo.names <- c("MTGP")
-scenarios.name <- c("makespan")
+algos <- c("small", "middle","large")
+devices <- c("1", "2", "3", "4")
+algo.names <- c("small", "middle","large")
+#scenarios.name <- c("Nsmall1MTGP", "Nsmall2MTGP","Nsmall3MTGP","Nsmall4MTGP",
+#                    "Nmiddle1MTGP", "Nmiddle2MTGP","Nmiddle3MTGP","Nmiddle4MTGP",
+#                    "Nlarge1MTGP", "Nlarge2MTGP","Nlarge3MTGP","Nlarge4MTGP")
 
 result.df <- data.frame(Scenario = character(),
                         Algo = character(),
+                        Device = integer(),
                         Run = integer(),
                         Generation = integer(),
                         SeqRuleSize = integer(),
@@ -20,66 +24,57 @@ result.df <- data.frame(Scenario = character(),
                         TrainFitness = double(),
                         TestFitness = double(),
                         TrainTime = double()
-                        #GenotypeDiversity = double(),
-                        #PhenotypeDiversity = double(),
-                        #EntropyDiversity = double(),
-                        #PseudoIsomorphsDiversity = double(),
-                        #EditOneDiversity = double(),
-                        #EditTwoDiversity = double()
-                        #PCDiversity = double()
-                        #AveSeqRulesize = integer(),
-                        #AveRouRuleSize = integer(),
-                        #AveRuleSize = integer()
 )
 
-for (s in 1:length(scenarios.name)) {
-  scenario.name <- scenarios.name[s]
-  testfile <- paste0("result.csv")
-  #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
-  #testfile <- paste0("missing-", utils[s], "-", ddfactors[s], ".csv")
-  
-  for (a in 1:length(algos)) {
-    algo <- algos[a]
-    df <- read.csv(paste0(algo, "/results/test/", testfile), header = TRUE)
-    #df <- read.csv(paste0(algo, "/trainResults/", scenario, "/test/", testfile), header = TRUE)
-    result.df <- rbind(result.df, 
-                       cbind(Scenario = rep(scenario.name, nrow(df)),
-                             Algo = rep(algo.names[a], nrow(df)), 
+
+for (a in 1:length(algos)) {
+  algo <- algos[a]
+  for (m in 1:length(devices)){
+    scenario.name <- paste0("N",algo,m,"MTGP")
+    #scenario.name <- scenarios.name[(a-1)*4+m]
+    #scenario <- paste0(objectives[s], "-", utils[s], "-", ddfactors[s])
+    testfile <- paste0("result.csv")
+    df <- read.csv(paste0(algo, "/", scenario.name, "/results/test/", testfile), header = TRUE)
+    result.df <- rbind(result.df,
+                       cbind(Algo = rep(algo.names[a], nrow(df)),
+                             Device = rep(devices[m], nrow(df)),
                              df))
   }
 }
+#}
 
 runs <- unique(result.df$Run)
 generations <- max(result.df$Generation)
 
-testfit.df <- data.frame(Scenario = character(),
-                         Algo = character(),
+testfit.df <- data.frame(Algo = character(),
+                         Device = integer(),
                          Generation = integer(),
                          Mean = double(),
                          StdDev = double(),
                          StdError = double(),
                          ConfInterval = double())
 
-for (s in 1:length(scenarios.name)) {
-  scenario.name <- scenarios.name[s]
+#for (s in 1:length(scenarios.name)) {
+#  scenario.name <- scenarios.name[s]
 
-  for (a in 1:length(algos)) {
-    algo <- algo.names[a]
+for (a in 1:length(algos)) {
+  algo <- algo.names[a]
 
+  for (m in 1:length(devices)){
+    device <- devices[m]
     for (g in 1:generations) {
-      rows <- subset(result.df, Scenario == scenario.name &
-                       Algo == algo & Generation == g)
+      rows <- subset(result.df, Algo == algo & Device == device & Generation == g)
 
       if (nrow(rows) == 0)
         next
 
-      rows.mean <- mean(rows$TrainTime)
-      rows.sd <- sd(rows$TrainTime)
+      rows.mean <- mean(rows$TrainFitness)
+      rows.sd <- sd(rows$TrainFitness)
       rows.se <- rows.sd / sqrt(nrow(rows))
       rows.ci <- 1.96 * rows.sd
 
-      testfit.df <- rbind(testfit.df, data.frame(Scenario = scenario.name,
-                                                 Algo = algo,
+      testfit.df <- rbind(testfit.df, data.frame(Algo = algo,
+                                                 Device = device,
                                                  Generation = g,
                                                  Mean = rows.mean,
                                                  StdDev = rows.sd,
@@ -88,57 +83,68 @@ for (s in 1:length(scenarios.name)) {
     }
   }
 }
+#}
 
-g <- ggplot(testfit.df, aes(Generation, Mean, colour = factor(Algo), shape = factor(Algo))) +
-  geom_ribbon(aes(ymin = Mean, ymax = Mean, fill = factor(Algo)), alpha = 0.3) +
-  geom_line() + geom_point(size = 1)
-g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
+testfit.df$Algo <- factor(testfit.df$Algo, levels = algos) #2020.10.20 order the appearrence of subplots
+g <- ggplot(testfit.df, aes(Generation, Mean, colour = factor(Device), shape = factor(Device))) + geom_line() + geom_point(size = 1)
+#g <- g + facet_wrap(~ Scenario, nrow = 2, scales = "free")
+#g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
+g <- g + facet_wrap(~ Algo, ncol = 3, scales = "free")
 
 g <- g + theme(legend.title = element_blank())
 g <- g + theme(legend.position = "bottom")
+g <- g + theme(legend.text = element_text(size = 19))
 
-g <- g + labs(y = "Train Time")
+g <- g + labs(y = "training time")
 
-g <- g + theme(axis.title.x = element_text(size = 12, face = "bold"))
-g <- g + theme(axis.title.y = element_text(size = 12, face = "bold"))
-g <- g + theme(axis.text.x = element_text(size = 10))
-g <- g + theme(axis.text.y = element_text(size = 10))
-g <- g + theme(strip.text.x = element_text(size = 12))
+g <- g + theme(axis.title.x = element_text(size = 17, face = "bold"))
+g <- g + theme(axis.title.y = element_text(size = 17, face = "bold"))
+g <- g + theme(axis.text.x = element_text(size = 15))
+g <- g + theme(axis.text.y = element_text(size = 15))
+g <- g + theme(strip.text.x = element_text(size = 17))
 
-ggsave("TrainTime-curve-noStd.pdf", width = 9, height = 3)
+#g <- g + theme(axis.title.x = element_text(size = 12, face = "bold"))
+#g <- g + theme(axis.title.y = element_text(size = 12, face = "bold"))
+#g <- g + theme(axis.text.x = element_text(size = 10))
+#g <- g + theme(axis.text.y = element_text(size = 10))
+#g <- g + theme(strip.text.x = element_text(size = 12))
+
+ggsave("training-time-curve.pdf", width = 9, height = 3.5)
+#ggsave("testfit-curve-noStd.pdf", width = 10, height = 5)
 
 # table showing
 
-finalTestFit.df <- data.frame(Scenario = character(),
-                              Algo = character(),
+finalTestFit.df <- data.frame(Algo = character(),
+                              Device = integer(),
                               Run = integer(),
-                              TestFitness = double())
+                              TrainFitness = double())
 
-for (s in 1:length(scenarios.name)) {
-  scenario.name <- scenarios.name[s]
-  
-  for (a in 1:length(algos)) {
-    algo <- algo.names[a]
-    
-    rows <- subset(result.df, Scenario == scenario.name & Algo == algo & Generation == generations)
-    
-    finalTestFit.df <- rbind(finalTestFit.df, data.frame(Scenario = rep(scenario.name, nrow(rows)),
-                                                         Algo = rep(algo, nrow(rows)),
+for (a in 1:length(algos)) {
+  algo <- algo.names[a]
+  for (m in 1:length(devices)){
+    device <- devices[m]
+
+    rows <- subset(result.df, Algo == algo & Device == device & Generation == generations)
+
+    finalTestFit.df <- rbind(finalTestFit.df, data.frame(Algo = rep(algo, nrow(rows)),
+                                                         Device = rep(device, nrow(rows)),
                                                          Run = rows$Run,
-                                                         TrainTime = rows$TrainTime))
+                                                         TrainFitness = rows$TrainFitness))
   }
 }
 
-for (s in 1:length(scenarios.name)) {
-  scenario.name <- scenarios.name[s]
-  rows1 <- subset(finalTestFit.df, Scenario == scenario.name & Algo == algo.names[1])
-  rows2 <- subset(finalTestFit.df, Scenario == scenario.name & Algo == algo.names[2])
-  #rows3 <- subset(finalTestFit.df, Scenario == scenario.name & Algo == algo.names[3])
+for (s in 1:length(algos)) {
+  rows1 <- subset(finalTestFit.df, Algo == algos[s] & Device == devices[1])
+  rows2 <- subset(finalTestFit.df, Algo == algos[s] & Device == devices[2])
+  rows3 <- subset(finalTestFit.df, Algo == algos[s] & Device == devices[3])
+  rows4 <- subset(finalTestFit.df, Algo == algos[s] & Device == devices[4])
 
   cat(sprintf("%s
-  & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f)\\\\\n",
-              scenarios.name[s],
-              min(rows1$TrainTime), mean(rows1$TrainTime), sd(rows1$TrainTime),
-              min(rows2$TrainTime), mean(rows2$TrainTime), sd(rows2$TrainTime)))
-              #min(rows3$TrainTime), mean(rows3$TrainTime), sd(rows3$TrainTime)))
+  & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f) & %.2f - %.2f(%.2f)\\\\\n",
+              algos[s],
+              min(rows1$TrainFitness), mean(rows1$TrainFitness), sd(rows1$TrainFitness),
+              min(rows2$TrainFitness), mean(rows2$TrainFitness), sd(rows2$TrainFitness),
+              min(rows3$TrainFitness), mean(rows3$TrainFitness), sd(rows3$TrainFitness),
+              min(rows4$TrainFitness), mean(rows4$TrainFitness), sd(rows4$TrainFitness)))
 }
+

@@ -83,10 +83,16 @@ public class Server {
     }
 
     public void removeFromQueue(TaskOption o) {
-        queue.remove(o);
+        this.queue.remove(o);
 //        numTasksCompleted++;
-        this.totalProcTimeInQueue -= o.getProcTime();
-        this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue -= (o.getProcTime() + o.getUploadDelay() + o.getDownloadDelay());
+        if(this.queue.isEmpty()){
+            this.totalProcTimeInQueue = 0.0;
+            this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue = 0.0;
+        }
+        else{
+            this.totalProcTimeInQueue -= o.getProcTime();
+            this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue -= (o.getProcTime() + o.getUploadDelay() + o.getDownloadDelay());
+        }
     }
 
     public int getNumTasksCompleted() {
@@ -102,10 +108,24 @@ public class Server {
     }
 
     public double totalProcTimeInQueue(){
+        if(this.totalProcTimeInQueue<0){
+            System.out.println("Error, totalProcTimeInQueue could not lower than 0!!!");
+            System.out.println(this.totalProcTimeInQueue);
+        }
+        if(this.queue.size()==0){
+            return 0;
+        }
         return this.totalProcTimeInQueue;
     }
 
     public double totalProcTimeAndUpLoadAndDownLoadTimeInQueue(){
+        if(this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue<0){
+            System.out.println("Error, totalProcTimeAndUpLoadAndDownLoadTimeInQueue could not lower than 0!!!");
+            System.out.println(this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue);
+        }
+        if(this.queue.size()==0){
+            return 0;
+        }
         return this.totalProcTimeAndUpLoadAndDownLoadTimeInQueue;
     }
 
@@ -125,4 +145,8 @@ public class Server {
     public void reset() {
         reset(0.0);
     }
+
+//    public double getProcessingRate() {
+//        return processingRate;
+//    }
 }

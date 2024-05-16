@@ -8,6 +8,19 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="libraries" level="project" />
-    <orderEntry type="library" name="libraries" level="project" />
+    <orderEntry type="library" name="jdom-2.0.0" level="project" />
+    <orderEntry type="library" name="algs4" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.4" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.4-javadoc" level="project" />
+    <orderEntry type="library" name="commons-math3-3.5" level="project" />
+    <orderEntry type="library" name="commons-math3-3.5-javadoc" level="project" />
+    <orderEntry type="library" name="EJML-core-0.27" level="project" />
+    <orderEntry type="library" name="EJML-dense64-0.27" level="project" />
+    <orderEntry type="library" name="EJML-simple-0.27" level="project" />
+    <orderEntry type="library" name="itext-1.2" level="project" />
+    <orderEntry type="library" name="jcommon-1.0.23" level="project" />
+    <orderEntry type="library" name="jfreechart-1.0.19" level="project" />
+    <orderEntry type="library" name="jzlib-1.0.7" level="project" />
+    <orderEntry type="library" name="pshecj" level="project" />
   </component>
 </module>

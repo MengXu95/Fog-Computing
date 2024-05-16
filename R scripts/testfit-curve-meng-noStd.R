@@ -1,12 +1,12 @@
 library(ggplot2)
 
-working_dir <- "D:/xumeng/ZheJiangLab/"
+working_dir <- "/Users/mengxu/Desktop/XUMENG/ZheJiangLab/ModifiedSimulation/submit to grid/modified/"
 setwd(working_dir)
 
 sprintf("------------------------Start------------------------------")
-algos <- c("small2MTGP", "middle2MTGP")
-algo.names <- c("small2", "middle2")
-scenarios.name <- c("small2","middle2")
+algos <- c("Nlarge1MTGP", "Nlarge2MTGP","Nlarge3MTGP","Nlarge4MTGP")
+algo.names <- c("large1", "large2","large3", "large4")
+scenarios.name <- c("large1", "large2","large3", "large4")
 
 #objectives <- rep(c("mean-flowtime"), 1)
 #utils <- c(rep(0.85, 1))
@@ -143,13 +143,13 @@ g <- ggplot(testfit.df, aes(Generation, Mean, colour = factor(Algo), shape = fac
   geom_line() + geom_point(size = 1)
 #g <- g + facet_wrap(~ Scenario, nrow = 2, scales = "free")
 #g <- g + facet_wrap(~ Scenario, ncol = 3, scales = "free")
-g <- g + facet_wrap(~ Algo, ncol = 3, scales = "free")
+g <- g + facet_wrap(~ Algo, ncol = 2, scales = "free")
 
 g <- g + theme(legend.title = element_blank())
 g <- g + theme(legend.position = "bottom")
 g <- g + theme(legend.text = element_text(size = 19))
 
-g <- g + labs(y = "Test Fitness")
+g <- g + labs(y = "makespan")
 
 g <- g + theme(axis.title.x = element_text(size = 17, face = "bold"))
 g <- g + theme(axis.title.y = element_text(size = 17, face = "bold"))
@@ -163,7 +163,7 @@ g <- g + theme(strip.text.x = element_text(size = 17))
 #g <- g + theme(axis.text.y = element_text(size = 10))
 #g <- g + theme(strip.text.x = element_text(size = 12))
 
-ggsave("testfit-curve-noStd.pdf", width = 9, height = 6)
+ggsave("testfit-curve-noStd-new.pdf", width = 6, height = 6)
 #ggsave("testfit-curve-noStd.pdf", width = 10, height = 5)
 
 # table showing

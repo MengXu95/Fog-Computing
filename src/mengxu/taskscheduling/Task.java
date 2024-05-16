@@ -1,20 +1,19 @@
 package mengxu.taskscheduling;
 
-import edu.princeton.cs.algs4.Digraph;
 import mengxu.rule.AbstractRule;
 import mengxu.rule.RuleType;
-import mengxu.rule.job.basic.RL;
 import mengxu.rule.server.WIQ;
 import mengxu.simulation.RoutingDecisionSituation;
 import mengxu.simulation.state.SystemState;
 
-import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Task {
     private int id;
     private Job job;
-    private Digraph digraph;
     private List<Task> parentTaskList;
     private List<Task> childTaskList;
 
@@ -32,9 +31,8 @@ public class Task {
     private boolean complete;
     private boolean dispatch;
     private List<TaskOption> taskOptions;
-    public Task(int id, Digraph digraph, double workload, double data){
+    public Task(int id, double workload, double data){
         this.id = id;
-        this.digraph = digraph;
         this.workload = workload;
         this.data = data;
         this.parentTaskList = new ArrayList<>();
@@ -52,13 +50,12 @@ public class Task {
         this.taskOptions = new ArrayList<>();
     }
 
-    public Task(int id, double workload, double data){
+    public Task(int id){//modified by mengxu 2021.09.14 for generate wirkflow
         this.id = id;
-        this.digraph = null;
         this.parentTaskList = new ArrayList<>();
         this.childTaskList = new ArrayList<>();
-        this.workload = workload;
-        this.data = data;
+        this.workload = -1;
+        this.data = -1;
 
         this.inputDateMap = new HashMap<>();//id,data
         this.outputDateMap = new HashMap<>();
@@ -77,6 +74,14 @@ public class Task {
 
     public int getId() {
         return id;
+    }
+
+    public void setWorkload(double workload) {
+        this.workload = workload;
+    }
+
+    public void setData(double data) {
+        this.data = data;
     }
 
     public double getWorkload() {
@@ -199,6 +204,12 @@ public class Task {
         this.totalOutputData = this.totalOutputData + outputData;
     }
 
+    //add 2021.09.17
+    public void mapClear(){
+        this.inputDateMap.clear();
+        this.outputDateMap.clear();
+    }
+
     public double getAllOutputDataTotal(){
         return this.totalOutputData;
     }
@@ -269,7 +280,6 @@ public class Task {
     }
 
     public double getMeanCommunicationTimeToChild(int childIndex){
-        //todo: need to modify, different with the  (wrong I think )
         //the communication time for taskOption is defined as the (uploadDelay + downloadDelay)/2
         double sumCommunicateTime = 0;
 
@@ -285,9 +295,11 @@ public class Task {
         return sumCommunicateTime;
     }
 
+    //only use for HEFT algorithm
     public double getUpwardRank(){
         if(childTaskList.size() == 0){
-            return getMeanProcessTime() + getMeanDownloadTime();
+//            return getMeanProcessTime() + getMeanDownloadTime();//original
+            return getMeanProcessTime() + getMeanDownloadTime() - this.job.getReleaseTime();//as the workflows arrive over time.
         }
         double upwardRank = getMeanProcessTime();
         double max = 0;
@@ -307,31 +319,178 @@ public class Task {
         return upwardRank + max;
     }
 
-    public double getDownwardRank(){
-        if(parentTaskList.size() == 0){
-            return getMeanUploadTime();
+    //add by mengxu 2022.07.27, only for DMWHDBS algorithm <need check!>
+    public double getOCCW(){
+        //todo: modified based on function getMeanCommunicationTimeToChild(int childIndex), need to check
+
+        //step 1: calculate the total download time
+        //todo:this might not right, need to check to use mean download time among all the options?
+        double totalDownloadTime = 0;
+        for(TaskOption taskOption:taskOptions){
+            totalDownloadTime += taskOption.getDownloadDelay();
         }
-        double downwardRank = 0;
-        for(Task task:parentTaskList){
-//            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTime() + task.getDownwardRank();
-            int index = 0;
-            for(int i=0;i<task.getChildTaskList().size();i++){
-                if(task.getChildTaskList().get(i).getId() == this.getId()){
-                   index = i;
-                   break;
-                }
-            }
-            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTimeFromParent(index) + task.getDownwardRank();
-            if(downwardRank < ref){
-                downwardRank = ref;
+
+        //step 2: calculate the total upload time with the successors
+        //todo:this might not right, need to check to use mean upload time among all the options?
+        double totalUploadTime = 0;
+        for(int i=0; i< childTaskList.size(); i++){
+            for(TaskOption taskOption:childTaskList.get(i).getTaskOptions()){
+                totalUploadTime += taskOption.getUploadDelay();
             }
         }
-//        DecimalFormat df = new DecimalFormat("#.000");
-//        return Double.parseDouble((df.format(downwardRank)));
-        return downwardRank;
+
+        //the total communication time
+        double sumCommunicateTime = totalDownloadTime + totalUploadTime;
+
+        return sumCommunicateTime;
     }
 
-    public double getUPDOWNRank(){
-        return getUpwardRank() + getDownwardRank();
+    //add by mengxu 2022.07.27, only for DMWHDBS algorithm <need check!>
+    //need to notice this upward rank is different with that in HEFT. The details can be seen in the paper.
+    //todo: need to check
+    public double getUpwardRankForDMWHDBS(){
+        if(childTaskList.size() == 0){
+            return getMeanProcessTime() * 1;//as in our problem, the computation cost is zero.
+        }
+
+        double upwardRank = getMeanProcessTime() * 1 + getOCCW();
+        double max = 0;
+        for(int i=0; i< childTaskList.size(); i++){
+            double ref = childTaskList.get(i).getUpwardRank();
+            if(max < ref){
+                max = ref;
+            }
+        }
+
+        return upwardRank + max;
     }
+
+    //add by mengxu 2022.07.28, only for BWAWA algorithm <need check!>
+    //need to notice this downward rank is different with that in HEFT. The details can be seen in the paper.
+    //todo: need to check
+    public double getDownwardRankForBWAWA(){
+        if(parentTaskList.size() == 0){
+            return this.job.getReleaseTime();// we need to consider the release time of workflow as the workflow arrive over time in our problem
+//            return 0;//the original. as in our problem, the computation cost is zero.
+        }
+
+        double downwardRank = getMeanProcessTime();
+//        double sumCommunicationTime = 0;
+//        for(int i=0; i<parentTaskList.size();i++){
+//            sumCommunicationTime += getMeanCommunicationTimeFromParent(i);
+////            sumCommunicationTime += getMeanCommunicationTimeFromParent(parentTaskList.get(i).id);
+//        }
+//        downwardRank += sumCommunicationTime/parentTaskList.size();
+
+        //I should use the max communication cost of all the parents in our problem as we want to give an order of all the tasks in the list.
+        double maxCommunicationTime = 0;
+        for(int i=0; i<parentTaskList.size();i++){
+            double ref = getMeanCommunicationTimeFromParent(i);
+            if(maxCommunicationTime < ref){
+                maxCommunicationTime = ref;
+            }
+        }
+        downwardRank += maxCommunicationTime;
+
+        double max = 0;
+        for(int i=0; i< parentTaskList.size(); i++){
+            double ref = parentTaskList.get(i).getDownwardRankForBWAWA();
+            if(max < ref){
+                max = ref;
+            }
+        }
+
+        if(childTaskList.size()==0){//add by mengxu 2022.08.03
+            return downwardRank + max + getMeanDownloadTime();
+        }
+
+        return downwardRank + max;
+    }
+
+
+    //add by mengxu 2022.07.30, only for SDLS algorithm <need check!>
+    //need to notice this downward rank is different with that in HEFT. But based on my implemented, it seems that
+    //this Sb_Level is very similar with the Upward of HEFT.
+    //todo: need to check
+    public double getSb_LevelForSDLS(){
+        if(childTaskList.size() == 0){
+            double meanProcessingRate = 0;
+            for(int k=0; k<this.getTaskOptions().size(); k++){
+                if(this.getTaskOptions().get(k).getServer() == null){
+                    meanProcessingRate += this.getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+                }
+                else {
+                    meanProcessingRate += this.getTaskOptions().get(k).getServer().getProcessingRate();
+                }
+            }
+            meanProcessingRate = meanProcessingRate/this.getTaskOptions().size();
+            double meanProcessTime = this.workload/meanProcessingRate;
+//            return meanProcessTime + getMeanDownloadTime();//original
+            return meanProcessTime + getMeanDownloadTime() - this.job.getReleaseTime();
+            //we consider the release time of workflow in our problem as the workflows arrive over time.
+        }
+
+        double meanProcessingRate = 0;
+        for(int k=0; k<this.getTaskOptions().size(); k++){
+            if(this.getTaskOptions().get(k).getServer() == null){
+                meanProcessingRate += this.getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+            }
+            else {
+                meanProcessingRate += this.getTaskOptions().get(k).getServer().getProcessingRate();
+            }
+        }
+        meanProcessingRate = meanProcessingRate/this.getTaskOptions().size();
+        double meanProcessTime = this.workload/meanProcessingRate;
+
+        double max = 0;
+        for(int i=0; i< childTaskList.size(); i++){
+            double ref = this.getMeanCommunicationTimeToChild(i) + childTaskList.get(i).getSb_LevelForSDLS();
+            if(max < ref){
+                max = ref;
+            }
+        }
+
+        if(parentTaskList.size()==0){//modified by mengxu 2022.08.03
+            return meanProcessTime + max + getMeanUploadTime();
+        }
+
+        return meanProcessTime + max;
+    }
+
+    @Override
+    public String toString() {
+        return  "ID=" + this.getId() +
+                ", done=" + this.complete +
+                '}';
+    }
+
+
+//    public double getDownwardRank(){
+//        if(parentTaskList.size() == 0){
+//            return getMeanUploadTime();
+//        }
+//        double downwardRank = 0;
+//        for(Task task:parentTaskList){
+////            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTime() + task.getDownwardRank();
+//            int index = 0;
+//            for(int i=0;i<task.getChildTaskList().size();i++){
+//                if(task.getChildTaskList().get(i).getId() == this.getId()){
+//                   index = i;
+//                   break;
+//                }
+//            }
+//            double ref = task.getMeanProcessTime() + task.getMeanCommunicationTimeFromParent(index) + task.getDownwardRank();
+//            if(downwardRank < ref){
+//                downwardRank = ref;
+//            }
+//        }
+////        DecimalFormat df = new DecimalFormat("#.000");
+////        return Double.parseDouble((df.format(downwardRank)));
+//        return downwardRank;
+//    }
+
+//    public double getUPDOWNRank(){
+//        return getUpwardRank() + getDownwardRank();
+//    }
+
 }

@@ -1,0 +1,10 @@
+
+Generation: 0
+Best Individual:
+Subpopulation 0:
+Evaluated: true
+Fitness: [3243.9833235633655]
+Tree 0:
+ NIQ
+Tree 1:
+ (* (- TIS (/ (/ TWT MRT) (- TWT TTIQ))) (+ (+ (+ NIQ DT) (/ TTIQ DT)) (* (Max PT NTR) (Max TTIQ DT))))

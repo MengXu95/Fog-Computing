@@ -29,6 +29,9 @@ public class ProcessFinishEvent extends AbstractEvent{
             process.getTaskOption().getTask().setComplete(true);
             mobileDevice.addNumTasksCompleted();
 
+            //for print
+//            System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by mobileDevice itself and is finished at time " + time);
+
             if (!mobileDevice.getQueue().isEmpty()) {
                 SequencingDecisionSituation sequencingDecisionSituation =
                         new SequencingDecisionSituation(mobileDevice.getQueue(), null,
@@ -37,6 +40,9 @@ public class ProcessFinishEvent extends AbstractEvent{
                 //System.out.println("=======================================sequencing==========================================");
                 TaskOption dispatchedTask =
                         mobileDevice.getSequencingRule().priorTask(sequencingDecisionSituation);
+
+                //check waiting queue size
+//                System.out.println("waiting queue size: " + mobileDevice.getQueue().size());
 
                 mobileDevice.removeFromQueue(dispatchedTask);
 
@@ -62,6 +68,11 @@ public class ProcessFinishEvent extends AbstractEvent{
                             mobileDevice.getRoutingRule());
                     for(TaskOption nextTask:nextTaskList){
                         double taskVisitTime = time + nextTask.getUploadDelay();
+                        //for print
+//                        System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + time);
+//                        System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + taskVisitTime);
+
+
                         mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
 //                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }
@@ -94,6 +105,14 @@ public class ProcessFinishEvent extends AbstractEvent{
             process.getTaskOption().getTask().getJob().addProcessFinishEvent(this);
             process.getTaskOption().getTask().setComplete(true);
             server.addNumTasksCompleted();
+            //for print
+//            if(server.getType() == ServerType.CLOUD){
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + (server.getId()-5) + " and is finished at time " + time);
+//            }
+//            else{
+//                System.out.println("task " + process.getTaskOption().getTask().getId() + " is processed by " + server.getType() + " " + server.getId() + " and is finished at time " + time);
+//            }
+
 
 //            System.out.println("task " + (process.getTaskOption().getTask().getId()+1) + " completed at processor " +  (server.getId()+1) + " at time " + process.getFinishTime());
 
@@ -106,13 +125,17 @@ public class ProcessFinishEvent extends AbstractEvent{
                 TaskOption dispatchedTask =
                         mobileDevice.getSequencingRule().priorTask(sequencingDecisionSituation);
 
+                //check waiting queue size
+//                System.out.println("waiting queue size: " + server.getQueue().size());
+
                 server.removeFromQueue(dispatchedTask);
 
                 //must wait for machine to be ready
                 double processStartTime = Math.max(server.getReadyTime(), time);
 
                 Process nextP = new Process(server, dispatchedTask, processStartTime);
-                mobileDevice.addEvent(new ProcessStartEvent(nextP, mobileDevice));
+                mobileDevice.addEvent(new ProcessStartEvent(nextP, dispatchedTask.getTask().getJob().getMobileDevice()));
+//                mobileDevice.addEvent(new ProcessStartEvent(nextP, mobileDevice));
             }
 
             if(process.getTaskOption().getTask().getJob().getJobType() == JobType.DAG){
@@ -147,7 +170,30 @@ public class ProcessFinishEvent extends AbstractEvent{
 //                        }
 //                        mobileDevice.addEvent(new TaskVisitEvent(startTime, nextTask));
                         double taskVisitTime = time + nextTask.getUploadDelay();
-                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
+
+                        //for print
+//                        if(server.getType() == ServerType.CLOUD){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is started to be uploaded to " + server.getType() + " " + (server.getId()-5) + " at time " + time);
+//                        }
+//                        else if(server.getType() == ServerType.EDGE){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is started to be uploaded to " + server.getType() + " " + server.getId() + " at time " + time);
+//                        }
+//                        else{
+//                            System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + time);
+//                        }
+//
+//                        if(server.getType() == ServerType.CLOUD){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is uploaded to " + server.getType() + " " + (server.getId()-5) + " at time " + taskVisitTime);
+//                        }
+//                        else if(server.getType() == ServerType.EDGE){
+//                            System.out.println("task " + nextTask.getTask().getId() + " is uploaded to " + server.getType() + " " + server.getId() + " at time " + taskVisitTime);
+//                        }
+//                        else{
+//                            System.out.println("task " + nextTask.getTask().getId() + " is not uploaded to servers but stay at mobileDevice itself at time" + taskVisitTime);
+//                        }
+
+                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, nextTask.getTask().getJob().getMobileDevice()));
+//                        mobileDevice.addEvent(new TaskVisitEvent(taskVisitTime, nextTask, mobileDevice));
 //                        nextTask.getTask().setDispatch(true);//modified by mengxu 2021.08.03
                     }
                 }
@@ -306,7 +352,6 @@ public class ProcessFinishEvent extends AbstractEvent{
         if (other instanceof ProcessFinishEvent) {
             ProcessFinishEvent otherPFE = (ProcessFinishEvent)other;
 
-            //modified by mengxu 2021.05.27
             if(process.getServer() == null && otherPFE.getProcess().getServer() == null){
                 if(process.getTaskOption().getTask().getJob().getMobileDevice().getId() < otherPFE.process.getTaskOption().getTask().getJob().getMobileDevice().getId()){
                     return -1;
@@ -329,13 +374,6 @@ public class ProcessFinishEvent extends AbstractEvent{
                     return 1;
             }
 
-//            //original-----------------
-//            if (process.getServer().getId() < otherPFE.process.getServer().getId())
-//                return -1;
-//
-//            if (process.getServer().getId() > otherPFE.process.getServer().getId())
-//                return 1;
-//            //-------------------
         }
 
         return 1;

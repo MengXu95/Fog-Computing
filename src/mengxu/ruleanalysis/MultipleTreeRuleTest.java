@@ -80,12 +80,12 @@ public class MultipleTreeRuleTest {
 		}
 
 		//generate testset using simseed, replications
-		public SchedulingSet generateTestSet() {
-	        return SchedulingSet.generateSet(simSeed, objectives, 30);
+		public SchedulingSet generateTestSet(String workflowScale) {
+	        return SchedulingSet.generateSet(simSeed, objectives, workflowScale, 30);
 	    }
 
-		public void writeToCSV() {
-	        SchedulingSet testSet = generateTestSet();
+		public void writeToCSV(String workflowScale) {
+	        SchedulingSet testSet = generateTestSet(workflowScale);
 	        File targetPath = new File(trainPath + "test"); //create a folder named "test" in trainPath
 	        if (!targetPath.exists()) {
 	            targetPath.mkdirs();
@@ -290,6 +290,9 @@ public class MultipleTreeRuleTest {
 				idx ++;
 			}
 
-			multipletreeruleTest.writeToCSV();
+//			String workflowScale = "small"; //for small 1 2 3
+//			String workflowScale = "hybird-small-middle"; //for medium 1 2 3
+			String workflowScale = "hybird-small-middle-large"; //for large 1 2 3
+			multipletreeruleTest.writeToCSV(workflowScale);
 		}
 }

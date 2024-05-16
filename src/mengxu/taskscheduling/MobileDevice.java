@@ -1,24 +1,28 @@
 package mengxu.taskscheduling;
 
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.DigraphGenerator;
-import edu.princeton.cs.algs4.In;
 import mengxu.rule.AbstractRule;
 import mengxu.simulation.DynamicSimulation;
 import mengxu.simulation.event.AbstractEvent;
 import mengxu.simulation.event.JobArrivalEvent;
 import mengxu.simulation.event.ProcessStartEvent;
 import mengxu.simulation.state.SystemState;
+import mengxu.taskscheduling.dag.DAGTypePath;
 import mengxu.taskscheduling.dag.DigraphGeneratorMX;
-import mengxu.util.random.*;
+import mengxu.taskscheduling.dag.TestDAXToPuml;
+import mengxu.util.random.AbstractIntegerSampler;
+import mengxu.util.random.AbstractRealSampler;
+import mengxu.util.random.UniformIntegerSampler;
 import org.apache.commons.math3.random.RandomDataGenerator;
 
 import java.util.*;
 
+import static mengxu.taskscheduling.dag.TestDigraphGenerator.toPuml;
+
 public class MobileDevice {
 
     private int id;
-    private List<Job> jobList;
+//    private List<Job> jobList;
     private SystemState systemState;
 
     public final static int SEED_ROTATION = 10000;
@@ -27,7 +31,7 @@ public class MobileDevice {
 
     private final AbstractIntegerSampler numTasksSampler;
 //    private final AbstractRealSampler procTimeSampler;
-    private final AbstractRealSampler interReleaseTimeSampler;
+    private final AbstractRealSampler interReleaseTimeSampler; //modified by mengxu 2022.08.03 to hind it
     private final AbstractRealSampler jobWeightSampler;
     private final AbstractRealSampler workloadSampler;
     private final AbstractRealSampler taskDataSampler;
@@ -40,6 +44,7 @@ public class MobileDevice {
     private final AbstractRealSampler processingRateEdgeSampler;
 //    private final AbstractRealSampler upLoadDelaySampler;
 //    private final AbstractRealSampler downLoadDelaySampler;
+    private final AbstractIntegerSampler workflowSampler;
 
     protected int numJobsRecorded;
     protected int warmupJobs;
@@ -71,6 +76,12 @@ public class MobileDevice {
 
     private int numTasksCompleted;
 
+    private DynamicSimulation simulation; //modified by mengxu 2022.02.22
+
+    //add by mengxu 2022.08.03
+    public DynamicSimulation getSimulation() {
+        return simulation;
+    }
 
     public MobileDevice(int id, double processingRate,
                         SystemState systemState, long seed,
@@ -88,6 +99,7 @@ public class MobileDevice {
                         AbstractRealSampler downloadBandwidthEdgeSampler,
                         AbstractRealSampler processingRateCloudSampler,
                         AbstractRealSampler processingRateEdgeSampler,
+                        AbstractIntegerSampler workflowSampler,
                         AbstractRule sequencingRule,
                         AbstractRule routingRule,
                         int numJobsRecorded,
@@ -105,7 +117,7 @@ public class MobileDevice {
         this.taskDataSampler = taskDataSampler;
         this.taskInputDataSampler = taskInputDataSampler;
 
-        this.interReleaseTimeSampler = interReleaseTimeSampler;
+        this.interReleaseTimeSampler = interReleaseTimeSampler; //modified by mengxu 2022.08.03 to hind it
         this.jobWeightSampler = jobWeightSampler;
 //        this.upLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
 //        this.downLoadDelaySampler = new UniformSampler(10, 30);//modified by mengxu. 2021 07.27
@@ -118,7 +130,9 @@ public class MobileDevice {
         this.processingRateCloudSampler = processingRateCloudSampler;
         this.processingRateEdgeSampler = processingRateEdgeSampler;
 
-        setInterReleaseTimeSamplerMean();
+        this.workflowSampler = workflowSampler;
+
+        setInterReleaseTimeSamplerMean(); //modified by meng xu 2022.08.03 to hide it
 
         this.sequencingRule = sequencingRule;
         this.routingRule = routingRule;
@@ -127,7 +141,7 @@ public class MobileDevice {
         this.numJobsCompleted = 0;
         this.numJobsRecorded = numJobsRecorded;
         this.warmupJobs = warmupJobs;
-        this.jobList = new ArrayList<>();
+//        this.jobList = new ArrayList<>();
         this.eventQueue = new PriorityQueue<>();
         this.queue = new LinkedList<>();
         this.canProcessTask = false;
@@ -143,12 +157,18 @@ public class MobileDevice {
 
     }
 
+    public void setSimulation(DynamicSimulation simulation){
+        this.simulation = simulation;
+    }
+
     public void setCanProcessTask(boolean canProcessTask) {
         this.canProcessTask = canProcessTask;
     }
 
+    //modified by mengxu 2022.08.03 to hind it
     public void setInterReleaseTimeSamplerMean() {
-        double mean = 100;//what's the meaning of this
+        double mean = 100;//for test
+//        double mean = 100;//what's the meaning of this, original used for TSC, a bigger mean denotes the workflow arrives slowly.
         interReleaseTimeSampler.setMean(mean);
     }
 
@@ -156,9 +176,9 @@ public class MobileDevice {
         return throughput;
     }
 
-    public List<Job> getJobList() {
-        return jobList;
-    }
+//    public List<Job> getJobList() {
+//        return jobList;
+//    }
 
     public int getNumJobsReleased() {
         return numJobsReleased;
@@ -181,10 +201,10 @@ public class MobileDevice {
         this.jobNotDone = 0;
         this.throughput = 0;
         this.readyTime = 0;
-        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
+//        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
         this.count = 0; //modified by mengxu 2021.08.27
 
-        jobList.clear();
+//        jobList.clear();
         queue.clear();
         eventQueue.clear();
 //        setup();
@@ -194,7 +214,8 @@ public class MobileDevice {
         this.numJobsReleased = 0;
         this.throughput = 0;
 //        generateOneFixedJob();
-        generateJob();
+        generateWorkflowJob();
+//        generateJob();
     }
 
 //    public void reset(RandomDataGenerator randomDataGenerator) {
@@ -223,6 +244,7 @@ public class MobileDevice {
     public void reseed(long seed, RandomDataGenerator randomDataGenerator) {
         this.seed = seed;
         this.randomDataGenerator = randomDataGenerator;
+        this.digraphGeneratorMX = new DigraphGeneratorMX(this.seed);
     }
 
     public void run(){
@@ -322,9 +344,102 @@ public class MobileDevice {
         }
     }
 
-    public void generateJob(){
+    //modified by mengxu 2021.09.14
+    public void generateWorkflowJob(){
+//        int DAGTypeID = 0;
+        int DAGTypeID = this.workflowSampler.next(randomDataGenerator);
+//        DAGType dagType = D;
+//        String daxpath = DAGTypePath.getDAGTypePath(DAGTypeID);
+        String daxpath = DAGTypePath.getDAGTypePathForSubmit(DAGTypeID);//for submit to grid
+//        String daxpath = "D:\\xumeng\\ZheJiangLab\\Fog-Computing\\src\\mengxu\\taskscheduling\\dag\\dax\\CyberShake_30.xml";
+        WorkflowParser workflowParser = new WorkflowParser(daxpath);
+        List<Task> taskList = workflowParser.getTaskList();
+
+        //add 2021.12.1
+//        System.out.println(TestDAXToPuml.toPuml(taskList));
+
+        //modified by mengxu 2022.08.03
+//        double releaseTime = systemState.getClockTime()
+//                + this.simulation.getInterReleaseTimeSampler().next(this.simulation.getRandomDataGenerator());
+
         double releaseTime = systemState.getClockTime()
-                + interReleaseTimeSampler.next(randomDataGenerator);
+                + interReleaseTimeSampler.next(randomDataGenerator);//original
+
+        double weight = jobWeightSampler.next(randomDataGenerator);
+        for(Task task:taskList) {
+            double workload = this.workloadSampler.next(randomDataGenerator);
+            double taskData = this.taskDataSampler.next(randomDataGenerator);
+            task.setWorkload(workload);
+            task.setData(taskData);
+            for (Task child : task.getChildTaskList()) {
+                double taskOutputData = this.taskInputDataSampler.next(randomDataGenerator);
+                task.addChildOutputData(child.getId(), taskOutputData);
+            }
+        }
+        for(Task task:taskList) {
+            for(Task parent: task.getParentTaskList()){
+                double taskInputData = taskList.get(parent.getId()).getChildOutputData(task.getId());
+                task.addParentInputData(parent.getId(),taskInputData);
+            }
+            if(canProcessTask){
+                //the mobileDevice is also an option!!!
+                double procTimeOnMobileDevice = task.getWorkload()/this.processingRate;
+                task.addTaskOption(new TaskOption(task, this, procTimeOnMobileDevice, 0, 0));
+            }
+
+            int numOptions = systemState.getServers().size();
+
+            //todo: need to set different processing time for different VMs (cloud and edge)
+//            double uploadDelayEdge = upLoadDelaySampler.next(randomDataGenerator);
+//            double downloadDelayEdge = downLoadDelaySampler.next(randomDataGenerator);
+//            double uploadDelayCloud = uploadDelayEdge + upLoadDelaySampler.next(randomDataGenerator);
+//            double downloadDelayCloud = downloadDelayEdge + downLoadDelaySampler.next(randomDataGenerator);
+
+            for(int i=0;i<numOptions;i++){
+                if(systemState.getServers().get(i).getType()==ServerType.CLOUD){
+                    double procTimeCloud = task.getWorkload()/systemState.getServers().get(i).getProcessingRate();
+                    double uploadDelayCloud = (task.getData() + task.getAllInputDataTotal())/systemState.getServers().get(i).getUploadBandwidth();
+                    double downloadDelayCloud = (task.getData() + task.getAllOutputDataTotal())/systemState.getServers().get(i).getDownloadBandwidth();
+                    task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), procTimeCloud, uploadDelayCloud, downloadDelayCloud));
+                }
+                else if(systemState.getServers().get(i).getType()==ServerType.EDGE){
+                    double procTimeEdge = task.getWorkload()/systemState.getServers().get(i).getProcessingRate();
+                    double uploadDelayEdge = (task.getData() + task.getAllInputDataTotal())/systemState.getServers().get(i).getUploadBandwidth();
+                    double downloadDelayEdge = (task.getData() + task.getAllOutputDataTotal())/systemState.getServers().get(i).getDownloadBandwidth();
+                    task.addTaskOption(new TaskOption(task, systemState.getServers().get(i), procTimeEdge, uploadDelayEdge, downloadDelayEdge));
+                }
+            }
+        }
+
+//        int jobID = numJobsReleased;
+        int jobID = systemState.getAllNumJobsReleased();
+        Job job = new Job(jobID, releaseTime, weight,this,taskList, JobType.DAG);
+        for(Task task:taskList){
+            task.setJob(job);
+            task.mapClear();//add 2021.09.17
+        }
+//        jobList.add(job);
+        //modified by mengxu 2022.08.03
+        boolean couldAdd = systemState.addJobToSystem(job);
+        if(couldAdd){
+            numJobsReleased++;
+//        this.systemState.addAllNumJobsReleased();
+            eventQueue.add(new JobArrivalEvent(job,this));
+        }
+
+        //original for TSC
+//        numJobsReleased++;
+////        this.systemState.addAllNumJobsReleased();
+//        eventQueue.add(new JobArrivalEvent(job,this));
+    }
+
+    public void generateJob(){
+//        double releaseTime = systemState.getClockTime()
+//                + this.simulation.getInterReleaseTimeSampler().next(randomDataGenerator);//modified by mengxu 2022.08.03
+
+        double releaseTime = systemState.getClockTime()
+                + this.interReleaseTimeSampler.next(randomDataGenerator);//modified by mengxu 2022.08.03
+
         double weight = jobWeightSampler.next(randomDataGenerator);
         int numTask = numTasksSampler.next(randomDataGenerator);
 
@@ -334,7 +449,9 @@ public class MobileDevice {
         int numEdge = numEdgesSampler.next(randomDataGenerator);
 
         int V = numTask;
-        int E = (int)((V*(V-1) / 2 + V-1) / 2);
+//        int E = (int)((V*(V-1) / 2 + V-1) / 2);
+        int E = V-1 + 10; //for large scale only
+
 //        if(numEdge>(long) V*(V-1) / 2){
 //            E = V*(V-1) / 2;
 //        }
@@ -346,6 +463,7 @@ public class MobileDevice {
 //        }
 //        System.out.println(V + ", " + E);
         Digraph digraph = this.digraphGeneratorMX.rootedOutDAG(V,E);
+        System.out.println(toPuml(digraph));
 //        Digraph digraph = DigraphGeneratorMX.link(numTask);//like the structure: 0->1->2->3
         Digraph reverseDigraph = digraph.reverse();
         //random generate task list and their digraph.
@@ -404,14 +522,14 @@ public class MobileDevice {
             }
         }
 
-        Job job = new Job(numJobsReleased, releaseTime, weight, digraph,this,taskList, JobType.DAG);
+        Job job = new Job(numJobsReleased, releaseTime, weight,this,taskList, JobType.DAG);
         for(Task task:taskList){
             task.setJob(job);
         }
-        jobList.add(job);
+//        jobList.add(job);
         systemState.addJobToSystem(job);
         numJobsReleased++;
-        this.systemState.addAllNumJobsReleased();
+//        this.systemState.addAllNumJobsReleased();
         eventQueue.add(new JobArrivalEvent(job,this));
     }
 
@@ -639,6 +757,10 @@ public class MobileDevice {
         this.eventQueue.add(event);
     }
 
+    public void setNumJobsRecorded(int numJobsRecorded) {
+        this.numJobsRecorded = numJobsRecorded;
+    }
+
     public boolean checkJobDone(Job job){
         boolean allTaskDone = true;
         for(Task task: job.getTaskList()){
@@ -650,36 +772,60 @@ public class MobileDevice {
         return allTaskDone;
     }
 
+    //add 2021.09.15
+    public void clearCompletedJob(Job job){
+        job.getTaskList().clear();
+        job.getFirstArriveReadyTask().clear();
+        job.getProcessFinishEvents().clear();
+    }
+
     public void completeJob(Job job) {
-        if(this.systemState.getMobileDevices().size() == 1){
-            //single mobile device
-            if(checkJobDone(job)){
-                numJobsCompleted ++;  //before only have this line
-                if (numJobsReleased > warmupJobs && job.getId() >= 0
-                        && job.getId() < numJobsRecorded + warmupJobs) {
-                    throughput++;  //before only have this line
-                    count = 0;
-                    systemState.addCompletedJob(job);
-//                    jobList.remove(job);//add 2021.09.09
-                }
-            }
-            else{
-                jobNotDone ++;
-                System.out.println("Error! Job not done.");
-            }
-//            int a = systemState.getJobsCompleted().size();
-//        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
-            systemState.removeJobFromSystem(job);
-        }
-        else{
+//        if(this.systemState.getMobileDevices().size() == 1){
+//            //single mobile device
+//            if(checkJobDone(job)){
+//                numJobsCompleted ++;  //before only have this line
+//                if (numJobsReleased > warmupJobs && job.getId() >= 0
+//                        && job.getId() < numJobsRecorded + warmupJobs) {
+//                    throughput++;  //before only have this line
+//                    count = 0;
+//                    //clear the Map of the completed Job to save memory and avoid java.lang.OutOfMemoryError!!!
+//                    //modified 2021.09.15
+//                    clearCompletedJob(job);
+//                    systemState.addCompletedJob(job);
+////                    jobList.remove(job);//add 2021.09.09
+//                }
+//            }
+//            else{
+//                jobNotDone ++;
+//                System.out.println("Error! Job not done.");
+//            }
+////            int a = systemState.getJobsCompleted().size();
+////        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
+//            systemState.removeJobFromSystem(job);
+//        }
+//        else{
             //multiple mobile devices
             if(checkJobDone(job)){
                 numJobsCompleted ++;  //before only have this line
-                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
-                        && job.getId() < numJobsRecorded + warmupJobs) {
+                //original used for TSC paper
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime()) {
+                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0 && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime()) {
+//                //modified by mengxu 2022.08.01
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= warmupJobs && job.getReleaseTime() <= this.systemState.getFirstArriveJobRecordedTime() && job.getId() < numJobsRecorded + warmupJobs) {
+                //modified by mengxu 2022.08.03
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= warmupJobs && job.getId() < numJobsRecorded + warmupJobs) {
+//                if (this.systemState.getAllNumJobsReleased() > warmupJobs && job.getId() >= 0
+//                        && job.getId() < numJobsRecorded + warmupJobs) {
                     throughput++;  //before only have this line
                     count = 0;
+                    //clear the Map of the completed Job to save memory and avoid java.lang.OutOfMemoryError!!!
+                    //modified 2021.09.15
+//                    clearCompletedJob(job);//todo:2021.12.02
                     systemState.addCompletedJob(job);
+//                    System.out.println("complete jobID: " + job.getId());//for check
+//                    if(systemState.getJobsCompleted().size() == 45){
+//                        System.out.println("error here!");
+//                    }
                 }
             }
             else{
@@ -689,9 +835,13 @@ public class MobileDevice {
 //            int a = systemState.getJobsCompleted().size();
 //        System.out.println("The number of completed jobs: "+systemState.getJobsCompleted().size());
             systemState.removeJobFromSystem(job);
-        }
+//        }
 
 
+    }
+
+    public double getProcessingRate() {
+        return processingRate;
     }
 
     public int getJobNotDone() {
@@ -707,7 +857,7 @@ public class MobileDevice {
     }
 
     public boolean canAddToQueue(Process process) {//???
-        Iterator<AbstractEvent> e = eventQueue.iterator();
+        Iterator<AbstractEvent> e = simulation.getEventQueue().iterator();
         if (e.hasNext()) {
             AbstractEvent a = e.next();
             if (a instanceof ProcessStartEvent) {

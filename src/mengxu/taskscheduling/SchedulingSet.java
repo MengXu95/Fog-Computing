@@ -1,8 +1,6 @@
 package mengxu.taskscheduling;
 
-import mengxu.rule.AbstractRule;
 import mengxu.simulation.DynamicSimulation;
-import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 
 import java.util.ArrayList;
@@ -142,6 +140,7 @@ public class SchedulingSet {
 //
     public static SchedulingSet dynamicFullSet(long simSeed,
                                                List<Objective> objectives,
+                                               String workflowScale,
                                                int reps) {
         List<DynamicSimulation> simulations = new ArrayList<>();
 
@@ -151,10 +150,69 @@ public class SchedulingSet {
                         utilLevel, dueDateFactor));*/
 
       //fzhang 2019.2.12 test should be also with 5000 jobs
-        simulations.add(
-                DynamicSimulation.standardFull(simSeed, null, null, 20,
-        0, 3, 10, 15, 20, 30,
-        true));
+//        simulations.add(//small 1
+//                DynamicSimulation.standardFull(simSeed, null, null, 20,
+//        0, 1, 10, 10, 10, 20,
+//        true));
+//        simulations.add(//small 2
+//                DynamicSimulation.standardFull(simSeed, null, null, 20,
+//                        0, 3, 10, 15, 20, 30,
+//                        true));
+        int minWorkflowID = -1;
+        int maxWorkflowID = -1;
+        if(workflowScale.equals("small")){
+            minWorkflowID = 0;
+            maxWorkflowID = 4;
+        }
+        else if(workflowScale.equals("middle")){
+            minWorkflowID = 5;
+            maxWorkflowID = 9;
+        }
+        else if(workflowScale.equals("large")){
+            minWorkflowID = 10;
+            maxWorkflowID = 14;
+        }
+        else if(workflowScale.equals("huge")){
+            minWorkflowID = 15;
+            maxWorkflowID = 19;
+        }
+        else if(workflowScale.equals("hybird-small-middle")){
+            minWorkflowID = 0;
+            maxWorkflowID = 9;
+        }
+        else if(workflowScale.equals("hybird-small-middle-large")){
+            minWorkflowID = 0;
+            maxWorkflowID = 14;
+        }
+        else if(workflowScale.equals("hybird-small-middle-large-huge")){
+            minWorkflowID = 0;
+            maxWorkflowID = 19;
+        }
+        else{
+            System.out.println("Initial workflow scale error!!!");
+        }
+
+        //small 1 2 3
+//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
+//                null, null, 20, 10,
+//                3, 20, 20, minWorkflowID,
+//                maxWorkflowID, true);
+
+        //medium 1 2 3
+//        DynamicSimulation simulation = new DynamicSimulation(simSeed,
+//                null, null, 30, 15,
+//                3, 30, 30, minWorkflowID,
+//                maxWorkflowID, true);
+
+
+        //large 1 2 3
+        DynamicSimulation simulation = new DynamicSimulation(simSeed,
+                null, null, 50, 25,
+                1, 60, 60, minWorkflowID,
+                maxWorkflowID, true);
+
+
+        simulations.add(simulation);
         List<Integer> replications = new ArrayList<>();
         replications.add(reps);
 
@@ -184,8 +242,9 @@ public class SchedulingSet {
 
     public static SchedulingSet generateSet(long simSeed,
                                             List<Objective> objectives,
+                                            String workflowScale,
                                             int replications) {
-        return SchedulingSet.dynamicFullSet(simSeed, objectives, replications);
+        return SchedulingSet.dynamicFullSet(simSeed, objectives, workflowScale, replications);
     }
 
     @Override

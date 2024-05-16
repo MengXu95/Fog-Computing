@@ -1,6 +1,6 @@
 package mengxu.taskscheduling;
 
-import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
+//import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
 import mengxu.rule.AbstractRule;
 import mengxu.simulation.state.SystemState;
 
@@ -111,13 +111,22 @@ public class TaskOption implements Comparable<TaskOption>{
         if (Double.compare(priority, other.priority) > 0)
             return false;
 
-        if(task.getJob().getId() < other.task.getJob().getId())
+        if(task.getJob().getReleaseTime() < other.task.getJob().getReleaseTime())
             return true;
+
+        if(task.getJob().getReleaseTime() > other.task.getJob().getReleaseTime())
+            return false;
+
+        if(task.getJob().getMobileDevice().getId() < other.task.getJob().getMobileDevice().getId())
+            return true;
+
+        if(task.getJob().getMobileDevice().getId() > other.task.getJob().getMobileDevice().getId())
+            return false;
 
         if(task.getJob().getId() > other.task.getJob().getId())
             return false;
 
-        return task.getJob().getMobileDevice().getId() < other.task.getJob().getMobileDevice().getId();
+        return task.getJob().getId() < other.task.getJob().getId();
     }
 
     public MobileDevice getMobileDevice() {
@@ -180,6 +189,75 @@ public class TaskOption implements Comparable<TaskOption>{
         //Because I think the downloadTime(downloadDelay) from the processor task + the uploadDelay for this task is the communication time between the processor task and this task.
         //todo: need to check and modify where to add uploadDelay and where to add downloadDelay
         return getEarliestExecutionStartTime() + getProcTime();
+    }
+
+
+    public double bandRate(){
+        if(this.server == null){
+            return 0;
+        }
+        double AvBw = (server.getUploadBandwidth() + server.getDownloadBandwidth())/2;
+        double mBW = 1; //as we do not have a bandwidth requirements of our task
+
+        return mBW/AvBw;
+    }
+
+
+
+    //add by mengxu 2022.07.30, only for SDLS algorithm <need check!>
+    //need to notice this downward rank is different with that in HEFT. But based on my implemented, it seems that
+    //this Sb_Level is very similar with the Upward of HEFT.
+    public double getSDL(){
+        double meanProcessingRate = 0;
+        for(int k=0; k<this.getTask().getTaskOptions().size(); k++){
+            if(this.getTask().getTaskOptions().get(k).getServer() == null){
+                meanProcessingRate += this.getTask().getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+            }
+            else {
+                meanProcessingRate += this.getTask().getTaskOptions().get(k).getServer().getProcessingRate();
+            }
+        }
+        meanProcessingRate = meanProcessingRate/this.getTask().getTaskOptions().size();
+        double meanProcessTime = this.getTask().getWorkload()/meanProcessingRate;
+
+        double delta = 0;
+        if(this.server == null){
+            delta = meanProcessTime - this.getTask().getWorkload()/this.mobileDevice.getProcessingRate();
+        }
+        else{
+            delta = meanProcessTime - this.getTask().getWorkload()/this.server.getProcessingRate();
+        }
+
+        double SDL = this.task.getSb_LevelForSDLS() - this.getEarliestExecutionStartTime() + delta;
+        return SDL;
+    }
+
+    //add by mengxu 2022.08.01, only for CEAS algorithm <need check!>
+    //I do some modification to make this method suitable for my problem, as we do not consider cost and energy and makespan deadline
+    //in my problem.
+    public double getCostUtility(){
+        //ge the maximum computing rate
+        double maxComputingRate = 0;
+        for(int k=0; k<this.getTask().getTaskOptions().size(); k++){
+            double ref = 0;
+            if(this.getTask().getTaskOptions().get(k).getServer() == null){
+                ref = this.getTask().getTaskOptions().get(k).getMobileDevice().getProcessingRate();
+
+            }
+            else {
+                ref = this.getTask().getTaskOptions().get(k).getServer().getProcessingRate();
+            }
+            if(ref > maxComputingRate){
+                maxComputingRate = ref;
+            }
+        }
+
+        double fastestExecutionTime = this.task.getWorkload()/maxComputingRate + this.downloadDelay + this.uploadDelay;
+        //the original fastestExecutionTime do not consider the workflow's release time, but they consider the makespan constraints in their
+        //paper, so in my problem we do not consider makespan constraints so we need to add the workflow's release time to make it similar to
+        //makespan constraint in the original paper. 2022.08.01
+
+        return this.task.getWorkload()/fastestExecutionTime - this.task.getJob().getReleaseTime();
     }
 
     @Override

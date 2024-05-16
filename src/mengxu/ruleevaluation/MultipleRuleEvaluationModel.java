@@ -50,12 +50,14 @@ public class MultipleRuleEvaluationModel extends AbstractEvaluationModel{
     public final static String P_SIM_NUM_CLOUDSERVER = "num-cloudserver";
     public final static String P_SIM_NUM_JOBS = "num-jobs";
     public final static String P_SIM_WARMUP_JOBS = "warmup-jobs";
-    public final static String P_SIM_MIN_NUM_TASKS = "min-num-tasks";
-    public final static String P_SIM_MAX_NUM_TASKS = "max-num-tasks";
+    public final static String P_SIM_MIN_WORKFLOW_ID = "min-workflow-ID";
+    public final static String P_SIM_MAX_WORKFLOW_ID = "max-workflow-ID";
     public final static String P_SIM_CAN_MOBILEDEVICE_WORK = "can-mobiledevice-work";
 //    public final static String P_SIM_UTIL_LEVEL = "util-level";
 //    public final static String P_SIM_DUE_DATE_FACTOR = "due-date-factor";
     public final static String P_SIM_REPLICATIONS = "replications";
+
+    public final static String P_SIM_WORKFLOW_SCALE = "workflow-scale";
 
 	private static final EvolutionState EvolutionState = null;
 
@@ -103,10 +105,10 @@ public class MultipleRuleEvaluationModel extends AbstractEvaluationModel{
 //            int numMachines = state.parameters.getIntWithDefault(p, null, 10);
             // Number of jobs
             p = b.push(P_SIM_NUM_JOBS);
-            int numJobs = state.parameters.getIntWithDefault(p, null, 5000);
+            int numJobs = state.parameters.getIntWithDefault(p, null, 50);
             // Number of warmup jobs
             p = b.push(P_SIM_WARMUP_JOBS);
-            int warmupJobs = state.parameters.getIntWithDefault(p, null, 1000);
+            int warmupJobs = state.parameters.getIntWithDefault(p, null, 0);
             // Number of mobiledevices
             p = b.push(P_SIM_NUM_MOBILEDEVICE);
             int numMobileDevice = state.parameters.getIntWithDefault(p, null, 1);
@@ -117,13 +119,13 @@ public class MultipleRuleEvaluationModel extends AbstractEvaluationModel{
             p = b.push(P_SIM_NUM_CLOUDSERVER);
             int numCloudServer = state.parameters.getIntWithDefault(p, null, 5);
             // Min number of operations
-            p = b.push(P_SIM_MIN_NUM_TASKS);
-            int minNumTasks = state.parameters.getIntWithDefault(p, null, 1);
+            p = b.push(P_SIM_MIN_WORKFLOW_ID);
+            int minWorkflowID = state.parameters.getIntWithDefault(p, null, 0);
             // Max number of operations
-            p = b.push(P_SIM_MAX_NUM_TASKS);
-            int maxNumTasks = state.parameters.getIntWithDefault(p, null, numEdgeServer + numCloudServer);
+            p = b.push(P_SIM_MAX_WORKFLOW_ID);
+            int maxWorkflowID = state.parameters.getIntWithDefault(p, null, 14);
             p = b.push(P_SIM_CAN_MOBILEDEVICE_WORK);
-            String canMobileDeviceWork = state.parameters.getStringWithDefault(p, null, "no");
+            String canMobileDeviceWork = state.parameters.getStringWithDefault(p, null, "yes");
             boolean canMobileDeviceProcessTask = false;
             if(canMobileDeviceWork.equals("yes")){
                 canMobileDeviceProcessTask = true;
@@ -138,10 +140,45 @@ public class MultipleRuleEvaluationModel extends AbstractEvaluationModel{
             p = b.push(P_SIM_REPLICATIONS);
             int rep = state.parameters.getIntWithDefault(p, null, 1);
 
+            p = b.push(P_SIM_WORKFLOW_SCALE);
+            String workflowScale = state.parameters.getStringWithDefault(p, null, "hybird-no-huge");
+
+            if(workflowScale.equals("small")){
+                minWorkflowID = 0;
+                maxWorkflowID = 4;
+            }
+            else if(workflowScale.equals("middle")){
+                minWorkflowID = 5;
+                maxWorkflowID = 9;
+            }
+            else if(workflowScale.equals("large")){
+                minWorkflowID = 10;
+                maxWorkflowID = 14;
+            }
+            else if(workflowScale.equals("huge")){
+                minWorkflowID = 15;
+                maxWorkflowID = 19;
+            }
+            else if(workflowScale.equals("hybird-small-middle")){
+                minWorkflowID = 0;
+                maxWorkflowID = 9;
+            }
+            else if(workflowScale.equals("hybird-small-middle-large")){
+                minWorkflowID = 0;
+                maxWorkflowID = 14;
+            }
+            else if(workflowScale.equals("hybird-small-middle-large-huge")){
+                minWorkflowID = 0;
+                maxWorkflowID = 19;
+            }
+            else{
+                System.out.println("Initial workflow scale error!!!");
+            }
+
             DynamicSimulation simulation = new DynamicSimulation(simSeed,
                     null, null, numJobs, warmupJobs,
-                    numMobileDevice, numEdgeServer, numCloudServer, minNumTasks,
-                    maxNumTasks, canMobileDeviceProcessTask);
+                    numMobileDevice, numEdgeServer, numCloudServer, minWorkflowID,
+                    maxWorkflowID, canMobileDeviceProcessTask);
 //            //only expecting filePath parameter for Static FJSS, so can use this
 //            String filePath = state.parameters.getString(new Parameter("filePath"), null);
 //            if (filePath == null) {

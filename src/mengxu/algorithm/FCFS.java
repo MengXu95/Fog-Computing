@@ -12,14 +12,16 @@ import mengxu.taskscheduling.TaskOption;
 public class FCFS extends AbstractRule {
 
     public FCFS(RuleType type) {
-        name = "\"FCFS\"";
+        name = "FCFS";
         this.type = type;
     }
 
     @Override
     public double priority(TaskOption taskOption, Server server, SystemState systemState) {
         if(this.type == RuleType.SEQUENCING){
-            return taskOption.getReadyTime();
+            return taskOption.getTask().getJob().getReleaseTime();
+//            return taskOption.getReadyTime(); //I think I should use the release time, as the first arrive first serve policy.
+            //modified 2022.08.01
         }
         else if(this.type == RuleType.ROUTING){
             if(server==null){

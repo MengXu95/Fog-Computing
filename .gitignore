@@ -4,6 +4,6 @@ out/
 resources/
 test/
 *.csv
-*.stat
 *.pdf
 *.zip
+.Rproj.user
